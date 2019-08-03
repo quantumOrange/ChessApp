@@ -15,6 +15,8 @@
 		546F41C622F35DFD0033785F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 546F41C422F35DFD0033785F /* LaunchScreen.storyboard */; };
 		546F41D122F35DFD0033785F /* ChessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41D022F35DFD0033785F /* ChessTests.swift */; };
 		546F41DC22F35DFD0033785F /* ChessUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41DB22F35DFD0033785F /* ChessUITests.swift */; };
+		546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41E922F35ED40033785F /* ChessPiece.swift */; };
+		546F41EC22F35EE40033785F /* ChessBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41EB22F35EE40033785F /* ChessBoard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,9 @@
 		546F41D722F35DFD0033785F /* ChessUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChessUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		546F41DB22F35DFD0033785F /* ChessUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessUITests.swift; sourceTree = "<group>"; };
 		546F41DD22F35DFD0033785F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		546F41E922F35ED40033785F /* ChessPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
+		546F41EB22F35EE40033785F /* ChessBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoard.swift; sourceTree = "<group>"; };
+		546F41ED22F35F220033785F /* chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = chess.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +84,7 @@
 		546F41AD22F35DFB0033785F = {
 			isa = PBXGroup;
 			children = (
+				546F41ED22F35F220033785F /* chess.playground */,
 				546F41B822F35DFB0033785F /* Chess */,
 				546F41CF22F35DFD0033785F /* ChessTests */,
 				546F41DA22F35DFD0033785F /* ChessUITests */,
@@ -101,6 +107,8 @@
 			children = (
 				546F41B922F35DFB0033785F /* AppDelegate.swift */,
 				546F41BB22F35DFB0033785F /* SceneDelegate.swift */,
+				546F41E922F35ED40033785F /* ChessPiece.swift */,
+				546F41EB22F35EE40033785F /* ChessBoard.swift */,
 				546F41BD22F35DFB0033785F /* ContentView.swift */,
 				546F41BF22F35DFD0033785F /* Assets.xcassets */,
 				546F41C422F35DFD0033785F /* LaunchScreen.storyboard */,
@@ -270,6 +278,8 @@
 				546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */,
 				546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */,
 				546F41BE22F35DFB0033785F /* ContentView.swift in Sources */,
+				546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */,
+				546F41EC22F35EE40033785F /* ChessBoard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

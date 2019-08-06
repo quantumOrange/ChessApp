@@ -29,7 +29,7 @@ enum SquareColor {
 }
 
 struct ContentView : View {
-   // @State var chessBoard: ChessBoard
+    //@State var chessBoard: ChessBoard
     
     var body: some View {
         BoardView(board: ChessBoard.start())
@@ -64,21 +64,25 @@ struct BoardView : View {
 }
 
 struct Square : View {
+    @State var selected:Bool = false
     @State var piece:ChessPiece?
     @State var squareColor:SquareColor
     var body: some View {
-        ZStack(){
-
-            Spacer()
+        Button(action:{ self.selected = !self.selected } ){
+            ZStack(){
+                
+                Spacer()
+                    .frame(width: 50, height: 50, alignment: .center)
+                    .background(self.selected ? Color.yellow : squareColor.color  )
+                
+                if piece != nil {
+                    PieceView(piece: piece!)
+                }
+                
+                }
                 .frame(width: 50, height: 50, alignment: .center)
-                .background(squareColor.color)
-            
-            if piece != nil {
-                PieceView(piece: piece!)
-            }
-            
         }
-            .frame(width: 50, height: 50, alignment: .center)
+        
             
     }
 }

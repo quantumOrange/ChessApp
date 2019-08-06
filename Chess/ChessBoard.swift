@@ -88,5 +88,31 @@ enum ChessFile:Int,CaseIterable {
 enum ChessRank:Int,CaseIterable {
     case _1 = 0 ,_2,_3,_4,_5,_6,_7,_8
 }
+struct ChessboardSquare {
+    let rank:ChessRank
+    let file:ChessFile
+}
 
+struct ChessMove {
+    let from:ChessboardSquare
+    let to:ChessboardSquare
+}
+
+func validate(chessboard:ChessBoard, move:ChessMove) -> Bool {
+    //TODO!
+    return true
+}
+
+func move(chessboard:ChessBoard, move:ChessMove) -> ChessBoard? {
+    var board = chessboard
+    
+    if !validate(chessboard:chessboard, move:move) {
+        return nil;
+    }
+    
+    board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
+    board[move.from.file,move.from.rank] = nil;
+    
+    return board
+}
 

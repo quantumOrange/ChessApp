@@ -35,28 +35,75 @@ class AppState {
 
 struct ContentView : View {
     var body: some View {
-        VStack(alignment: .center, spacing:50){
-        Text("Black Player Name")
-        BoardView(board: ChessBoard.start())
-        Text("White Player Name")
+        GeometryReader { geometry in
+            VStack(alignment: .center, spacing:50 ){
+            PlayerView(name:"Mr Black", player:.black)
+           //     .frame(height:50)
+           // Spacer(minLength: 10)
+                BoardView(board: ChessBoard.start(),width:geometry.size.width)
+           // Spacer(minLength: 10)
+            PlayerView(name:"Mr White", player:.white)
+           //     .frame(height:50)
+            
+            }
         }
     }
 }
 
-struct BoardView : View {
-    @State var board:ChessBoard
+func iconImageName(_ player:Player) ->String {
+    switch player {
+        
+    case .white:
+        return "person"
+    case .black:
+        return "person.fill"
+    }
+    
+}
+
+struct PlayerView : View {
+    @State var name:String
+    @State var player:Player
     
     var body: some View {
-        GeometryReader { geometry in
-            HStack(alignment: .center,spacing:0){
+        HStack(alignment: .center) {
+            
+            Image(systemName: iconImageName(player))
+               .font(.title)
+            Text(name)
+        }
+       //  .background(self.color)
+        
+    }
+    
+    var color:Color {
+        switch player {
+        case .black:
+            return Color.black
+        case .white:
+            return Color.blue
+        }
+    }
+}
+
+
+struct BoardView : View {
+    @State var board:ChessBoard
+    let width:Length
+    var body: some View
+        {
+        //GeometryReader { geometry in
+            HStack(alignment: .center,spacing:0)
+            {
                 ForEach((0..<8)) { i in
                     
                     
-                    VStack(alignment: .center, spacing:0){
+                    VStack(alignment: .center, spacing:0)
+                    {
                         ForEach((0..<8)) { j in
                             
                             Square(piece:self.board[i,7-j] ,
-                                   squareColor: SquareColor.at(file: i, rank: 7-j),width:geometry.size.width/8.0)
+                                   squareColor: SquareColor.at(file: i, rank: 7-j),width:self.width/8.0)
                             
                         }
                         
@@ -65,8 +112,9 @@ struct BoardView : View {
                     
                 }
             }
+            .frame(width: width, height: width)
         }
-    }
+    
 }
 
 struct Square : View {
@@ -104,3 +152,5 @@ struct ContentView_Previews : PreviewProvider {
     }
 }
 #endif
+
+

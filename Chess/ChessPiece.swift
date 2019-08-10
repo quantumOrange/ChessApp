@@ -8,12 +8,14 @@
 
 import Foundation
 
+enum Player:Equatable {
+    case white
+    case black
+}
+
 struct ChessPiece:Equatable {
     
-    enum Player:Equatable {
-        case white
-        case black
-    }
+    
     
     enum Kind:Equatable,CaseIterable {
         case pawn

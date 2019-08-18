@@ -30,11 +30,6 @@ enum SquareColor {
     }
 }
 
-class GameState:ObservableObject {
-    @Published var chessBoard:ChessBoard =  ChessBoard.start()
-    @Published var selectedSquare:ChessboardSquare? = nil
-}
-
 struct ContentView : View {
     @ObservedObject var game: GameState
     
@@ -42,7 +37,7 @@ struct ContentView : View {
         GeometryReader { geometry in
             VStack(alignment: .center, spacing:50 ){
                 PlayerView(name:"Mr Black", player:.black)
-                BoardView(board: self.$game.chessBoard,width:geometry.size.width)
+                ChessboardView(board: self.$game.chessboard,width:geometry.size.width)
                 PlayerView(name:"Mr White", player:.white)
             }
         }
@@ -60,67 +55,11 @@ func iconImageName(_ player:PlayerColor) ->String {
     
 }
 
-struct PlayerView : View {
-    @State var name:String
-    @State var player:PlayerColor
-    
-    var body: some View {
-        HStack(alignment: .center) {
-            
-            Image(systemName: iconImageName(player))
-               .font(.title)
-            Text(name)
-        }
-        
-        
-    }
-    
-    var color:Color {
-        switch player {
-        case .black:
-            return Color.black
-        case .white:
-            return Color.blue
-        }
-    }
-}
 
-
-struct BoardView : View {
-    @Binding var board:ChessBoard
-    @State var selectedSquare:ChessboardSquare?
-    let width:CGFloat
-    var body: some View
-        {
-            HStack(alignment: .center,spacing:0)
-            {
-                ForEach((0..<8)) { i in
-                    
-                    
-                    VStack(alignment: .center, spacing:0)
-                    {
-                        ForEach((0..<8)) { j in
-                            
-                            Square(board:self.$board,selectedSquare:self.$selectedSquare,
-                                   squareColor: SquareColor.at(file: i, rank: 7-j),file: i, rank: 7-j,width:self.width/8.0)
-                            
-                        }
-                        
-                        
-                    }
-                    
-                }
-            }
-        }
-    
-}
-//square:ChessboardSquare(rank: ChessRank(rawValue: 7-j), file: ChessFile(i)),
-struct Square : View {
-    //let square:ChessboardSquare
-    @Binding var board:ChessBoard
+struct SquareView : View {
+   
+    @Binding var board:Chessboard
     @Binding var selectedSquare:ChessboardSquare?
-    
-    //@State var selected:Bool = false
     
     var piece:ChessPiece? {
         self.board[file,rank]
@@ -153,7 +92,7 @@ struct Square : View {
             } else {
                 
                  //We already have a selected "from" square, and so this is a proposed "to" square.
-                // We have everything we need to make a move, provided the propesed move is valid.
+                 // We have everything we need to make a move, provided the propesed move is valid.
                 
                 if validate(chessboard:self.board, move: ChessMove(from: self.selectedSquare!,to:self.square)) {
                     self.board = move(chessboard: self.board, move: ChessMove(from: self.selectedSquare!,to:self.square))
@@ -171,10 +110,6 @@ struct Square : View {
                 
                 self.selected ? Color.yellow : squareColor.color  )
     }
-}
-
-func foo() {
-    
 }
 
 struct PieceView : View {

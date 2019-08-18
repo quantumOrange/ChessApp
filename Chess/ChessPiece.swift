@@ -75,7 +75,6 @@ extension ChessPiece {
         }
     }
     
-    
     var value:Float? {
         switch kind {
         case .pawn:

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ChessBoard {
+struct Chessboard {
     
     struct CastelState {
         var canCastleQueenside:Bool = true;
@@ -56,14 +56,14 @@ struct ChessBoard {
         }
     }
     
-    static func random()  -> ChessBoard {
-        var board = ChessBoard()
+    static func random()  -> Chessboard {
+        var board = Chessboard()
         board.randomise()
         return board
     }
     
-    static func start() ->  ChessBoard {
-        var board = ChessBoard()
+    static func start() ->  Chessboard {
+        var board = Chessboard()
         
         ChessFile.allCases.forEach{ file in
             board[file , ._2] = ChessPiece(player: .white, kind: .pawn)
@@ -99,12 +99,12 @@ struct ChessMove {
     let to:ChessboardSquare
 }
 
-func validate(chessboard:ChessBoard, move:ChessMove) -> Bool {
+func validate(chessboard:Chessboard, move:ChessMove) -> Bool {
     //TODO!
     return true
 }
 
-func move(chessboard:ChessBoard, move:ChessMove) -> ChessBoard {
+func move(chessboard:Chessboard, move:ChessMove) -> Chessboard {
     var board = chessboard
     
     board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
@@ -116,7 +116,7 @@ func move(chessboard:ChessBoard, move:ChessMove) -> ChessBoard {
 
 struct ChessGame {
     
-    let board:ChessBoard
+    let board:Chessboard
     
     let white:User
     let black:User

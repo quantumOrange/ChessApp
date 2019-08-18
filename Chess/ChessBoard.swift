@@ -20,7 +20,8 @@ struct ChessBoard {
     var black:CastelState = CastelState()
     var white:CastelState = CastelState()
     
-    //var lastMove:Move?
+    var lastMove:ChessMove?
+    
     subscript(file:ChessFile, rank:ChessRank)->ChessPiece? {
         
         get {
@@ -33,7 +34,6 @@ struct ChessBoard {
         
     }
     
-     
     subscript(_ file:Int ,_ rank:Int)->ChessPiece? {
         
         get {
@@ -81,14 +81,15 @@ struct ChessBoard {
     }
 }
 
-enum ChessFile:Int,CaseIterable {
+enum ChessFile:Int,CaseIterable,Equatable {
     case a = 0,b,c,d,e,f,g,h
 }
 
-enum ChessRank:Int,CaseIterable {
+enum ChessRank:Int,CaseIterable,Equatable{
     case _1 = 0 ,_2,_3,_4,_5,_6,_7,_8
 }
-struct ChessboardSquare {
+
+struct ChessboardSquare:Equatable {
     let rank:ChessRank
     let file:ChessFile
 }
@@ -103,16 +104,23 @@ func validate(chessboard:ChessBoard, move:ChessMove) -> Bool {
     return true
 }
 
-func move(chessboard:ChessBoard, move:ChessMove) -> ChessBoard? {
+func move(chessboard:ChessBoard, move:ChessMove) -> ChessBoard {
     var board = chessboard
-    
-    if !validate(chessboard:chessboard, move:move) {
-        return nil;
-    }
     
     board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
     board[move.from.file,move.from.rank] = nil;
+    board.lastMove = move
     
     return board
+}
+
+struct ChessGame {
+    
+    let board:ChessBoard
+    
+    let white:User
+    let black:User
+    
+    let history:[ChessMove]
 }
 

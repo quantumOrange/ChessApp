@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import Combine
+
 
 enum SquareColor {
     case dark
@@ -28,29 +30,26 @@ enum SquareColor {
     }
 }
 
-class AppState {
-    var chessBoard:ChessBoard =  ChessBoard.start()
-    var selectedSquare:ChessboardSquare? = nil
+class GameState:ObservableObject {
+    @Published var chessBoard:ChessBoard =  ChessBoard.start()
+    @Published var selectedSquare:ChessboardSquare? = nil
 }
 
 struct ContentView : View {
+    @ObservedObject var game: GameState
+    
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .center, spacing:50 ){
-            PlayerView(name:"Mr Black", player:.black)
-           //     .frame(height:50)
-           // Spacer(minLength: 10)
-                BoardView(board: ChessBoard.start(),width:geometry.size.width)
-           // Spacer(minLength: 10)
-            PlayerView(name:"Mr White", player:.white)
-           //     .frame(height:50)
-            
+                PlayerView(name:"Mr Black", player:.black)
+                BoardView(board: self.$game.chessBoard,width:geometry.size.width)
+                PlayerView(name:"Mr White", player:.white)
             }
         }
     }
 }
 
-func iconImageName(_ player:Player) ->String {
+func iconImageName(_ player:PlayerColor) ->String {
     switch player {
         
     case .white:
@@ -63,7 +62,7 @@ func iconImageName(_ player:Player) ->String {
 
 struct PlayerView : View {
     @State var name:String
-    @State var player:Player
+    @State var player:PlayerColor
     
     var body: some View {
         HStack(alignment: .center) {
@@ -72,7 +71,7 @@ struct PlayerView : View {
                .font(.title)
             Text(name)
         }
-       //  .background(self.color)
+        
         
     }
     
@@ -88,11 +87,11 @@ struct PlayerView : View {
 
 
 struct BoardView : View {
-    @State var board:ChessBoard
-    let width:Length
+    @Binding var board:ChessBoard
+    @State var selectedSquare:ChessboardSquare?
+    let width:CGFloat
     var body: some View
         {
-        //GeometryReader { geometry in
             HStack(alignment: .center,spacing:0)
             {
                 ForEach((0..<8)) { i in
@@ -102,8 +101,8 @@ struct BoardView : View {
                     {
                         ForEach((0..<8)) { j in
                             
-                            Square(piece:self.board[i,7-j] ,
-                                   squareColor: SquareColor.at(file: i, rank: 7-j),width:self.width/8.0)
+                            Square(board:self.$board,selectedSquare:self.$selectedSquare,
+                                   squareColor: SquareColor.at(file: i, rank: 7-j),file: i, rank: 7-j,width:self.width/8.0)
                             
                         }
                         
@@ -112,30 +111,75 @@ struct BoardView : View {
                     
                 }
             }
-            .frame(width: width, height: width)
         }
     
 }
-
+//square:ChessboardSquare(rank: ChessRank(rawValue: 7-j), file: ChessFile(i)),
 struct Square : View {
-    @State var selected:Bool = false
-    @State var piece:ChessPiece?
-    @State var squareColor:SquareColor
-    let width:Length
+    //let square:ChessboardSquare
+    @Binding var board:ChessBoard
+    @Binding var selectedSquare:ChessboardSquare?
+    
+    //@State var selected:Bool = false
+    
+    var piece:ChessPiece? {
+        self.board[file,rank]
+    }
+    
+    var selected:Bool {
+        guard let selectedSq = selectedSquare else { return false }
+        return selectedSq == square
+    }
+ 
+    var square:ChessboardSquare {
+        ChessboardSquare(rank: ChessRank(rawValue: rank)!, file: ChessFile(rawValue: file)!)
+    }
+    
+    let squareColor:SquareColor
+    let file:Int
+    let rank:Int
+    
+    let width:CGFloat
     var body: some View {
-        Button(action:{ self.selected = !self.selected } ){
+        Button(action:{
+            
+            if self.selectedSquare == nil {
+                //no square is selected, so we select ourselves.
+                self.selectedSquare = self.square
+            }
+            else if self.selected {
+                //we are the selected square, so toggle!
+                self.selectedSquare = nil
+            } else {
+                
+                 //We already have a selected "from" square, and so this is a proposed "to" square.
+                // We have everything we need to make a move, provided the propesed move is valid.
+                
+                if validate(chessboard:self.board, move: ChessMove(from: self.selectedSquare!,to:self.square)) {
+                    self.board = move(chessboard: self.board, move: ChessMove(from: self.selectedSquare!,to:self.square))
+                    self.selectedSquare = nil
+                }
+            }
+            
+        } ){
                 if piece != nil {
                     PieceView(piece: piece!, width:width)
                 }
             }
             .frame(width:width, height: width, alignment: .center)
-            .background(self.selected ? Color.yellow : squareColor.color  )
+        .background(
+                
+                self.selected ? Color.yellow : squareColor.color  )
     }
+}
+
+func foo() {
+    
 }
 
 struct PieceView : View {
     @State var piece:ChessPiece
-    let width:Length
+    let width:CGFloat
     var body: some View {
         Text(piece.symbol)
             .font(.largeTitle)
@@ -143,12 +187,11 @@ struct PieceView : View {
     }
 }
 
-
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     
     static var previews: some View {
-        ContentView()
+        ContentView(game: GameState())
     }
 }
 #endif

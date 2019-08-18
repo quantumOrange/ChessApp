@@ -8,14 +8,12 @@
 
 import Foundation
 
-enum Player:Equatable {
+enum PlayerColor:Equatable {
     case white
     case black
 }
 
 struct ChessPiece:Equatable {
-    
-    
     
     enum Kind:Equatable,CaseIterable {
         case pawn
@@ -26,7 +24,7 @@ struct ChessPiece:Equatable {
         case king
     }
     
-    let player:Player
+    let player:PlayerColor
     
     let kind:Kind
     
@@ -99,7 +97,7 @@ extension ChessPiece {
 extension ChessPiece {
 
     static func random() -> ChessPiece {
-        return ChessPiece(player: Bool.random() ?Player.black : Player.white,
+        return ChessPiece(player: Bool.random() ?PlayerColor.black : PlayerColor.white,
                           kind: Kind.allCases.randomElement()!)
     }
     

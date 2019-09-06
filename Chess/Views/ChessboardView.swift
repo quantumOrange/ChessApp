@@ -23,7 +23,7 @@ struct ChessboardView : View {
                     {
                         ForEach((0..<8)) { j in
                             
-                            SquareView(board:self.$board,selectedSquare:self.$selectedSquare,
+                            ChessSquareView(board:self.$board,selectedSquare:self.$selectedSquare,
                                    squareColor: SquareColor.at(file: i, rank: 7-j),file: i, rank: 7-j,width:self.width/8.0)
                             
                         }
@@ -38,9 +38,7 @@ struct ChessboardView : View {
 }
 
 #if DEBUG
-//segmentation fualt!
 struct ChessoardView_Previews: PreviewProvider {
-    //@State var testboard:Chessboard = Chessboard.start()
     static var previews: some View {
         ChessboardView(board:.constant(Chessboard.start()), width:300)
     }

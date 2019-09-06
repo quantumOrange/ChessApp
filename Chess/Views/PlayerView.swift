@@ -33,6 +33,16 @@ struct PlayerView : View {
     }
 }
 
+func iconImageName(_ player:PlayerColor) -> String {
+    switch player {
+        
+    case .white:
+        return "person"
+    case .black:
+        return "person.fill"
+    }
+    
+}
 
 
 #if DEBUG

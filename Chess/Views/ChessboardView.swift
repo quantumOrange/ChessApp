@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct ChessboardView : View {
-    @Binding var board:Chessboard
-    @State var selectedSquare:ChessboardSquare?
+    @ObservedObject var store: Store<GameState,ChessGameAction>
+    //@State var selectedSquare:ChessboardSquare?
+    
     let width:CGFloat
     var body: some View
         {
@@ -23,7 +24,7 @@ struct ChessboardView : View {
                     {
                         ForEach((0..<8)) { j in
                             
-                            ChessSquareView(board:self.$board,selectedSquare:self.$selectedSquare,
+                            ChessSquareView(store:self.store,
                                    squareColor: SquareColor.at(file: i, rank: 7-j),file: i, rank: 7-j,width:self.width/8.0)
                             
                         }
@@ -40,7 +41,7 @@ struct ChessboardView : View {
 #if DEBUG
 struct ChessoardView_Previews: PreviewProvider {
     static var previews: some View {
-        ChessboardView(board:.constant(Chessboard.start()), width:300)
+        ChessboardView(store:Store<Any,Any>.chessStore(), width:300)
     }
 }
 #endif

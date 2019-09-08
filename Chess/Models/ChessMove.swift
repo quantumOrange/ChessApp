@@ -57,3 +57,22 @@ func move(chessboard:Chessboard, move:ChessMove) -> Chessboard {
     
     return board
 }
+
+
+enum ChessAction {
+    case move(ChessMove)
+}
+
+func chessReducer( board:inout Chessboard, action:ChessAction)  {
+    switch action {
+    case .move(let move):
+        board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
+        board[move.from.file,move.from.rank] = nil;
+        board.lastMove = move
+    }
+}
+
+
+
+
+

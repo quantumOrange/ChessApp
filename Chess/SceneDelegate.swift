@@ -20,11 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Use a UIHostingController as window root view controller
-        let window = UIWindow(frame: UIScreen.main.bounds)
+        
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: ChessGameView(game: GameState()))
+            window.rootViewController = UIHostingController(rootView: ChessGameView(store:Store<Any,Any>.chessStore()))
             self.window = window
             window.makeKeyAndVisible()
         }

@@ -14,9 +14,12 @@
 		544C088D2309DAD80075B987 /* ChessSquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C088C2309DAD80075B987 /* ChessSquareView.swift */; };
 		544C088F2309DD850075B987 /* ChessGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C088E2309DD850075B987 /* ChessGameView.swift */; };
 		544C08922309EEBF0075B987 /* ChessMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C08912309EEBF0075B987 /* ChessMove.swift */; };
+		544F297723251881005E79EA /* Architecture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F297623251881005E79EA /* Architecture.swift */; };
+		544F297A23251B13005E79EA /* ChessGameReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F297923251B13005E79EA /* ChessGameReducer.swift */; };
+		544F297C23251BC4005E79EA /* ChessboardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F297B23251BC4005E79EA /* ChessboardReducer.swift */; };
+		544F297E23252D4A005E79EA /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F297D23252D4A005E79EA /* AppStore.swift */; };
 		546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41B922F35DFB0033785F /* AppDelegate.swift */; };
 		546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41BB22F35DFB0033785F /* SceneDelegate.swift */; };
-		546F41BE22F35DFB0033785F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41BD22F35DFB0033785F /* ContentView.swift */; };
 		546F41C022F35DFD0033785F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 546F41BF22F35DFD0033785F /* Assets.xcassets */; };
 		546F41C322F35DFD0033785F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 546F41C222F35DFD0033785F /* Preview Assets.xcassets */; };
 		546F41C622F35DFD0033785F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 546F41C422F35DFD0033785F /* LaunchScreen.storyboard */; };
@@ -52,10 +55,13 @@
 		544C088C2309DAD80075B987 /* ChessSquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessSquareView.swift; sourceTree = "<group>"; };
 		544C088E2309DD850075B987 /* ChessGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessGameView.swift; sourceTree = "<group>"; };
 		544C08912309EEBF0075B987 /* ChessMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessMove.swift; sourceTree = "<group>"; };
+		544F297623251881005E79EA /* Architecture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Architecture.swift; sourceTree = "<group>"; };
+		544F297923251B13005E79EA /* ChessGameReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessGameReducer.swift; sourceTree = "<group>"; };
+		544F297B23251BC4005E79EA /* ChessboardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardReducer.swift; sourceTree = "<group>"; };
+		544F297D23252D4A005E79EA /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		546F41B622F35DFB0033785F /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		546F41B922F35DFB0033785F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		546F41BB22F35DFB0033785F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		546F41BD22F35DFB0033785F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		546F41BF22F35DFD0033785F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		546F41C222F35DFD0033785F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		546F41C522F35DFD0033785F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -112,7 +118,6 @@
 		544C08902309DED20075B987 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				546F41BD22F35DFB0033785F /* ContentView.swift */,
 				544C088C2309DAD80075B987 /* ChessSquareView.swift */,
 				544C08892309D01D0075B987 /* ChessPieceView.swift */,
 				544C08872309C9460075B987 /* ChessboardView.swift */,
@@ -120,6 +125,15 @@
 				544C08852309C8EE0075B987 /* PlayerView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		544F297823251AE9005E79EA /* Reducers */ = {
+			isa = PBXGroup;
+			children = (
+				544F297923251B13005E79EA /* ChessGameReducer.swift */,
+				544F297B23251BC4005E79EA /* ChessboardReducer.swift */,
+			);
+			path = Reducers;
 			sourceTree = "<group>";
 		};
 		546F41AD22F35DFB0033785F = {
@@ -146,8 +160,11 @@
 		546F41B822F35DFB0033785F /* Chess */ = {
 			isa = PBXGroup;
 			children = (
+				544F297623251881005E79EA /* Architecture.swift */,
+				544F297D23252D4A005E79EA /* AppStore.swift */,
 				546F41B922F35DFB0033785F /* AppDelegate.swift */,
 				546F41BB22F35DFB0033785F /* SceneDelegate.swift */,
+				544F297823251AE9005E79EA /* Reducers */,
 				544C088B2309DA080075B987 /* Models */,
 				544C08902309DED20075B987 /* Views */,
 				546F41BF22F35DFD0033785F /* Assets.xcassets */,
@@ -315,6 +332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				544F297723251881005E79EA /* Architecture.swift in Sources */,
 				544C08842309C8AC0075B987 /* GameState.swift in Sources */,
 				546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */,
 				546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */,
@@ -322,10 +340,12 @@
 				544C08862309C8EE0075B987 /* PlayerView.swift in Sources */,
 				54E2FEED23003082009F60C0 /* User.swift in Sources */,
 				544C088A2309D01D0075B987 /* ChessPieceView.swift in Sources */,
+				544F297E23252D4A005E79EA /* AppStore.swift in Sources */,
+				544F297C23251BC4005E79EA /* ChessboardReducer.swift in Sources */,
 				544C088D2309DAD80075B987 /* ChessSquareView.swift in Sources */,
-				546F41BE22F35DFB0033785F /* ContentView.swift in Sources */,
 				546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */,
 				544C088F2309DD850075B987 /* ChessGameView.swift in Sources */,
+				544F297A23251B13005E79EA /* ChessGameReducer.swift in Sources */,
 				544C08882309C9460075B987 /* ChessboardView.swift in Sources */,
 				546F41EC22F35EE40033785F /* Chessboard.swift in Sources */,
 			);

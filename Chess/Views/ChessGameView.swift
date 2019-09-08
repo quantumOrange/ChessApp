@@ -9,13 +9,13 @@
 import SwiftUI
 
 struct ChessGameView : View {
-    @ObservedObject var game: GameState
+    @ObservedObject var store: Store<GameState,ChessGameAction>
     
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .center, spacing:50 ){
                 PlayerView(name:"Mr Black", player:.black)
-                ChessboardView(board: self.$game.chessboard,width:geometry.size.width)
+                ChessboardView(store: self.store,width:geometry.size.width)
                 PlayerView(name:"Mr White", player:.white)
             }
         }
@@ -26,7 +26,7 @@ struct ChessGameView : View {
 #if DEBUG
 struct ChessGameView_Previews: PreviewProvider {
     static var previews: some View {
-        ChessGameView(game:GameState())
+        ChessGameView(store:Store<Any,Any>.chessStore())
     }
 }
 #endif

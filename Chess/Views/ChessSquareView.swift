@@ -30,15 +30,15 @@ enum SquareColor {
 
 struct ChessSquareView : View {
    
-    @Binding var board:Chessboard
-    @Binding var selectedSquare:ChessboardSquare?
+    @ObservedObject var store: Store<GameState,ChessGameAction>
+    //@Binding var selectedSquare:ChessboardSquare?
     
     var piece:ChessPiece? {
-        self.board[file,rank]
+        store.value.chessboard[file,rank]
     }
     
     var selected:Bool {
-        guard let selectedSq = selectedSquare else { return false }
+        guard let selectedSq = store.value.selectedSquare else { return false }
         return selectedSq == square
     }
  
@@ -54,21 +54,21 @@ struct ChessSquareView : View {
     var body: some View {
         Button(action:{
             
-            if self.selectedSquare == nil {
+            if self.store.value.selectedSquare == nil {
                 //no square is selected, so we select ourselves.
-                self.selectedSquare = self.square
+                self.store.value.selectedSquare = self.square
             }
             else if self.selected {
                 //we are the selected square, so toggle!
-                self.selectedSquare = nil
+                self.store.value.selectedSquare = nil
             } else {
                 
                  //We already have a selected "from" square, and so this is a proposed "to" square.
                  // We have everything we need to make a move, provided the propesed move is valid.
                 
-                if validate(chessboard:self.board, move: ChessMove(from: self.selectedSquare!,to:self.square)) {
-                    self.board = move(chessboard: self.board, move: ChessMove(from: self.selectedSquare!,to:self.square))
-                    self.selectedSquare = nil
+                if validate(chessboard:self.store.value.chessboard, move: ChessMove(from: self.store.value.selectedSquare!,to:self.square)) {
+                    self.store.value.chessboard = move(chessboard: self.store.value.chessboard, move: ChessMove(from: self.store.value.selectedSquare!,to:self.square))
+                    self.store.value.selectedSquare = nil
                 }
             }
             
@@ -87,7 +87,7 @@ struct ChessSquareView : View {
 #if DEBUG
 struct ChessSquareView_Previews: PreviewProvider {
     static var previews: some View {
-        ChessSquareView(board:.constant(Chessboard.start()),selectedSquare:.constant(nil),
+        ChessSquareView(store:Store<Any,Any>.chessStore(),
                         squareColor: .dark, file: 0, rank: 7,width:100)
     }
 }

@@ -53,25 +53,7 @@ struct ChessSquareView : View {
     let width:CGFloat
     var body: some View {
         Button(action:{
-            
-            if self.store.value.selectedSquare == nil {
-                //no square is selected, so we select ourselves.
-                self.store.value.selectedSquare = self.square
-            }
-            else if self.selected {
-                //we are the selected square, so toggle!
-                self.store.value.selectedSquare = nil
-            } else {
-                
-                 //We already have a selected "from" square, and so this is a proposed "to" square.
-                 // We have everything we need to make a move, provided the propesed move is valid.
-                
-                if validate(chessboard:self.store.value.chessboard, move: ChessMove(from: self.store.value.selectedSquare!,to:self.square)) {
-                    self.store.value.chessboard = move(chessboard: self.store.value.chessboard, move: ChessMove(from: self.store.value.selectedSquare!,to:self.square))
-                    self.store.value.selectedSquare = nil
-                }
-            }
-            
+            self.store.send(.tapped(self.square))
         } ){
                 if piece != nil {
                     ChessPieceView(piece: piece!, width:width)

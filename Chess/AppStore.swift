@@ -9,8 +9,7 @@
 import Foundation
 
 
-extension Store {
-    static func chessStore() -> Store<GameState,ChessGameAction > {
-      Store<GameState,ChessGameAction >(initialValue: GameState(), reducer:chessgameReducer )
+    func chessStore() -> Store<GameState,ChessUserAction > {
+      Store<GameState,ChessUserAction >(initialValue: GameState(), reducer:chessgameReducer )
     }
-}
+

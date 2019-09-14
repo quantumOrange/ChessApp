@@ -12,6 +12,14 @@ enum SquareColor {
     case dark
     case light
     
+    static func at(file:Int,rank:Int) -> SquareColor {
+        return (rank + file).isMultiple(of: 2) ?
+                                            .dark :
+                                            .light
+    }
+}
+
+extension SquareColor {
     var color:Color {
         switch self {
         case .dark:
@@ -20,18 +28,12 @@ enum SquareColor {
             return Color.white
         }
     }
-    
-    static func at(file:Int,rank:Int) -> SquareColor {
-        return (rank + file).isMultiple(of: 2) ?
-                                            .dark :
-                                            .light
-    }
 }
 
 struct ChessSquareView : View {
    
-    @ObservedObject var store: Store<GameState,ChessGameAction>
-    //@Binding var selectedSquare:ChessboardSquare?
+    @ObservedObject var store: Store<GameState,ChessUserAction>
+    
     
     var piece:ChessPiece? {
         store.value.chessboard[file,rank]
@@ -69,7 +71,7 @@ struct ChessSquareView : View {
 #if DEBUG
 struct ChessSquareView_Previews: PreviewProvider {
     static var previews: some View {
-        ChessSquareView(store:Store<Any,Any>.chessStore(),
+        ChessSquareView(store:chessStore(),
                         squareColor: .dark, file: 0, rank: 7,width:100)
     }
 }

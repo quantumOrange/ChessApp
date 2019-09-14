@@ -20,6 +20,10 @@ func validate(chessboard:Chessboard, move:ChessMove) -> Bool {
         return false
     }
     
+    if !isYourPiece(chessboard: chessboard, move: move) {
+        return false
+    }
+    
     if let thePieceToCapture = chessboard[move.to] {
         if thePieceToMove.player == thePieceToCapture.player {
             //you can't capture your own piece
@@ -46,32 +50,53 @@ func validate(chessboard:Chessboard, move:ChessMove) -> Bool {
     
 }
 
-
-
-func move(chessboard:Chessboard, move:ChessMove) -> Chessboard {
-    var board = chessboard
-    
-    board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
-    board[move.from.file,move.from.rank] = nil;
-    board.lastMove = move
-    
-    return board
+func isYourPiece(chessboard:Chessboard, move:ChessMove) -> Bool {
+    return isYourPiece(chessboard: chessboard, square: move.from)
 }
 
-
-enum ChessAction {
-    case move(ChessMove)
-}
-
-func chessReducer( board:inout Chessboard, action:ChessAction)  {
-    switch action {
-    case .move(let move):
-        board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
-        board[move.from.file,move.from.rank] = nil;
-        board.lastMove = move
+func isYourPiece(chessboard:Chessboard, square:ChessboardSquare) -> Bool {
+    guard let thePieceToMove = chessboard[square] else {
+        //You can't move nothing
+        return false
     }
+    
+    return chessboard.whosTurnIsItAnyway == thePieceToMove.player
 }
 
+
+
+func validMoves(chessboard:Chessboard) -> [ChessMove] {
+    
+    
+    
+    return []
+}
+
+
+func squares(chessboard:Chessboard) -> [ChessboardSquare] {
+    
+    return []
+}
+
+func validPawnMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
+    var moves:[ChessMove] = []
+    
+    
+    
+    return moves
+}
+
+func validKnightMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
+    
+    
+    
+    return []
+}
+
+func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
+    
+    return []
+}
 
 
 

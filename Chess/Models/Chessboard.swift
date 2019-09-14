@@ -17,10 +17,14 @@ struct Chessboard {
     
     var storage:[ChessPiece?]
     
-    var black:CastelState = CastelState()
-    var white:CastelState = CastelState()
+    var blackCastelState:CastelState = CastelState()
+    var whiteCastelState:CastelState = CastelState()
     
-    var lastMove:ChessMove?
+    var whosTurnIsItAnyway:PlayerColor {
+        return moves.count.isMultiple(of: 2) ? .white : .black
+    }
+    
+    var moves:[ChessMove] = []
     
     init() {
         storage = Array(repeating: nil, count: 64)
@@ -31,6 +35,8 @@ struct Chessboard {
             storage[Int.random(in: 0..<64)] = ChessPiece.random()
         }
     }
+    
+    var turn:PlayerColor = .white
     
     
 }
@@ -53,7 +59,7 @@ extension Chessboard {
             board[file , ._7] = ChessPiece(player: .black, kind: .pawn)
         }
         
-        let pieces:[ChessPiece.Kind] = [.rook,.bishop,.knight,.queen,.king,.knight,.bishop,.rook]
+        let pieces:[ChessPiece.Kind] = [.rook,.knight,.bishop,.queen,.king,.bishop,.knight,.rook]
         
         zip(ChessFile.allCases,pieces).forEach{ (file,kind) in
             board[file , ._1] = ChessPiece(player: .white, kind: kind)

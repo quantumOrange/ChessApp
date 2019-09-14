@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct ChessboardView : View {
-    @ObservedObject var store: Store<GameState,ChessGameAction>
-    //@State var selectedSquare:ChessboardSquare?
+    @ObservedObject var store: Store<GameState,ChessUserAction>
+    
     
     let width:CGFloat
     var body: some View
@@ -41,7 +41,7 @@ struct ChessboardView : View {
 #if DEBUG
 struct ChessoardView_Previews: PreviewProvider {
     static var previews: some View {
-        ChessboardView(store:Store<Any,Any>.chessStore(), width:300)
+        ChessboardView(store:chessStore(), width:300)
     }
 }
 #endif

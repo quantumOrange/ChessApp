@@ -8,17 +8,10 @@
 
 import Foundation
 
-
-/*
-class GameState:ObservableObject {
-    @Published var chessboard:Chessboard =  Chessboard.start()
-    @Published var selectedSquare:ChessboardSquare? = nil
-}
-*/
-
 struct GameState {
     var chessboard:Chessboard =  Chessboard.start()
     var selectedSquare:ChessboardSquare? = nil
+    var players:Players = Players.dummys()
 }
 
 

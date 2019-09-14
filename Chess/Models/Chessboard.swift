@@ -132,3 +132,23 @@ struct ChessGame {
     let history:[ChessMove]
 }
 
+
+extension Chessboard: CustomStringConvertible {
+    var description: String {
+        var boardDescription = "------------------------\n"
+        for i in 0...7 {
+            let rank = 7 - i
+            var rankDescription = ""
+            for file in 0...7 {
+                let piece = self[file,rank]
+                let pieceStr = piece?.symbol ?? " "
+                
+                rankDescription += " \(pieceStr) "
+            }
+            rankDescription += "\n"
+            boardDescription += rankDescription
+        }
+        boardDescription +=  "------------------------\n"
+        return boardDescription
+    }
+}

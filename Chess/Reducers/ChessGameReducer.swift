@@ -38,6 +38,7 @@ func chessgameReducer(_ value:inout GameState,_ action:ChessUserAction)  {
                 value.selectedSquare = nil
             }
         }
+        print(value.chessboard)
     }
 }
 

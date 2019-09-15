@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct ChessPieceView : View {
-    @State var piece:ChessPiece // should be a binding
+   
+    let piece:ChessPiece
     let width:CGFloat
     
     var backgroundPiece:ChessPiece {

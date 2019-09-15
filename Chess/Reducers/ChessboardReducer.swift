@@ -20,8 +20,8 @@ func chessboardReducer( board:inout Chessboard, action:ChessAction)  {
 
 func applyMove( board:inout Chessboard, move:ChessMove) {
    
-    board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
-    board[move.from.file,move.from.rank] = nil;
+    board[move.to] = board[move.from]
+    board[move.from] = nil;
     board.moves.append(move) 
     
 }

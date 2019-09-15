@@ -65,39 +65,3 @@ func isYourPiece(chessboard:Chessboard, square:ChessboardSquare) -> Bool {
 
 
 
-func validMoves(chessboard:Chessboard) -> [ChessMove] {
-    
-    
-    
-    return []
-}
-
-
-func squares(chessboard:Chessboard) -> [ChessboardSquare] {
-    
-    return []
-}
-
-func validPawnMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
-    var moves:[ChessMove] = []
-    
-    
-    
-    return moves
-}
-
-func validKnightMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
-    
-    
-    
-    return []
-}
-
-func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
-    
-    return []
-}
-
-
-
-

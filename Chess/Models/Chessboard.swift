@@ -117,10 +117,8 @@ enum ChessRank:Int,CaseIterable,Equatable{
     case _1 = 0 ,_2,_3,_4,_5,_6,_7,_8
 }
 
-struct ChessboardSquare:Equatable {
-    let rank:ChessRank
-    let file:ChessFile
-}
+
+
 
 struct ChessGame {
     
@@ -152,3 +150,4 @@ extension Chessboard: CustomStringConvertible {
         return boardDescription
     }
 }
+

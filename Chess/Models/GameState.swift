@@ -14,4 +14,15 @@ struct GameState {
     var players:Players = Players.dummys()
 }
 
+extension GameState {
+    var possibleDestinationSquares:[ChessboardSquare] {
+        guard let selected = selectedSquare else { return [] }
+        
+        return validMoves(chessboard: chessboard, for: selected).map { $0.to}
+            
+        
+    }
+
+}
+
 

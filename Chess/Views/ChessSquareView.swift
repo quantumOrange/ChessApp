@@ -48,6 +48,20 @@ struct ChessSquareView : View {
         ChessboardSquare(rank: ChessRank(rawValue: rank)!, file: ChessFile(rawValue: file)!)
     }
     
+    
+    var sqColor:Color {
+        
+        let destSqs = store.value.possibleDestinationSquares
+        
+        
+        let highlighted = self.selected || destSqs.contains(square)
+        
+        
+       return  highlighted ? Color.yellow : squareColor.color
+        
+        
+    }
+    
     let squareColor:SquareColor
     let file:Int
     let rank:Int
@@ -62,9 +76,7 @@ struct ChessSquareView : View {
                 }
             }
             .frame(width:width, height: width, alignment: .center)
-        .background(
-                
-                self.selected ? Color.yellow : squareColor.color  )
+        .background(sqColor)
     }
 }
 

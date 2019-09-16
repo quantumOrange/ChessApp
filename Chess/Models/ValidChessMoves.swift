@@ -8,6 +8,28 @@
 
 import Foundation
 
+func validate(chessboard:Chessboard, move:ChessMove) -> Bool {
+    
+    guard let thePieceToMove = chessboard[move.from] else {
+        //You can't move nothing
+        return false
+    }
+    
+    if !isYourPiece(chessboard: chessboard, move: move) {
+        return false
+    }
+    
+    if let thePieceToCapture = chessboard[move.to] {
+        if thePieceToMove.player == thePieceToCapture.player {
+            //you can't capture your own piece
+            return false
+        }
+    }
+    
+    return validMoves(chessboard: chessboard).contains(where: {$0 == move})
+    
+}
+
 func validMoves(chessboard:Chessboard) -> [ChessMove] {
     var moves:[ChessMove] = []
     
@@ -43,6 +65,29 @@ func validMoves(chessboard:Chessboard, for square:ChessboardSquare) -> [ChessMov
     
     }
     
+}
+
+func getAllMoves(on board:Chessboard, from square:ChessboardSquare, in direction:ChessboardSquare.Direction)->[ChessMove]{
+    return getAllMoves(on:board,from:square,currentSquare:square, in:direction)
+}
+
+func getAllMoves(on board:Chessboard,
+                 from origin:ChessboardSquare ,
+                 currentSquare square:ChessboardSquare,
+                 in direction:ChessboardSquare.Direction) -> [ChessMove] {
+    
+    if let toSquare = square.getNeighbour(direction) , let  mv = makeMove(board: board, from:origin , to: toSquare) {
+        if let piece = board[toSquare], piece.player != board.whosTurnIsItAnyway {
+            //This is an enemy piece, which we can take, but we can't go any further in this direction, so we terminate here.
+            return [mv]
+        }
+        return getAllMoves(on:board,from:origin,currentSquare:toSquare, in:direction) + [mv]
+    }
+    else {
+        // We cannot go any further in this direction, either becuase we have reached the edge of the board,
+        // or because one of our own pieces is in the way.
+        return []
+    }
 }
 
 func makeMove(board:Chessboard, from:ChessboardSquare, to:ChessboardSquare) -> ChessMove? {
@@ -94,8 +139,6 @@ func validPawnMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
         moves.append(makePawnTakingdMove(board: board, from: square, to:square.getNeighbour(.topRight)))
         moves.append(makePawnTakingdMove(board: board, from: square, to:square.getNeighbour(.topLeft)))
         
-        
-        
         //TODO : aun passnt
         
     case .black:
@@ -122,7 +165,6 @@ func validPawnMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
     
     }
    
-    
     return moves.compactMap{$0}
 }
 
@@ -160,23 +202,6 @@ func validBishopMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] 
     let directions:[ChessboardSquare.Direction] = [.topLeft,.topRight,.bottomLeft,.bottomRight]
        
     return directions.flatMap{ getAllMoves(on: board, from: square, in: $0)}
-}
-
-func getAllMoves(on board:Chessboard, from square:ChessboardSquare, in direction:ChessboardSquare.Direction)->[ChessMove]{
-    return getAllMoves(on:board,from:square,currentSquare:square, in:direction)
-}
-
-func getAllMoves(on board:Chessboard,
-                 from origin:ChessboardSquare ,
-                 currentSquare square:ChessboardSquare,
-                 in direction:ChessboardSquare.Direction) -> [ChessMove] {
-    
-    if let toSquare = square.getNeighbour(direction) ,let  mv = makeMove(board: board, from:origin , to: toSquare) {
-        return getAllMoves(on:board,from:origin,currentSquare:toSquare, in:direction) + [mv]
-    }
-    else {
-        return []
-    }
 }
 
 func validRookMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {

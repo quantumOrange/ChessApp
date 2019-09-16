@@ -15,31 +15,42 @@ enum ChessUserAction {
 func chessgameReducer(_ value:inout GameState,_ action:ChessUserAction)  {
     switch action {
     case .tapped(let square):
-        
-        guard let selectedSquare = value.selectedSquare else {
-            //no square is selected, so we can select the tapped square if it has the right color of piece.
-            if isYourPiece(chessboard:value.chessboard , square: square) {
-                value.selectedSquare = square
-            }
+        if value.chessboard.whosTurnIsItAnyway == .white {
+            selectOrMove(to:square , value:&value)
             
-            return
+            if value.chessboard.whosTurnIsItAnyway == .black {
+                if let blacksMove = ChessEngine.pickMove(for:value.chessboard){
+                    applyMove(board: &value.chessboard,move:blacksMove)
+                }
+            }
         }
     
-        if selectedSquare == square {
-            //Tapping the selected square, so toggle off!
-            value.selectedSquare = nil
-        } else {
-            
-             //We already have a selected "from" square, and so this is a proposed "to" square.
-             // We have everything we need to make a move, provided the move is valid.
-            
-            if validate(chessboard:value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
-                applyMove(board: &value.chessboard, move: ChessMove(from: selectedSquare,to:square))
-                value.selectedSquare = nil
-            }
-        }
         print(value.chessboard)
     }
 }
 
+func selectOrMove(to square:ChessboardSquare ,  value:inout GameState ) {
+    guard let selectedSquare = value.selectedSquare else {
+               //no square is selected, so we can select the tapped square if it has the right color of piece.
+               if isYourPiece(chessboard:value.chessboard , square: square) {
+                   value.selectedSquare = square
+               }
+               
+               return
+           }
+       
+           if selectedSquare == square {
+               //Tapping the selected square, so toggle off!
+               value.selectedSquare = nil
+           } else {
+               
+                //We already have a selected "from" square, and so this is a proposed "to" square.
+                // We have everything we need to make a move, provided the move is valid.
+               
+               if validate(chessboard:value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
+                   applyMove(board: &value.chessboard, move: ChessMove(from: selectedSquare,to:square))
+                   value.selectedSquare = nil
+               }
+           }
+}
 

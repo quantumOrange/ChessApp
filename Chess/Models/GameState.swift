@@ -12,6 +12,7 @@ struct GameState {
     var chessboard:Chessboard =  Chessboard.start()
     var selectedSquare:ChessboardSquare? = nil
     var players:Players = Players.dummys()
+    var gamePlayState = GamePlayState.inPlay
 }
 
 extension GameState {

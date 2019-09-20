@@ -12,21 +12,53 @@ enum ChessUserAction {
     case tapped(ChessboardSquare)
 }
 
+
+enum GamePlayState {
+    case won(PlayerColor)
+    case draw
+  //  case noStarted
+  // case abandoned
+    case inPlay
+}
+
 func chessgameReducer(_ value:inout GameState,_ action:ChessUserAction)  {
+    guard case .inPlay = value.gamePlayState else { return }
     switch action {
     case .tapped(let square):
         if value.chessboard.whosTurnIsItAnyway == .white {
+            
             selectOrMove(to:square , value:&value)
+            value.gamePlayState = gamePlayState(chessboard: value.chessboard)
+            
+            guard case .inPlay = value.gamePlayState else { return }
             
             if value.chessboard.whosTurnIsItAnyway == .black {
                 if let blacksMove = ChessEngine.pickMove(for:value.chessboard){
-                    applyMove(board: &value.chessboard,move:blacksMove)
+                    value.chessboard = applyMove(board: value.chessboard,move:blacksMove)
+                    value.gamePlayState = gamePlayState(chessboard: value.chessboard)
                 }
             }
         }
     
         print(value.chessboard)
     }
+}
+
+func gamePlayState(chessboard:Chessboard) -> GamePlayState {
+    
+    let checked = isInCheck(chessboard: chessboard, player:chessboard.whosTurnIsItAnyway)
+    
+    let currentPlayerCanMove = validMoves(chessboard:chessboard).count > 0
+    
+    if checked && !currentPlayerCanMove {
+        //checkmate!
+        return .won(!(chessboard.whosTurnIsItAnyway))
+    }
+    
+    if !checked && !currentPlayerCanMove {
+        return .draw
+    }
+    return .inPlay
 }
 
 func selectOrMove(to square:ChessboardSquare ,  value:inout GameState ) {
@@ -48,7 +80,7 @@ func selectOrMove(to square:ChessboardSquare ,  value:inout GameState ) {
                 // We have everything we need to make a move, provided the move is valid.
                
                if validate(chessboard:value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
-                   applyMove(board: &value.chessboard, move: ChessMove(from: selectedSquare,to:square))
+                   value.chessboard = applyMove(board: value.chessboard, move: ChessMove(from: selectedSquare,to:square))
                    value.selectedSquare = nil
                }
            }

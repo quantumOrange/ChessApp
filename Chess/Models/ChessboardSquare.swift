@@ -68,5 +68,9 @@ extension Chessboard {
             }
         }
     }
+    
+    func squares(with piece:ChessPiece) -> [ChessboardSquare] {
+        squares.filter{ self[$0] == piece}
+    }
 }
 

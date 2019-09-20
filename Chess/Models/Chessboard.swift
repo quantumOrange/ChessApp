@@ -70,6 +70,14 @@ extension Chessboard {
        
 }
 
+extension Chessboard {
+    func evaluate() -> Float {
+        return storage
+                    .compactMap{$0?.value }
+                    .reduce(0, +)
+    }
+}
+
 //subscripts
 extension Chessboard {
     

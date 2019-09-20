@@ -26,5 +26,11 @@ func isYourPiece(chessboard:Chessboard, square:ChessboardSquare) -> Bool {
     return chessboard.whosTurnIsItAnyway == thePieceToMove.player
 }
 
+extension ChessMove {
+    static var nullMove:ChessMove {
+        let anySquare = ChessboardSquare(rank: ._1, file: .a)
+        return ChessMove(from:anySquare, to:anySquare)
+    }
+}
 
 

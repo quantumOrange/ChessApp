@@ -18,12 +18,17 @@ func chessboardReducer( board:inout Chessboard, action:ChessAction)  {
 }
 
 
-func applyMove( board:inout Chessboard, move:ChessMove) {
-   
-    board[move.to] = board[move.from]
-    board[move.from] = nil;
-    board.moves.append(move) 
+func applyMove( board:Chessboard, move:ChessMove) -> Chessboard {
+    var board = board
     
+    if let pieceToMove = board[move.from] {
+        board[move.from] = nil;
+        board[move.to] = pieceToMove
+    }
+    
+    board.moves.append(move)
+    
+    return board
 }
 
 enum ChessAction {
@@ -34,7 +39,7 @@ func chessReducer( board:inout Chessboard, action:ChessAction)  {
     switch action {
     case .move(let move):
          if validate(chessboard:board, move:move) {
-            applyMove(board: &board, move: move)
+            board = applyMove(board: board, move: move)
          }
     }
 }

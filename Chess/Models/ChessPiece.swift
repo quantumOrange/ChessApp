@@ -13,6 +13,15 @@ enum PlayerColor:Equatable {
     case black
 }
 
+prefix func !(v:PlayerColor)-> PlayerColor {
+    switch v {
+    case .white:
+        return .black
+    case .black:
+        return .white
+    }
+}
+
 struct ChessPiece:Equatable {
     
     enum Kind:Equatable,CaseIterable {
@@ -76,19 +85,27 @@ extension ChessPiece {
     }
     
     var value:Float? {
+        var absValue:Float = 0.0
         switch kind {
         case .pawn:
-            return 1.0
+            absValue = 1.0
         case .knight:
-            return 3.0
+            absValue = 3.0
         case .bishop:
-            return 3.0
+            absValue = 3.1
         case .rook:
-            return 5.0
+            absValue = 5.0
         case .queen:
-            return 9.0
+            absValue = 9.0
         case .king:
             return nil
+        }
+        
+        switch player {
+        case .white:
+            return absValue
+        case .black:
+            return -absValue
         }
     }
 }

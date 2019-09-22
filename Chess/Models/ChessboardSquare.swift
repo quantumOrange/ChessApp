@@ -70,7 +70,10 @@ extension Chessboard {
     }
     
     func squares(with piece:ChessPiece) -> [ChessboardSquare] {
-        squares.filter{ self[$0] == piece}
+        squares.filter{
+            guard let otherPiece = self[$0]  else { return false }
+            return ( otherPiece.kind == piece.kind && otherPiece.player == otherPiece.player )
+        }
     }
 }
 

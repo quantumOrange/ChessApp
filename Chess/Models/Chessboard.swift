@@ -54,17 +54,24 @@ extension Chessboard {
     static func start() ->  Chessboard {
         var board = Chessboard()
         
+        func id(rank:ChessRank,file:ChessFile) -> Int {
+            file.rawValue*8 + rank.rawValue
+        }
+        
         ChessFile.allCases.forEach{ file in
-            board[file , ._2] = ChessPiece(player: .white, kind: .pawn)
-            board[file , ._7] = ChessPiece(player: .black, kind: .pawn)
+            board[file , ._2] = ChessPiece(player: .white, kind: .pawn, id:id(rank: ._2, file: file))
+            board[file , ._7] = ChessPiece(player: .black, kind: .pawn, id:id(rank: ._7, file: file))
         }
         
         let pieces:[ChessPiece.Kind] = [.rook,.knight,.bishop,.queen,.king,.bishop,.knight,.rook]
         
         zip(ChessFile.allCases,pieces).forEach{ (file,kind) in
-            board[file , ._1] = ChessPiece(player: .white, kind: kind)
-            board[file , ._8] = ChessPiece(player: .black, kind: kind)
+            board[file , ._1] = ChessPiece(player: .white, kind: kind, id:id(rank: ._1, file: file))
+            board[file , ._8] = ChessPiece(player: .black, kind: kind, id:id(rank: ._8, file: file))
         }
+        
+      
+        
         return board
     }
        

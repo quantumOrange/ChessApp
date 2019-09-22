@@ -22,7 +22,8 @@ prefix func !(v:PlayerColor)-> PlayerColor {
     }
 }
 
-struct ChessPiece:Equatable {
+struct ChessPiece:Equatable,Identifiable {
+   
     
     enum Kind:Equatable,CaseIterable {
         case pawn
@@ -37,6 +38,9 @@ struct ChessPiece:Equatable {
     
     let kind:Kind
     
+    let id:Int
+    
+   
 }
 
 extension ChessPiece:CustomStringConvertible {
@@ -114,7 +118,7 @@ extension ChessPiece {
 
     static func random() -> ChessPiece {
         return ChessPiece(player: Bool.random() ?PlayerColor.black : PlayerColor.white,
-                          kind: Kind.allCases.randomElement()!)
+                          kind: Kind.allCases.randomElement()!, id:Int.random(in: 0...63))
     }
     
 }

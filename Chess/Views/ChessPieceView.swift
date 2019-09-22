@@ -8,13 +8,18 @@
 
 import SwiftUI
 
-struct ChessPieceView : View {
-   
+struct ChessPieceView : View, Identifiable {
+    
+    var id: Int {
+        return piece.id
+    }
+    
+    
     let piece:ChessPiece
     let width:CGFloat
     
     var backgroundPiece:ChessPiece {
-        return ChessPiece(player: .black, kind: piece.kind)
+        return ChessPiece(player: .black, kind: piece.kind, id:piece.id)
     }
     
     var body: some View {
@@ -30,9 +35,6 @@ struct ChessPieceView : View {
                 .foregroundColor(.black)
                 .frame(width: width, height: width, alignment: .center)
             
-            
-            
-            
         }
         
        
@@ -44,21 +46,21 @@ struct PieceView_Previews: PreviewProvider {
     static var previews: some View {
         HStack {
             VStack {
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .pawn), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .knight), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .bishop), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .rook), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .queen), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .king), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .black, kind: .pawn, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .black, kind: .knight, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .black, kind: .bishop, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .black, kind: .rook, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .black, kind: .queen, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .black, kind: .king, id:0), width: 60)
                 
             }
             VStack {
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .pawn), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .knight), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .bishop), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .rook), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .queen), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .king), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .white, kind: .pawn, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .white, kind: .knight, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .white, kind: .bishop, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .white, kind: .rook, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .white, kind: .queen, id:0), width: 60)
+                ChessPieceView(piece: ChessPiece(player: .white, kind: .king, id:0), width: 60)
                 
             }
             .background(Color.gray)

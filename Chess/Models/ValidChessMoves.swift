@@ -33,7 +33,7 @@ func validate(chessboard:Chessboard, move:ChessMove) -> Bool {
 func validMoves(chessboard:Chessboard) -> [ChessMove] {
     return uncheckedValidMoves(chessboard: chessboard)
             .filter {
-                !isInCheck(chessboard:applyMove(board:chessboard, move: $0), player: chessboard.whosTurnIsItAnyway)
+                !isInCheck(chessboard:apply(move: $0, to:chessboard ), player: chessboard.whosTurnIsItAnyway)
                     }
 }
 
@@ -55,12 +55,12 @@ func isInCheck(chessboard:Chessboard, player:PlayerColor) -> Bool {
     
     var board = chessboard
 
-    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king)).first else { return false }
+    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king,id:-1)).first else { return false }
     
     if player == board.whosTurnIsItAnyway  {
         //If we are looking to see if the current players king is in check, we need the other players moves
         //So we flip player with a null move
-        board = applyMove(board: chessboard,move:ChessMove.nullMove)
+        board = apply(move:ChessMove.nullMove, to: chessboard)
     }
      
     let enemyMoves = uncheckedValidMoves(chessboard:board)

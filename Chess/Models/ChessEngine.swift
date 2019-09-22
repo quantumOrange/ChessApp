@@ -16,7 +16,7 @@ struct ChessEngine {
         let multiplier:Float =  board.whosTurnIsItAnyway == .black ? -1.0 : 1.0
         
         let values = moves
-                    .map{ applyMove(board: board, move: $0)}
+                    .map{ apply( move: $0, to: board)}
                     .map { $0.evaluate()}
                     .map{ $0 + Float.random(in: -0.5...0.5) }
                     .map { $0 * multiplier }
@@ -32,5 +32,40 @@ struct ChessEngine {
             return nil
         }
     }
+}
+
+func pickMove2(for board:Chessboard) -> ChessMove? {
+       
+    evaluateMoves(chessboard:board, depth: 3)
+        .sorted()
+        .first?
+        .move
+}
+
+struct EvaluatedMove:Comparable {
+    static func < (lhs: EvaluatedMove, rhs: EvaluatedMove) -> Bool {
+        lhs.value < rhs.value
+    }
+    
+    let move:ChessMove
+    let value:Float
+}
+
+func evaluateMoves(chessboard:Chessboard, depth:Int) -> [EvaluatedMove] {
+    return evaluateMovesByPoints(board: chessboard)
+}
+
+func evaluateMovesByPoints(board:Chessboard) -> [EvaluatedMove] {
+    let moves = validMoves(chessboard:board)
+    
+    let values = moves
+                .map{ apply( move: $0 ,to: board) }
+                .map{ $0.evaluate()                     }
+                .map{ $0 + Float.random(in: -0.5...0.5) }
+              
+    
+    return zip(moves, values)
+                .map(EvaluatedMove.init)
+    
 }
 

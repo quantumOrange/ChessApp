@@ -34,7 +34,7 @@ func chessgameReducer(_ value:inout GameState,_ action:ChessUserAction)  {
             
             if value.chessboard.whosTurnIsItAnyway == .black {
                 if let blacksMove = ChessEngine.pickMove(for:value.chessboard){
-                    value.chessboard = applyMove(board: value.chessboard,move:blacksMove)
+                    value.chessboard = apply(move:blacksMove, to: value.chessboard)
                     value.gamePlayState = gamePlayState(chessboard: value.chessboard)
                 }
             }
@@ -80,7 +80,7 @@ func selectOrMove(to square:ChessboardSquare ,  value:inout GameState ) {
                 // We have everything we need to make a move, provided the move is valid.
                
                if validate(chessboard:value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
-                   value.chessboard = applyMove(board: value.chessboard, move: ChessMove(from: selectedSquare,to:square))
+                   value.chessboard = apply( move: ChessMove(from: selectedSquare,to:square), to:value.chessboard)
                    value.selectedSquare = nil
                }
            }

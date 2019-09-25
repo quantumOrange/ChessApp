@@ -69,6 +69,8 @@ extension Chessboard {
         }
     }
     
+    
+    
     func squares(with piece:ChessPiece) -> [ChessboardSquare] {
         squares.filter{
             guard let otherPiece = self[$0]  else { return false }

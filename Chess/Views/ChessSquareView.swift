@@ -50,19 +50,19 @@ struct ChessSquareView : View {
     
     
     var sqColor:Color {
-        
+        guard let color = squareColor?.color else { return Color.clear }
         let destSqs = store.value.possibleDestinationSquares
         
         
         let highlighted = self.selected || destSqs.contains(square)
         
         
-       return  highlighted ? Color.yellow : squareColor.color
+       return  highlighted ? Color.yellow : color
         
         
     }
     
-    let squareColor:SquareColor
+    let squareColor:SquareColor?
     let file:Int
     let rank:Int
     
@@ -71,9 +71,10 @@ struct ChessSquareView : View {
         Button(action:{
             self.store.send(.tapped(self.square))
         } ){
-                if piece != nil {
-                    ChessPieceView(piece: piece!, width:width)
-                }
+              //  if piece != nil {
+              //      ChessPieceView(piece: piece!, width:width)
+              //  }
+            Spacer().frame(width:width,height: width)
             }
             .frame(width:width, height: width, alignment: .center)
         .background(sqColor)

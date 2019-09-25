@@ -15,27 +15,18 @@ struct ChessboardView : View {
     let width:CGFloat
     var body: some View
         {
-            HStack(alignment: .center,spacing:0)
-            {
-                ForEach((0..<8))
-                { i in
-                    
-                    
-                    VStack(alignment: .center, spacing:0)
-                    {
-                        ForEach((0..<8)) { j in
-                            
-                                        ChessSquareView(
-                                                  store: self.store,
-                                            squareColor: SquareColor.at(file: i, rank: 7-j),file: i, rank: 7-j,width:self.width/8.0)
-                            
-                                        }
-                        
-                        
-                    }
-                    
-                }
-            }.animation(.easeInOut(duration: 2.0))
+        
+        
+              ZStack {
+               
+                ChessboardSquaresView(store: self.store, width: self.width)
+                ChessPiecesOnBoardView(store: self.store, width: self.width)
+                ChessboardTappableSquaresView(store: self.store, width: self.width)
+              
+                
+                
+            }
+                
         }
     
 }

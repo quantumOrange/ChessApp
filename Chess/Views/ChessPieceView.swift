@@ -8,39 +8,66 @@
 
 import SwiftUI
 
-struct ChessPieceView : View, Identifiable {
-    
+extension ChessboardSquare:Identifiable {
     var id: Int {
-        return piece.id
+        (self.file.rawValue * 8 + self.rank.rawValue)
+    }
+}
+
+class PieceViewModel:ObservableObject,Identifiable {
+    var id:Int {
+        return piece?.id ?? -square.id
     }
     
+    init(piece:ChessPiece?,square:ChessboardSquare){
+        self.piece = piece
+        self.square = square
+    }
     
-    let piece:ChessPiece
+     @Published var square:ChessboardSquare
+     @Published var piece:ChessPiece?
+}
+
+struct ChessPieceView : View,Identifiable {
+    
+    var id: Int {
+        vm.id
+    }
+        
+        
+    @ObservedObject var vm:PieceViewModel
+   
     let width:CGFloat
     
-    var backgroundPiece:ChessPiece {
-        return ChessPiece(player: .black, kind: piece.kind, id:piece.id)
+    var backgroundPiece:String {
+        guard let piece = vm.piece else { return "" }
+        return ChessPiece(player: .black, kind: piece.kind, id:piece.id).symbol
     }
     
     var body: some View {
         ZStack {
             
-            Text(verbatim:"\(backgroundPiece.symbol)")
+            Text(verbatim:"\(backgroundPiece)")
                 .font(.system(size: width, weight: .thin, design: .monospaced))
                 .foregroundColor(.white)
                 .frame(width: width, height: width, alignment: .center)
             
-            Text(verbatim:"\(piece.symbol)")
+            
+            Text(verbatim:"\(vm.piece?.symbol  ?? "" )")
                 .font(.system(size: width, weight: .bold, design: .monospaced))
                 .foregroundColor(.black)
                 .frame(width: width, height: width, alignment: .center)
             
-        }
+            
+        }.offset(x: width * CGFloat(vm.square.file.rawValue ), y:  -width * CGFloat(vm.square.rank.rawValue ))
+            .animation(.easeInOut(duration: 1.0))
+    
+        
         
        
     }
 }
-
+/*
 #if DEBUG
 struct PieceView_Previews: PreviewProvider {
     static var previews: some View {
@@ -70,3 +97,4 @@ struct PieceView_Previews: PreviewProvider {
     }
 }
 #endif
+*/

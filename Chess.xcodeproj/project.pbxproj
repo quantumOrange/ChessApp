@@ -21,6 +21,8 @@
 		544F297C23251BC4005E79EA /* ChessboardReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F297B23251BC4005E79EA /* ChessboardReducer.swift */; };
 		544F297E23252D4A005E79EA /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544F297D23252D4A005E79EA /* AppStore.swift */; };
 		5453E316232D974F007DBDC8 /* ValidChessMoves.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5453E315232D974F007DBDC8 /* ValidChessMoves.swift */; };
+		5466A5282337F0130026F80D /* ChessPiecesOnBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5466A5272337F0130026F80D /* ChessPiecesOnBoardView.swift */; };
+		5466A52A2338021D0026F80D /* ChessboardSquaresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5466A5292338021D0026F80D /* ChessboardSquaresView.swift */; };
 		546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41B922F35DFB0033785F /* AppDelegate.swift */; };
 		546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41BB22F35DFB0033785F /* SceneDelegate.swift */; };
 		546F41C022F35DFD0033785F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 546F41BF22F35DFD0033785F /* Assets.xcassets */; };
@@ -66,6 +68,8 @@
 		544F297B23251BC4005E79EA /* ChessboardReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardReducer.swift; sourceTree = "<group>"; };
 		544F297D23252D4A005E79EA /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		5453E315232D974F007DBDC8 /* ValidChessMoves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidChessMoves.swift; sourceTree = "<group>"; };
+		5466A5272337F0130026F80D /* ChessPiecesOnBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiecesOnBoardView.swift; sourceTree = "<group>"; };
+		5466A5292338021D0026F80D /* ChessboardSquaresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardSquaresView.swift; sourceTree = "<group>"; };
 		546F41B622F35DFB0033785F /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		546F41B922F35DFB0033785F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		546F41BB22F35DFB0033785F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,7 +134,9 @@
 			isa = PBXGroup;
 			children = (
 				544C088C2309DAD80075B987 /* ChessSquareView.swift */,
+				5466A5292338021D0026F80D /* ChessboardSquaresView.swift */,
 				544C08892309D01D0075B987 /* ChessPieceView.swift */,
+				5466A5272337F0130026F80D /* ChessPiecesOnBoardView.swift */,
 				544C08872309C9460075B987 /* ChessboardView.swift */,
 				544C088E2309DD850075B987 /* ChessGameView.swift */,
 				544C08852309C8EE0075B987 /* PlayerView.swift */,
@@ -348,6 +354,7 @@
 				544F297723251881005E79EA /* Architecture.swift in Sources */,
 				544C08842309C8AC0075B987 /* GameState.swift in Sources */,
 				546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */,
+				5466A52A2338021D0026F80D /* ChessboardSquaresView.swift in Sources */,
 				546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */,
 				544B2210232E493E00659FA5 /* ChessboardSquare.swift in Sources */,
 				544C08922309EEBF0075B987 /* ChessMove.swift in Sources */,
@@ -362,6 +369,7 @@
 				544C088F2309DD850075B987 /* ChessGameView.swift in Sources */,
 				544F297A23251B13005E79EA /* ChessGameReducer.swift in Sources */,
 				544C08882309C9460075B987 /* ChessboardView.swift in Sources */,
+				5466A5282337F0130026F80D /* ChessPiecesOnBoardView.swift in Sources */,
 				546F41EC22F35EE40033785F /* Chessboard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

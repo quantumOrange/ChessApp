@@ -60,7 +60,7 @@ func isInCheck(chessboard:Chessboard, player:PlayerColor) -> Bool {
     if player == board.whosTurnIsItAnyway  {
         //If we are looking to see if the current players king is in check, we need the other players moves
         //So we flip player with a null move
-        board = apply(move:ChessMove.nullMove, to: chessboard)
+        board = apply(move:ChessMove.nullMove, to: board)
     }
      
     let enemyMoves = uncheckedValidMoves(chessboard:board)

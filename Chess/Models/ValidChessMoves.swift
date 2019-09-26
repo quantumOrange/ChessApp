@@ -55,7 +55,7 @@ func isInCheck(chessboard:Chessboard, player:PlayerColor) -> Bool {
     
     var board = chessboard
 
-    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king,id:-1)).first else { return false }
+    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king,id:-1)).first else { fatalError() }
     
     if player == board.whosTurnIsItAnyway  {
         //If we are looking to see if the current players king is in check, we need the other players moves

@@ -8,9 +8,34 @@
 
 import Foundation
 
+enum AuxilleryChessMove:Equatable {
+    case none
+    case promote(ChessPiece) //for pawn promotion
+    case double(Move) //for castleing
+}
+
 struct ChessMove:Equatable {
+    
     let from:ChessboardSquare
     let to:ChessboardSquare
+    
+   
+    let auxillery:AuxilleryChessMove
+    
+    init( from:ChessboardSquare,to:ChessboardSquare, aux:AuxilleryChessMove = .none) {
+        self.auxillery = aux
+        self.from = from
+        self.to = to
+    }
+}
+
+struct Move:Equatable {
+    let from:ChessboardSquare
+    let to:ChessboardSquare
+    
+    var chessMove:ChessMove {
+        ChessMove(from: from, to: to)
+    }
 }
 
 func isYourPiece(chessboard:Chessboard, move:ChessMove) -> Bool {

@@ -71,9 +71,6 @@ struct ChessSquareView : View {
         Button(action:{
             self.store.send(.tapped(self.square))
         } ){
-              //  if piece != nil {
-              //      ChessPieceView(piece: piece!, width:width)
-              //  }
             Spacer().frame(width:width,height: width)
             }
             .frame(width:width, height: width, alignment: .center)

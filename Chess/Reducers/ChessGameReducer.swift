@@ -25,7 +25,7 @@ func chessgameReducer(_ value:inout GameState,_ action:ChessUserAction)  {
     guard case .inPlay = value.gamePlayState else { return }
     switch action {
     case .tapped(let square):
-        print("TAPPED")
+        print("TAPPED \(square)")
         if value.chessboard.whosTurnIsItAnyway == .white {
             
             selectOrMove(to:square , value:&value)

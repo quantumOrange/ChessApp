@@ -16,15 +16,12 @@ struct ChessboardView : View {
     var body: some View
         {
         
-        
               ZStack {
-               
+            
                 ChessboardSquaresView(store: self.store, width: self.width)
                 ChessPiecesOnBoardView(store: self.store, width: self.width)
-                ChessboardTappableSquaresView(store: self.store, width: self.width)
+                TappableCheckersView(store: self.store, width: self.width)
               
-                
-                
             }
                 
         }

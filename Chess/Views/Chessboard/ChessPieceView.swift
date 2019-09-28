@@ -41,7 +41,7 @@ struct ChessPieceView : View,Identifiable {
     
     var backgroundPiece:String {
         guard let piece = vm.piece else { return "" }
-        return ChessPiece(player: .black, kind: piece.kind, id:piece.id).symbol
+        return ChessPiece(player:.black, kind: piece.kind, id:piece.id).symbol
     }
     
     var body: some View {

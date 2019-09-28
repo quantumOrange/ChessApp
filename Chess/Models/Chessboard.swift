@@ -123,6 +123,8 @@ extension Chessboard {
 
 
 enum ChessFile:Int,CaseIterable,Equatable {
+    
+    
     case a = 0,b,c,d,e,f,g,h
 }
 
@@ -130,6 +132,17 @@ enum ChessRank:Int,CaseIterable,Equatable{
     case _1 = 0 ,_2,_3,_4,_5,_6,_7,_8
 }
 
+extension ChessRank:Identifiable {
+    var id: Int {
+        rawValue
+    }
+}
+
+extension ChessFile:Identifiable {
+    var id: Int {
+        rawValue
+    }
+}
 
 
 

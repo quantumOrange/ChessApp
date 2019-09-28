@@ -20,7 +20,6 @@ struct PlayerView : View {
             Text(name)
         }
         
-        
     }
     
     var color:Color {

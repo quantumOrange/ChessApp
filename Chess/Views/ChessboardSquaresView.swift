@@ -12,10 +12,8 @@ struct ChessboardSquaresView: View {
     
     @ObservedObject var store: Store<GameState,ChessUserAction>
          
-         
     let width:CGFloat
     
-
     var body: some View {
         HStack(alignment: .center,spacing:0)
                        {

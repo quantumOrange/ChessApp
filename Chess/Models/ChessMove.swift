@@ -10,7 +10,7 @@ import Foundation
 
 enum AuxilleryChessMove:Equatable {
     case none
-    case promote(ChessPiece) //for pawn promotion
+    case promote(ChessPiece.Kind) //for pawn promotion
     case double(Move) //for castleing
 }
 
@@ -19,13 +19,17 @@ struct ChessMove:Equatable {
     let from:ChessboardSquare
     let to:ChessboardSquare
     
-   
     let auxillery:AuxilleryChessMove
     
     init( from:ChessboardSquare,to:ChessboardSquare, aux:AuxilleryChessMove = .none) {
         self.auxillery = aux
         self.from = from
         self.to = to
+    }
+    
+    var promotion:ChessPiece.Kind? {
+        guard case .promote(let piece) = auxillery else { return nil }
+        return piece
     }
 }
 

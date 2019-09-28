@@ -8,26 +8,32 @@
 
 import Foundation
 
-func validate(chessboard:Chessboard, move:ChessMove) -> Bool {
+func validate(chessboard:Chessboard, move:ChessMove) -> ChessMove? {
     
     guard let thePieceToMove = chessboard[move.from] else {
         //You can't move nothing
-        return false
+        return nil
     }
     
     if !isYourPiece(chessboard: chessboard, move: move) {
-        return false
+        return nil
     }
     
     if let thePieceToCapture = chessboard[move.to] {
         if thePieceToMove.player == thePieceToCapture.player {
             //you can't capture your own piece
-            return false
+            return nil
         }
     }
     
-    return validMoves(chessboard: chessboard).contains(where: {$0 == move})
+    func primaryMoveIsEqual(lhs:ChessMove,rhs:ChessMove) -> Bool {
+        // Equal up to auxillary move (which is ignored)
+        // User only indicates the primary move.
+        return (lhs.from == rhs.from) && (lhs.to == rhs.to)
+    }
     
+    //return validMoves(chessboard: chessboard).contains(where: {primaryMoveIsEqual(lhs: $0, rhs: move)})
+    return validMoves(chessboard: chessboard).first(where: {primaryMoveIsEqual(lhs: $0, rhs: move)})
 }
 
 func validMoves(chessboard:Chessboard) -> [ChessMove] {
@@ -130,21 +136,33 @@ func makeMove(board:Chessboard, from:ChessboardSquare, to:ChessboardSquare) -> C
 func makePawnForwardMove(board:Chessboard, from:ChessboardSquare, to:ChessboardSquare) -> ChessMove? {
     //Pawns cannot take moving forward, so "to" square must be empty
     
-    guard  board[to] == nil else  { return nil }
-    
-    return ChessMove(from: from, to: to)
+    guard let player = board[from]?.player,  board[to] == nil
+        else  { return nil }
+   
+    return promotePawnIfValid(move:ChessMove(from: from, to: to), player:player)
 }
 
+func promotePawnIfValid(move:ChessMove,player:PlayerColor) -> ChessMove {
+    let farRank  = (player == .white ) ? ChessRank._8 : ChessRank._1
+    
+    if move.to.rank == farRank {
+        return ChessMove(from:move.from,to:move.to,aux: .promote( .queen))
+    }
+    else {
+        return move
+    }
+}
 
 func makePawnTakingdMove(board:Chessboard, from:ChessboardSquare, to:ChessboardSquare?) -> ChessMove? {
     //Pawns can only take diagonaly, so "to" square must contain an enemy piece
     
     guard  let to = to,
         let piece = board[to],
+         let player = board[from]?.player,
         board.whosTurnIsItAnyway != piece.player
             else  { return nil }
     
-    return ChessMove(from: from, to: to)
+    return promotePawnIfValid(move:ChessMove(from: from, to: to), player:player)
 }
 
 func validPawnMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
@@ -216,15 +234,75 @@ func validKnightMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] 
                 .compactMap{ makeMove(board: board, from: square, to: $0) }
 }
 
+extension Chessboard {
+    var currentPlayersCastelState:CastelState {
+        switch self.whosTurnIsItAnyway {
+        case .white:
+            return self.whiteCastelState
+        case .black:
+            return self.blackCastelState
+        }
+    }
+}
+
 func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
+    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: board.whosTurnIsItAnyway, kind:.king,id:-1)).first else { fatalError() }
+    
     
     let directions = ChessboardSquare.Direction.allCases
     
-    //TODO : Castling
+    var moves = directions
+                    .compactMap{square.getNeighbour($0)}
+                    .compactMap{ makeMove(board: board, from: square, to: $0) }
     
-    return directions
-                .compactMap{square.getNeighbour($0)}
-                .compactMap{ makeMove(board: board, from: square, to: $0) }
+    
+    let castleState = board.currentPlayersCastelState
+    
+    //TODO : rules of casteling - cannot castle if square are controled by enemy!
+    let rank = kingSquare.rank
+    if castleState.canCastleKingside {
+        print("can castle kingside")
+        let ocupiedSquares = [ChessboardSquare(rank:rank , file: .g),
+                              ChessboardSquare(rank:rank , file: .f)]
+                                                        .compactMap{board[$0]}
+        
+        if ocupiedSquares.count == 0 {
+            print("No occupied squares kingside  \( board.whosTurnIsItAnyway)")
+            let rookSquare = ChessboardSquare(rank:rank , file: .h)
+            let rookTo = kingSquare.getNeighbour(.right)
+            let kingTo = rookTo!.getNeighbour(.right)!
+            let rookMove = Move(from:rookSquare, to: rookTo!)
+            moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
+        }
+        else
+        {
+            print("Occupied squares kingside \(ocupiedSquares.count)")
+        }
+        
+       
+    }
+    
+    if castleState.canCastleQueenside {
+       print("can castle queenside \( board.whosTurnIsItAnyway)")
+        let ocupiedSquares = [ChessboardSquare(rank:rank , file: .b),
+                              ChessboardSquare(rank:rank , file: .c),
+                              ChessboardSquare(rank:rank , file: .d)]
+                                                            .compactMap{board[$0]}
+        if ocupiedSquares.count == 0 {
+             print("No occupied squares queenside")
+            let rookSquare = ChessboardSquare(rank: rank, file: .a)
+            let rookTo = kingSquare.getNeighbour(.left)
+            let kingTo = rookTo!.getNeighbour(.left)!
+            let rookMove = Move(from:rookSquare, to: rookTo!)
+            moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
+        }
+        else
+        {
+            print("Occupied squares queenside \(ocupiedSquares.count)")
+        }
+    }
+   // print(moves.count)
+    return moves
 }
 
 

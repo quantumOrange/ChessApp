@@ -70,8 +70,6 @@ extension Chessboard {
             board[file , ._8] = ChessPiece(player: .black, kind: kind, id:id(rank: ._8, file: file))
         }
         
-      
-        
         return board
     }
        

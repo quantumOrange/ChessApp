@@ -23,7 +23,6 @@ extension ChessboardSquare {
     
     func getNeighbour(_ direction:Direction) -> ChessboardSquare? {
         
-        
         var rawRank = rank.rawValue
         var rawFile = file.rawValue
         
@@ -68,8 +67,6 @@ extension Chessboard {
             }
         }
     }
-    
-    
     
     func squares(with piece:ChessPiece) -> [ChessboardSquare] {
         squares.filter{

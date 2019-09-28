@@ -79,8 +79,8 @@ func selectOrMove(to square:ChessboardSquare ,  value:inout GameState ) {
                 //We already have a selected "from" square, and so this is a proposed "to" square.
                 // We have everything we need to make a move, provided the move is valid.
                
-               if validate(chessboard:value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
-                   value.chessboard = apply( move: ChessMove(from: selectedSquare,to:square), to:value.chessboard)
+               if let validatedMove = validate(chessboard:value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
+                   value.chessboard = apply( move: validatedMove, to:value.chessboard)
                    value.selectedSquare = nil
                }
            }

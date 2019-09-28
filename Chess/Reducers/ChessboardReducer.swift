@@ -23,7 +23,33 @@ func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
     
     if let pieceToMove = board[move.from] {
         board[move.from] = nil;
-        board[move.to] = pieceToMove
+        
+        
+        switch move.auxillery {
+            
+        case .none:
+            print("Basic")
+            board[move.to] = pieceToMove
+            
+        case .promote(let kind):
+            print("Pawn promtoin")
+             //Pawn promotion
+             board[move.to] = ChessPiece(player: pieceToMove.player, kind:kind, id: pieceToMove.id)
+            
+        case .double(let secondMove):
+            print("Castleing!")
+            //Castleing
+            board[move.to] = pieceToMove
+            
+            if let secondPieceToMove = board[secondMove.from] {
+                print("Moving castle")
+                board[secondMove.from] = nil;
+                board[secondMove.to] = secondPieceToMove
+            }
+            
+        
+        }
+        
     }
     
     board.moves.append(move)
@@ -38,8 +64,8 @@ enum ChessAction {
 func chessReducer( board:inout Chessboard, action:ChessAction)  {
     switch action {
     case .move(let move):
-         if validate(chessboard:board, move:move) {
-            board = apply(move: move, to: board)
+         if let validatedMove = validate(chessboard:board, move:move) {
+            board = apply(move:validatedMove, to: board)
          }
     }
 }

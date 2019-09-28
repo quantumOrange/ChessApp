@@ -19,7 +19,6 @@ func chessboardReducer( board:inout Chessboard, action:ChessAction)  {
 
 
 func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
-    print("Apply move \(move) ")
     var board = board
     
     if let pieceToMove = board[move.from] {

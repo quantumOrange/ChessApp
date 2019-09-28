@@ -261,47 +261,39 @@ func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
     //TODO : rules of casteling - cannot castle if square are controled by enemy!
     let rank = kingSquare.rank
     if castleState.canCastleKingside {
-        print("can castle kingside")
+       
         let ocupiedSquares = [ChessboardSquare(rank:rank , file: .g),
                               ChessboardSquare(rank:rank , file: .f)]
                                                         .compactMap{board[$0]}
         
         if ocupiedSquares.count == 0 {
-            print("No occupied squares kingside  \( board.whosTurnIsItAnyway)")
+          
             let rookSquare = ChessboardSquare(rank:rank , file: .h)
             let rookTo = kingSquare.getNeighbour(.right)
             let kingTo = rookTo!.getNeighbour(.right)!
             let rookMove = Move(from:rookSquare, to: rookTo!)
             moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
         }
-        else
-        {
-            print("Occupied squares kingside \(ocupiedSquares.count)")
-        }
-        
-       
+    
     }
     
     if castleState.canCastleQueenside {
-       print("can castle queenside \( board.whosTurnIsItAnyway)")
+       
         let ocupiedSquares = [ChessboardSquare(rank:rank , file: .b),
                               ChessboardSquare(rank:rank , file: .c),
                               ChessboardSquare(rank:rank , file: .d)]
                                                             .compactMap{board[$0]}
         if ocupiedSquares.count == 0 {
-             print("No occupied squares queenside")
+            
             let rookSquare = ChessboardSquare(rank: rank, file: .a)
             let rookTo = kingSquare.getNeighbour(.left)
             let kingTo = rookTo!.getNeighbour(.left)!
             let rookMove = Move(from:rookSquare, to: rookTo!)
             moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
         }
-        else
-        {
-            print("Occupied squares queenside \(ocupiedSquares.count)")
-        }
+       
     }
-   // print(moves.count)
+   
     return moves
 }
 

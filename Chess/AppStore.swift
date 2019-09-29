@@ -9,7 +9,7 @@
 import Foundation
 
 
-    func chessStore() -> Store<GameState,AppAction > {
-      Store<GameState,AppAction >(initialValue: GameState(), reducer:appReducer )
+    func chessStore() -> Store<AppState,AppAction > {
+      Store<AppState,AppAction >(initialValue: AppState(), reducer:appReducer )
     }
 

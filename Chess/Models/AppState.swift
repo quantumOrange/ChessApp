@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct GameState {
+struct AppState {
     var chessboard:Chessboard =  Chessboard.start()
-    
+    var selectedSquare:ChessboardSquare?
     var players:Players = Players.dummys()
     var gamePlayState = GamePlayState.inPlay
 }

@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		543FB87F233F782C002AED8F /* TappableCheckersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543FB87E233F782C002AED8F /* TappableCheckersView.swift */; };
+		543FB8832340EF96002AED8F /* SelectedSquareReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543FB8822340EF96002AED8F /* SelectedSquareReducer.swift */; };
 		544B2210232E493E00659FA5 /* ChessboardSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B220F232E493E00659FA5 /* ChessboardSquare.swift */; };
 		544B2212232E9F5600659FA5 /* ValidMovesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544B2211232E9F5600659FA5 /* ValidMovesTests.swift */; };
-		544C08842309C8AC0075B987 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C08832309C8AC0075B987 /* GameState.swift */; };
+		544C08842309C8AC0075B987 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C08832309C8AC0075B987 /* AppState.swift */; };
 		544C08862309C8EE0075B987 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C08852309C8EE0075B987 /* PlayerView.swift */; };
 		544C08882309C9460075B987 /* ChessboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C08872309C9460075B987 /* ChessboardView.swift */; };
 		544C088A2309D01D0075B987 /* ChessPieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544C08892309D01D0075B987 /* ChessPieceView.swift */; };
@@ -55,9 +56,10 @@
 
 /* Begin PBXFileReference section */
 		543FB87E233F782C002AED8F /* TappableCheckersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TappableCheckersView.swift; path = ../TappableCheckersView.swift; sourceTree = "<group>"; };
+		543FB8822340EF96002AED8F /* SelectedSquareReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedSquareReducer.swift; sourceTree = "<group>"; };
 		544B220F232E493E00659FA5 /* ChessboardSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardSquare.swift; sourceTree = "<group>"; };
 		544B2211232E9F5600659FA5 /* ValidMovesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidMovesTests.swift; sourceTree = "<group>"; };
-		544C08832309C8AC0075B987 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		544C08832309C8AC0075B987 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		544C08852309C8EE0075B987 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		544C08872309C9460075B987 /* ChessboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardView.swift; sourceTree = "<group>"; };
 		544C08892309D01D0075B987 /* ChessPieceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPieceView.swift; sourceTree = "<group>"; };
@@ -130,7 +132,7 @@
 		544C088B2309DA080075B987 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				544C08832309C8AC0075B987 /* GameState.swift */,
+				544C08832309C8AC0075B987 /* AppState.swift */,
 				54E2FEEC23003082009F60C0 /* User.swift */,
 				546F41E922F35ED40033785F /* ChessPiece.swift */,
 				546F41EB22F35EE40033785F /* Chessboard.swift */,
@@ -157,6 +159,7 @@
 			children = (
 				544F297923251B13005E79EA /* AppReducer.swift */,
 				544F297B23251BC4005E79EA /* ChessReducer.swift */,
+				543FB8822340EF96002AED8F /* SelectedSquareReducer.swift */,
 			);
 			path = Reducers;
 			sourceTree = "<group>";
@@ -360,7 +363,7 @@
 			files = (
 				54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */,
 				544F297723251881005E79EA /* Architecture.swift in Sources */,
-				544C08842309C8AC0075B987 /* GameState.swift in Sources */,
+				544C08842309C8AC0075B987 /* AppState.swift in Sources */,
 				546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */,
 				5466A52A2338021D0026F80D /* ChessboardSquaresView.swift in Sources */,
 				546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */,
@@ -378,6 +381,7 @@
 				544C08882309C9460075B987 /* ChessboardView.swift in Sources */,
 				5466A5282337F0130026F80D /* ChessPiecesOnBoardView.swift in Sources */,
 				546F41EC22F35EE40033785F /* Chessboard.swift in Sources */,
+				543FB8832340EF96002AED8F /* SelectedSquareReducer.swift in Sources */,
 				543FB87F233F782C002AED8F /* TappableCheckersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

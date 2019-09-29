@@ -43,9 +43,7 @@ extension SquareColor {
 
 struct ChessboardSquaresView: View {
     
-    @ObservedObject var store: Store<GameState,AppAction>
-    
-    @Binding var selectedSquare:ChessboardSquare?
+    @ObservedObject var store: Store<AppState,AppAction>
     
     let width:CGFloat
     
@@ -54,7 +52,7 @@ struct ChessboardSquaresView: View {
     }
     
     var possibleDestinationSquares:[ChessboardSquare] {
-        guard let selected = selectedSquare else { return [] }
+        guard let selected = store.value.selectedSquare else { return [] }
         
         return validMoves(chessboard: store.value.chessboard, for: selected).map { $0.to}
     }
@@ -66,7 +64,7 @@ struct ChessboardSquaresView: View {
         
         let couldMoveToSquare = possibleDestinationSquares.contains(square)
         
-        let selected = selectedSquare == square
+        let selected = store.value.selectedSquare == square
         
         let highlighted = selected || couldMoveToSquare
         

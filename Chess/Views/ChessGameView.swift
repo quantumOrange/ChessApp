@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ChessGameView : View {
-    @ObservedObject var store: Store<GameState,AppAction>
+    @ObservedObject var store: Store<AppState,AppAction>
     
     var body: some View {
         GeometryReader { geometry in

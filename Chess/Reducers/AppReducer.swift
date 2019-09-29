@@ -10,12 +10,17 @@ import Foundation
 
 enum AppAction {
     case chess(ChessAction)
+    case selection(SelectionAction)
 }
 
-func appReducer(_ value:inout GameState,_ action:AppAction)  {
+func appReducer(_ value:inout AppState,_ action:AppAction)  {
     switch action {
     case .chess(let chessAction):
         chessReducer(board: &value.chessboard, action: chessAction)
+    
+    case .selection(let selectionAction):
+        selectedSquareReducer(state: &value, action: selectionAction)
+        
     }
 }
 

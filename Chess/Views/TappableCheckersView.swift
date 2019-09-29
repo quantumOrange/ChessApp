@@ -9,9 +9,7 @@
 import SwiftUI
 struct TappableCheckersView: View {
     
-    @ObservedObject var store: Store<GameState,AppAction>
-         
-    @Binding var selectedSquare:ChessboardSquare?
+    @ObservedObject var store: Store<AppState,AppAction>
     
     let width:CGFloat
     
@@ -19,36 +17,16 @@ struct TappableCheckersView: View {
         return width/8.0
     }
     
-    func selectOrMove(to square:ChessboardSquare, board:Chessboard ) {
-        guard let selectedSquare = selectedSquare else {
-                   //no square is selected, so we can select the tapped square if it has the right color of piece.
-                    print("No square is selected")
-                   if isYourPiece(chessboard:board , square: square) {
-                     print("Selecting \(square)")
-                        self.selectedSquare = square
-                   }
-                   
-                   return
-               }
-           
-               if selectedSquare == square {
-                   //Tapping the selected square, so toggle off!
-                self.selectedSquare = nil
-               } else {
-                   print("We have a selected square and we will apply a move")
-                    //We already have a selected "from" square, and so this is a proposed "to" square.
-                    // We have everything we need to make a move, provided the move is valid.
-                   
-                if let validatedMove = validate(chessboard:store.value.chessboard, move: ChessMove(from: selectedSquare,to:square)) {
-                    print("Apply validated move \(validatedMove) for \(board.whosTurnIsItAnyway )")
-                    store.send(.chess(.move(validatedMove)))
-                    self.selectedSquare = nil
-                   }
-               }
+    func selectOrMove(to square:ChessboardSquare) {
+        store.send(.selection(.select(square)))
+        
+        if let selectedSquare = store.value.selectedSquare, selectedSquare != square {
+            let move =  ChessMove(from: selectedSquare,to:square)
+            store.send(.chess(.move(move)))
+            
+        }
     }
 
-    
-    
     var body: some View {
         HStack(alignment: .center,spacing:0)
                        {
@@ -60,8 +38,7 @@ struct TappableCheckersView: View {
                                 ForEach(ChessRank.allCases.reversed()) { rank in
                                        
                                                    Button(action:{
-                                                        print("Send tap action for  \(rank) \(file)")
-                                                    self.selectOrMove(to: ChessboardSquare(rank:rank, file:file), board:self.store.value.chessboard )
+                                                    self.selectOrMove(to:ChessboardSquare(rank:rank, file:file))
                                                    } ){
                                                     Spacer().frame(width:self.squareWidth,height: self.squareWidth)
                                                        }

@@ -9,17 +9,17 @@
 import SwiftUI
 
 struct ChessboardView : View {
-    @ObservedObject var store: Store<GameState,AppAction>
-    @State var selectedSquare:ChessboardSquare? = nil
+    @ObservedObject var store: Store<AppState,AppAction>
+ //   @State var selectedSquare:ChessboardSquare? = nil
     
     let width:CGFloat
     var body: some View
         {
         
               ZStack {
-                ChessboardSquaresView(store: self.store, selectedSquare:self.$selectedSquare, width: self.width)
+                ChessboardSquaresView(store: self.store, width: self.width)
                 ChessPiecesOnBoardView(store: self.store, width: self.width)
-                TappableCheckersView(store: self.store, selectedSquare:self.$selectedSquare, width: self.width)
+                TappableCheckersView(store: self.store, width: self.width)
             }
                 
         }

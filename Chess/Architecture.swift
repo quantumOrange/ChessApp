@@ -14,10 +14,8 @@ import Combine
 final class Store<Value, Action>: ObservableObject {
   let reducer: (inout Value, Action) -> Void
   @Published private(set) var value: Value
-    //@Published var value: Value
 
   init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
-    print("---init app store---")
     self.reducer = reducer
     self.value = initialValue
   }
@@ -25,6 +23,26 @@ final class Store<Value, Action>: ObservableObject {
   func send(_ action: Action) {
     self.reducer(&self.value, action)
   }
+    
+    var cancelable:Cancellable?
+
+    func wormhole<LocalValue,LocalAction>( focus:@escaping (Value)->LocalValue , lift:@escaping (LocalAction)->Action ) -> Store<LocalValue,LocalAction>
+    
+    {
+        let localStore = Store<LocalValue, LocalAction>(initialValue: focus(value), reducer: { localValue , localAction in            self.send(lift(localAction))
+            localValue = focus(self.value)
+        })
+        
+        localStore.cancelable = self.$value.sink{ [weak localStore] newValue in
+                localStore?.value = focus(newValue)
+        }
+        
+        return localStore
+    }
+}
+
+func id<A>(a:A)->A {
+    a
 }
 
 func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
@@ -38,7 +56,9 @@ func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
   }
 }
 
-func combine<Value, Action>(
+infix operator <>
+
+func compose<Value, Action>(
   _ reducers: (inout Value, Action) -> Void...
 ) -> (inout Value, Action) -> Void {
   return { value, action in

@@ -36,9 +36,6 @@ struct Chessboard {
         }
     }
     
-    var turn:PlayerColor = .white
-    
-    
 }
 
 

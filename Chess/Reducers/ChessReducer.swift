@@ -8,12 +8,30 @@
 
 import Foundation
 
-func chessboardReducer( board:inout Chessboard, action:ChessAction)  {
+enum ChessAction {
+    case move(ChessMove)
+    case resign(PlayerColor)
+    case offerDraw(PlayerColor)
+}
+
+func chessReducer( board:inout Chessboard, action:ChessAction)  {
     switch action {
     case .move(let move):
-        board[move.to.file,move.to.rank] = board[move.from.file,move.from.rank]
-        board[move.from.file,move.from.rank] = nil;
-        board.moves.append(move)
+        print("try move...")
+         if let validatedMove = validate(chessboard:board, move:move) {
+            print("     ...move ok")
+            print(move)
+            board = apply(move:validatedMove, to: board)
+            print(board)
+        }
+         else {
+            print(" move fail")
+        }
+        
+    case .offerDraw(let player):
+        break
+    case .resign(let player):
+        break
     }
 }
 
@@ -51,20 +69,10 @@ func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
     }
     
     board.moves.append(move)
+    //board.playState = playState(chessboard:board)
     
     return board
 }
 
-enum ChessAction {
-    case move(ChessMove)
-}
 
-func chessReducer( board:inout Chessboard, action:ChessAction)  {
-    switch action {
-    case .move(let move):
-         if let validatedMove = validate(chessboard:board, move:move) {
-            board = apply(move:validatedMove, to: board)
-         }
-    }
-}
 

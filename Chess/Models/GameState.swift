@@ -10,20 +10,35 @@ import Foundation
 
 struct GameState {
     var chessboard:Chessboard =  Chessboard.start()
-    var selectedSquare:ChessboardSquare? = nil
+    
     var players:Players = Players.dummys()
     var gamePlayState = GamePlayState.inPlay
 }
 
-extension GameState {
-    var possibleDestinationSquares:[ChessboardSquare] {
-        guard let selected = selectedSquare else { return [] }
-        
-        return validMoves(chessboard: chessboard, for: selected).map { $0.to}
-            
-        
-    }
-
+enum GamePlayState {
+    case won(PlayerColor)
+    case draw
+  //  case noStarted
+  // case abandoned
+    case inPlay
 }
+
+func gamePlayState(chessboard:Chessboard) -> GamePlayState {
+    
+    let checked = isInCheck(chessboard: chessboard, player:chessboard.whosTurnIsItAnyway)
+    
+    let currentPlayerCanMove = validMoves(chessboard:chessboard).count > 0
+    
+    if checked && !currentPlayerCanMove {
+        //checkmate!
+        return .won(!(chessboard.whosTurnIsItAnyway))
+    }
+    
+    if !checked && !currentPlayerCanMove {
+        return .draw
+    }
+    return .inPlay
+}
+
 
 

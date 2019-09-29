@@ -8,12 +8,14 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
+    var cancelable:AnyCancellable?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -24,7 +26,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: ChessGameView(store:chessStore()))
+            
+            let store = chessStore()
+            
+            let pub = store.$value
+                                .map{$0.chessboard.whosTurnIsItAnyway}
+                                .receive(on:RunLoop.main)
+                                .removeDuplicates()
+                                .delay(for: 1.0, scheduler: RunLoop.main)
+                                .sink(receiveValue: { requestMoveIfNeeded(player:$0,store:store)})
+            
+            func requestMoveIfNeeded(player:PlayerColor,store:Store<GameState,AppAction>) {
+                if(player == .black) {
+                    print( "Player is Black")
+                    requestMove(store:store)
+                }
+                else {
+                    print( "Player is White")
+                }
+            }
+            
+            func requestMove(store:Store<GameState,AppAction>) {
+                let board = store.value.chessboard
+                if let move = ChessEngine.pickMove(for:board){
+                    print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
+                   store.send(.chess(.move(move)))
+                }
+            }
+            
+            window.rootViewController = UIHostingController(rootView: ChessGameView(store:store))
             self.window = window
             window.makeKeyAndVisible()
         }

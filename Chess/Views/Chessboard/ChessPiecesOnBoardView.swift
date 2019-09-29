@@ -32,7 +32,7 @@ extension Chessboard {
 }
 
 struct ChessPiecesOnBoardView: View {
-    @ObservedObject var store: Store<GameState,ChessUserAction>
+    @ObservedObject var store: Store<GameState,AppAction>
     
     let width:CGFloat
     

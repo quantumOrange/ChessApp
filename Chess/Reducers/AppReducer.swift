@@ -13,16 +13,54 @@ enum AppAction {
     case selection(SelectionAction)
 }
 
-func appReducer(_ value:inout AppState,_ action:AppAction)  {
-    switch action {
-    case .chess(let chessAction):
-        chessReducer(board: &value.chessboard, action: chessAction)
+
+extension AppAction {
+    var chess:ChessAction? {
+        get {
+            guard case let .chess(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .chess = self, let newValue = newValue else { return }
+            self = .chess(newValue)
+        }
+    }
     
-    case .selection(let selectionAction):
-        selectedSquareReducer(state: &value, action: selectionAction)
-        
+    var selection:SelectionAction? {
+        get {
+            guard case let .selection(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .selection = self, let newValue = newValue else { return }
+            self = .selection(newValue)
+        }
     }
 }
+
+extension AppState {
+    
+    var selectedSquareState:SelectedSquareState {
+        get {
+            SelectedSquareState(chessboard: chessboard, selectedSquare: selectedSquare)
+        }
+        set {
+            selectedSquare = newValue.selectedSquare
+            chessboard = newValue.chessboard
+        }
+    }
+}
+ 
+let appReducer:(inout AppState, AppAction) -> Void = combineReducers(
+        pullback( chessReducer,             value:\.chessboard,             action: \.chess     ),
+        pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection )
+    )
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 

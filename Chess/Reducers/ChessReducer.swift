@@ -12,9 +12,24 @@ enum ChessAction {
     case move(ChessMove)
     case resign(PlayerColor)
     case offerDraw(PlayerColor)
+    
+    var move:ChessMove? {
+        guard case let .move(mv) = self else { return nil }
+        return mv
+    }
+    
+    var resign:PlayerColor? {
+        guard case let .resign(player) = self else { return nil }
+        return player
+    }
+    
+    var offerDraw:PlayerColor? {
+        guard case let .offerDraw(player) = self else { return nil }
+        return player
+    }
 }
 
-func chessReducer( board:inout Chessboard, action:ChessAction)  {
+func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
     switch action {
     case .move(let move):
         print("try move...")

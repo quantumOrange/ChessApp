@@ -13,7 +13,12 @@ enum SelectionAction {
     case clear
 }
 
-func selectedSquareReducer( state:inout AppState, action:SelectionAction) {
+struct SelectedSquareState {
+    var chessboard:Chessboard
+    var selectedSquare:ChessboardSquare?
+}
+
+func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) {
     switch action {
     
     case .select(let square):

@@ -29,7 +29,7 @@ final class Store<Value, Action>: ObservableObject {
     func wormhole<LocalValue,LocalAction>( focus:@escaping (Value)->LocalValue , lift:@escaping (LocalAction)->Action ) -> Store<LocalValue,LocalAction>
     
     {
-        let localStore = Store<LocalValue, LocalAction>(initialValue: focus(value), reducer: { localValue , localAction in            self.send(lift(localAction))
+        let localStore = Store<LocalValue, LocalAction>(initialValue: focus(value), reducer: { localValue , localAction in            self.send(lift(localAction))
             localValue = focus(self.value)
         })
         
@@ -41,7 +41,7 @@ final class Store<Value, Action>: ObservableObject {
     }
 }
 
-func id<A>(a:A)->A {
+func id<A>(_ a:A)->A {
     a
 }
 
@@ -66,6 +66,12 @@ func combineReducers<Value, Action>(
       reducer(&value, action)
     }
   }
+}
+
+
+
+func absurd<A>(_ never:Never) -> A {
+    switch never {}
 }
 
 public func compose<A, B, C>(

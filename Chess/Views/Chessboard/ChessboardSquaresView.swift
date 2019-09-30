@@ -43,7 +43,7 @@ extension SquareColor {
 
 struct ChessboardSquaresView: View {
     
-    @ObservedObject var store: Store<AppState,AppAction>
+    @ObservedObject var store: Store<AppState,Never>
     
     let width:CGFloat
     

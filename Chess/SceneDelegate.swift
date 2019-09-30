@@ -29,10 +29,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let store = chessStore()
             
-            let pub = store.$value
+            cancelable = store.$value
                                 .map{$0.chessboard.whosTurnIsItAnyway}
                                 .receive(on:RunLoop.main)
-                                
                                 .removeDuplicates()
                                 .map{
                                     clearSelection(player:$0)

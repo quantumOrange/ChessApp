@@ -7,9 +7,12 @@
 //
 
 import SwiftUI
+
+
+
 struct TappableCheckersView: View {
     
-    @ObservedObject var store: Store<AppState,AppAction>
+    @ObservedObject var store: Store<ChessboardSquare?,ChessboardAction>
     
     let width:CGFloat
     
@@ -18,11 +21,11 @@ struct TappableCheckersView: View {
     }
     
     func selectOrMove(to square:ChessboardSquare) {
-        store.send(.selection(.select(square)))
+        store.send(.select(square))
         
-        if let selectedSquare = store.value.selectedSquare, selectedSquare != square {
+        if let selectedSquare = store.value, selectedSquare != square {
             let move =  ChessMove(from: selectedSquare,to:square)
-            store.send(.chess(.move(move)))
+            store.send(.move(move))
             
         }
     }
@@ -48,16 +51,7 @@ struct TappableCheckersView: View {
                                       
                                }
                            }
-        }.animation(.easeInOut(duration: 0.2))
+        }.animation(.easeInOut(duration: 0.3))
     }
 }
 
-
-   
-/*
-struct TappableCheckersView_Previews: PreviewProvider {
-    static var previews: some View {
-        TappableCheckersView()
-    }
-}
-*/

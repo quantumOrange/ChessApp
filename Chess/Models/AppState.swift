@@ -18,8 +18,8 @@ struct AppState {
 enum GamePlayState {
     case won(PlayerColor)
     case draw
-  //  case noStarted
-  // case abandoned
+   //case noStarted
+   //case abandoned
     case inPlay
 }
 

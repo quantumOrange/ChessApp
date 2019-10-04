@@ -30,6 +30,13 @@ enum ChessAction {
 }
 
 func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
+    switch board.gamePlayState {
+    case .inPlay:
+        break
+    default:
+        return
+    }
+    
     switch action {
     case .move(let move):
         print("try move...")
@@ -37,6 +44,7 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
             print("     ...move ok")
             print(move)
             board = apply(move:validatedMove, to: board)
+            board.gamePlayState = gamePlayState(chessboard: board)
             print(board)
         }
          else {
@@ -44,9 +52,9 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
         }
         
     case .offerDraw(let player):
-        break
+        board.gamePlayState = .draw
     case .resign(let player):
-        break
+        board.gamePlayState = .won(!player)
     }
 }
 

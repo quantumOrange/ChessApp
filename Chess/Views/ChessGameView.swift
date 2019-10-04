@@ -21,6 +21,8 @@ func liftChessboardAction(_ localAction:ChessboardAction ) -> AppAction {
 
 struct ChessGameView : View {
     @ObservedObject var store: Store<AppState,AppAction>
+    @ObservedObject var alertModle:AlertModel<GameOverAlertModel>
+   
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,6 +31,10 @@ struct ChessGameView : View {
                 ChessboardView(store: self.store.wormhole(focus:idState, lift:liftChessboardAction),width:geometry.size.width)
                 PlayerView(name:"Mr White", player:.white)
             }
+        }.alert(item:self.$alertModle.value) { alert in
+            
+            
+            Alert(title: Text("Game Over"), message: Text(alert.text), dismissButton: .default(Text("OK")))
         }
     }
 }
@@ -37,7 +43,7 @@ struct ChessGameView : View {
 #if DEBUG
 struct ChessGameView_Previews: PreviewProvider {
     static var previews: some View {
-        ChessGameView(store:chessStore())
+        ChessGameView(store:chessStore(),alertModle: AlertModel<GameOverAlertModel>())
     }
 }
 #endif

@@ -9,13 +9,24 @@
 import Foundation
 
 struct Chessboard {
+    enum GamePlayState:Equatable  {
+        case won(PlayerColor)
+        case draw
+        // case noStarted
+        // case abandoned
+        case inPlay
+    }
+    
+    var gamePlayState = GamePlayState.inPlay
     
     struct CastelState {
         var canCastleQueenside:Bool = true;
         var canCastleKingside:Bool = true;
     }
     
-    var storage:[ChessPiece?]
+    private var storage:[ChessPiece?]
+    
+    var takenPieces:[ChessPiece] = []
     
     var blackCastelState:CastelState = CastelState()
     var whiteCastelState:CastelState = CastelState()

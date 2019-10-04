@@ -10,20 +10,18 @@ import Foundation
 
 struct AppState {
     var chessboard:Chessboard =  Chessboard.start()
+    var user = User.david()
+    var users:[User] = []
     var selectedSquare:ChessboardSquare?
     var players:Players = Players.dummys()
-    var gamePlayState = GamePlayState.inPlay
+    
 }
 
-enum GamePlayState {
-    case won(PlayerColor)
-    case draw
-   //case noStarted
-   //case abandoned
-    case inPlay
-}
 
-func gamePlayState(chessboard:Chessboard) -> GamePlayState {
+
+
+
+func gamePlayState(chessboard:Chessboard) -> Chessboard.GamePlayState {
     
     let checked = isInCheck(chessboard: chessboard, player:chessboard.whosTurnIsItAnyway)
     

@@ -24,6 +24,12 @@ extension User {
     }
 }
 
+enum PlayerType {
+    case appUser
+    case remote(User)
+    case computer
+}
+
 struct Players {
     let white:User
     let black:User

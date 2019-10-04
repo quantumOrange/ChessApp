@@ -34,6 +34,43 @@ struct ChessEngine {
     }
 }
 
+func pickMove(for board:Chessboard) -> ChessMove? {
+    
+    let moves = validMoves(chessboard:board)
+    
+    let multiplier:Float =  board.whosTurnIsItAnyway == .black ? -1.0 : 1.0
+    
+    let values = moves
+                .map{ apply( move: $0, to: board)}
+                .map { $0.evaluate()}
+                .map{ $0 + Float.random(in: -0.5...0.5) }
+                .map { $0 * multiplier }
+    
+    let result = zip(moves, values)
+                            .sorted(by:{ $0.1 > $1.1})
+                            .first
+    
+    if let (bestMove,_) = result {
+        return bestMove
+    }
+    else {
+        return nil
+    }
+}
+
+func randomChessboard(_ n:Int) -> Chessboard {
+    (0...n).reduce(Chessboard.start()){ board , i in
+        guard let move =  pickMove(for: board) else { return board }
+        return apply(move: move, to: board)
+    }
+}
+
+func randomChessboard(n:Int) ->  [Chessboard] {
+    (0...n)
+        .map{ _ in Int.random(in: 4...20 )  }
+        .map( randomChessboard )
+}
+
 func pickMove2(for board:Chessboard) -> ChessMove? {
        
     evaluateMoves(chessboard:board, depth: 3)

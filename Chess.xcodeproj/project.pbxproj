@@ -35,6 +35,7 @@
 		546F41EC22F35EE40033785F /* Chessboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41EB22F35EE40033785F /* Chessboard.swift */; };
 		54E2FEED23003082009F60C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E2FEEC23003082009F60C0 /* User.swift */; };
 		54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E71EA32330243A00491FEE /* ChessEngine.swift */; };
+		54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		546F41ED22F35F220033785F /* chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = chess.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		54E2FEEC23003082009F60C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		54E71EA32330243A00491FEE /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
+		54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverAlertModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				544C08912309EEBF0075B987 /* ChessMove.swift */,
 				5453E315232D974F007DBDC8 /* ValidChessMoves.swift */,
 				54E71EA32330243A00491FEE /* ChessEngine.swift */,
+				54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				5453E316232D974F007DBDC8 /* ValidChessMoves.swift in Sources */,
 				544C08862309C8EE0075B987 /* PlayerView.swift in Sources */,
 				54E2FEED23003082009F60C0 /* User.swift in Sources */,
+				54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */,
 				544C088A2309D01D0075B987 /* ChessPieceView.swift in Sources */,
 				544F297E23252D4A005E79EA /* AppStore.swift in Sources */,
 				544F297C23251BC4005E79EA /* ChessReducer.swift in Sources */,

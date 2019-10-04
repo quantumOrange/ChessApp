@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-
+import Combine
 
 
 enum ChessboardAction {
@@ -29,12 +29,17 @@ func idState(_ v:AppState) -> AppState {
 
 struct ChessboardView : View {
     @ObservedObject var store: Store<AppState,ChessboardAction>
- 
-    
+ /*
+    func foo() {
+        
+           
+    }
+   
+    */
     let width:CGFloat
     var body: some View
         {
-        
+            //foo()
               ZStack {
                 ChessboardSquaresView(store: self.store.wormhole(focus:idState, lift:absurdAppState), width: self.width)
                 ChessPiecesOnBoardView(store: self.store.wormhole(focus:idState, lift:absurdAppState), width: self.width)

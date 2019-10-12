@@ -8,11 +8,14 @@
 
 import SwiftUI
 
-
+struct TappableBoardState{
+    var selectedSquare:ChessboardSquare?
+    var playerPointOfView:PlayerColor
+}
 
 struct TappableCheckersView: View {
     
-    @ObservedObject var store: Store<ChessboardSquare?,ChessboardAction>
+    @ObservedObject var store: Store<TappableBoardState,ChessboardAction>
     
     let width:CGFloat
     
@@ -23,7 +26,7 @@ struct TappableCheckersView: View {
     func selectOrMove(to square:ChessboardSquare) {
         store.send(.select(square))
         
-        if let selectedSquare = store.value, selectedSquare != square {
+        if let selectedSquare = store.value.selectedSquare, selectedSquare != square {
             let move =  ChessMove(from: selectedSquare,to:square)
             store.send(.move(move))
             
@@ -33,12 +36,12 @@ struct TappableCheckersView: View {
     var body: some View {
         HStack(alignment: .center,spacing:0)
                        {
-                        ForEach(ChessFile.allCases)
+                        ForEach(files(orientatedFor:self.store.value.playerPointOfView))
                            { file in
                                
                                VStack(alignment: .center, spacing:0)
                                {
-                                ForEach(ChessRank.allCases.reversed()) { rank in
+                                ForEach(ranks(orientatedFor:self.store.value.playerPointOfView)) { rank in
                                        
                                                    Button(action:{
                                                     self.selectOrMove(to:ChessboardSquare(rank:rank, file:file))

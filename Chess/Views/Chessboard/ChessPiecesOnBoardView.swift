@@ -19,16 +19,22 @@ extension Chessboard {
         squares.compactMap{ liftOptional(( self[$0], $0))}
     }
     
-    var pieceVMS:[PieceViewModel] {
-            pieceSquarePairs
-                .map{ PieceViewModel(piece: $0.0, square: $0.1) }
-    }
     
-    func pieceVM(rank:Int,file:Int) -> PieceViewModel {
-        let sq =  ChessboardSquare(rank: ChessRank(rawValue: rank)!, file: ChessFile(rawValue: file)!)
-        let piece = self[sq]
-        return PieceViewModel(piece: piece, square: sq)
+    
+}
+
+extension AppState {
+    var pieceVMS:[PieceViewModel] {
+            chessboard.pieceSquarePairs
+                .map{ PieceViewModel(piece: $0.0, square: $0.1, pointOfView:playerPointOfView) }
     }
+}
+
+class ObservedViewModel<V>: ObservableObject {
+    init(value:V) {
+        self.value = value
+    }
+    @Published var value:V
 }
 
 struct ChessPiecesOnBoardView: View {
@@ -42,8 +48,8 @@ struct ChessPiecesOnBoardView: View {
              HStack(alignment: .bottom, spacing: 0) {
                 ZStack
                 {
-                    ForEach(store.value.chessboard.pieceVMS){ viewModel in
-                        ChessPieceView(vm:viewModel, width: self.width/8.0)
+                    ForEach(store.value.pieceVMS){ viewModel in
+                        ChessPieceView(store:ObservedViewModel(value: viewModel), width: self.width/8.0)
                     }
                 }
                 Spacer().frame(width: 7*self.width/8.0, height: self.width/8.0, alignment: .center)

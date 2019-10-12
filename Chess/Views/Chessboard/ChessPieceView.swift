@@ -14,33 +14,55 @@ extension ChessboardSquare:Identifiable {
     }
 }
 
-class PieceViewModel:ObservableObject,Identifiable {
+struct PieceViewModel:Identifiable {
     var id:Int {
         return piece?.id ?? -square.id
     }
     
-    init(piece:ChessPiece?,square:ChessboardSquare){
+    init(piece:ChessPiece?, square:ChessboardSquare, pointOfView:PlayerColor){
         self.piece = piece
         self.square = square
+        self.pointOfView = pointOfView
     }
     
-     @Published var square:ChessboardSquare
-     @Published var piece:ChessPiece?
+    var pointOfView:PlayerColor
+    var square:ChessboardSquare
+    var piece:ChessPiece?
+    
+    var offsetX:CGFloat {
+        switch pointOfView {
+        case .white:
+            return CGFloat(square.file.rawValue)
+        case .black:
+            return CGFloat(7 - square.file.rawValue)
+        }
+        
+    }
+    
+    var offsetY:CGFloat {
+       switch pointOfView {
+       case .white:
+            return CGFloat(-square.rank.rawValue)
+       case .black:
+            return CGFloat(square.rank.rawValue - 7)
+       }
+      
+    }
 }
 
-struct ChessPieceView : View,Identifiable {
-    
+struct ChessPieceView : View {
+    /*
     var id: Int {
         vm.id
     }
         
-        
-    @ObservedObject var vm:PieceViewModel
-   
+    */
+    //@ObservedObject var store:Store<PieceViewModel,Never>
+    @ObservedObject var store:ObservedViewModel<PieceViewModel>
     let width:CGFloat
     
     var backgroundPiece:String {
-        guard let piece = vm.piece else { return "" }
+        guard let piece = store.value.piece else { return "" }
         return ChessPiece(player:.black, kind: piece.kind, id:piece.id).symbol
     }
     
@@ -53,13 +75,13 @@ struct ChessPieceView : View,Identifiable {
                 .frame(width: width, height: width, alignment: .center)
             
             
-            Text(verbatim:"\(vm.piece?.symbol  ?? "" )")
+            Text(verbatim:"\(store.value.piece?.symbol  ?? "" )")
                 .font(.system(size: width, weight: .bold, design: .monospaced))
                 .foregroundColor(.black)
                 .frame(width: width, height: width, alignment: .center)
             
             
-        }.offset(x: width * CGFloat(vm.square.file.rawValue ), y:  -width * CGFloat(vm.square.rank.rawValue ))
+        }.offset(x: width * store.value.offsetX , y:  width * store.value.offsetY )
             .animation(.easeInOut(duration: 1.0))
     
         
@@ -67,34 +89,3 @@ struct ChessPieceView : View,Identifiable {
        
     }
 }
-/*
-#if DEBUG
-struct PieceView_Previews: PreviewProvider {
-    static var previews: some View {
-        HStack {
-            VStack {
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .pawn, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .knight, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .bishop, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .rook, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .queen, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .black, kind: .king, id:0), width: 60)
-                
-            }
-            VStack {
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .pawn, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .knight, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .bishop, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .rook, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .queen, id:0), width: 60)
-                ChessPieceView(piece: ChessPiece(player: .white, kind: .king, id:0), width: 60)
-                
-            }
-            .background(Color.gray)
-        }
-        
-    
-    }
-}
-#endif
-*/

@@ -9,7 +9,7 @@
 import Foundation
 
 import Combine
-
+import SwiftUI
 
 final class Store<Value, Action>: ObservableObject {
   let reducer: (inout Value, Action) -> Void
@@ -89,5 +89,13 @@ public func with<A, B>(_ a: A, _ f: (A) throws -> B) rethrows -> B {
   return try f(a)
 }
 
+extension Store {
+  public func send<LocalValue>(
+    _ event: @escaping (LocalValue) -> Action,
+    binding keyPath: KeyPath<Value, LocalValue>
+  ) -> Binding<LocalValue> {
+    return Binding<LocalValue>(get: { self.value[keyPath:keyPath] } , set:{ self.send(event($0)) })
+  }
+}
 
 

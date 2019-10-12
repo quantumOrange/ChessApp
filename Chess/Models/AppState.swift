@@ -14,12 +14,29 @@ struct AppState {
     var users:[User] = []
     var selectedSquare:ChessboardSquare?
     var players:Players = Players.dummys()
-    
+    var playerPointOfView:PlayerColor = .white
+   
 }
 
+extension AppState {
+    var gameOverAlertModel:GameOverAlertModel? {
+        switch chessboard.gamePlayState {
+        case .won(let player):
+            return GameOverAlertModel(state: .win(player), reason: .checkmate)
+        case .draw:
+            return GameOverAlertModel(state: .draw, reason: .agreement)
+        case .inPlay:
+            return nil
+        }
+    }
+}
 
-
-
+struct ChessGameState {
+    var chessboard:Chessboard =  Chessboard.start()
+    var selectedSquare:ChessboardSquare?
+    var players:Players = Players.dummys()
+    var playerPointOfView:PlayerColor = .white
+}
 
 func gamePlayState(chessboard:Chessboard) -> Chessboard.GamePlayState {
     

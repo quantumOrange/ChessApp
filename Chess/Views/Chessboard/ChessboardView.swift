@@ -27,23 +27,34 @@ func idState(_ v:AppState) -> AppState {
     return v
 }
 
+func files(orientatedFor pointOfView:PlayerColor) -> [ChessFile] {
+    switch pointOfView {
+    case .white:
+        return  ChessFile.allCases
+    case .black:
+        return  ChessFile.allCases.reversed()
+    }
+}
+
+func ranks(orientatedFor pointOfView:PlayerColor) -> [ChessRank] {
+     switch pointOfView {
+     case .white:
+         return  ChessRank.allCases.reversed()
+     case .black:
+         return  ChessRank.allCases
+     }
+}
+
 struct ChessboardView : View {
     @ObservedObject var store: Store<AppState,ChessboardAction>
- /*
-    func foo() {
-        
-           
-    }
-   
-    */
+
     let width:CGFloat
     var body: some View
         {
-            //foo()
               ZStack {
                 ChessboardSquaresView(store: self.store.wormhole(focus:idState, lift:absurdAppState), width: self.width)
                 ChessPiecesOnBoardView(store: self.store.wormhole(focus:idState, lift:absurdAppState), width: self.width)
-                TappableCheckersView(store: self.store.wormhole(focus: {$0.selectedSquare}, lift: idAction), width: self.width)
+                TappableCheckersView(store: self.store.wormhole(focus: {TappableBoardState(selectedSquare: $0.selectedSquare, playerPointOfView: $0.playerPointOfView)  }, lift: idAction), width: self.width)
             }
                 
         }

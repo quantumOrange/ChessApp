@@ -74,13 +74,13 @@ struct ChessboardSquaresView: View {
     var body: some View {
         HStack(alignment: .center,spacing:0)
                        {
-                           ForEach((ChessFile.allCases))
+                        ForEach(files(orientatedFor:self.store.value.playerPointOfView))
                            { file in
                                
                                
                                VStack(alignment: .center, spacing:0)
                                {
-                                ForEach((ChessRank.allCases.reversed())) { rank in
+                                ForEach(ranks(orientatedFor:self.store.value.playerPointOfView)) { rank in
                                      
                                    Spacer()
                                     .frame(width:self.squareWidth,height:self.squareWidth)

@@ -37,6 +37,8 @@ struct Chessboard {
     
     var moves:[ChessMove] = []
     
+    var undoStates:[[ChessboardSquare:ChessPiece?]] = []
+    
     init() {
         storage = Array(repeating: nil, count: 64)
     }
@@ -132,12 +134,69 @@ extension Chessboard {
 
 enum ChessFile:Int,CaseIterable,Equatable {
     
+    init?(code:String) {
+        switch code {
+        case "a":
+            self = .a
+        case "b":
+            self = .b
+        case "c":
+            self = .c
+        case "d":
+            self = .d
+        case "e":
+            self = .e
+        case "f":
+            self = .f
+        case "g":
+            self = .g
+        case "h":
+            self = .h
+        default:
+            return nil
+        }
+    }
     
     case a = 0,b,c,d,e,f,g,h
 }
 
+extension ChessFile:CustomStringConvertible {
+    var description: String {
+         switch self {
+         case .a:
+            return "a"
+         case .b:
+            return "b"
+         case .c:
+            return "c"
+         case .d:
+            return "d"
+         case .e:
+            return "e"
+         case .f:
+            return "f"
+         case .g:
+            return "g"
+         case .h:
+            return "h"
+        }
+    }
+}
+
 enum ChessRank:Int,CaseIterable,Equatable{
     case _1 = 0 ,_2,_3,_4,_5,_6,_7,_8
+    
+    init?(code:String) {
+        let invalidRawValue = -1
+        guard let rank =  ChessRank(rawValue: ( Int(code) ?? invalidRawValue ) - 1 ) else { return nil }
+        self = rank
+    }
+}
+
+extension ChessRank:CustomStringConvertible {
+    var description: String {
+        "\(rawValue + 1)"
+    }
 }
 
 extension ChessRank:Identifiable {

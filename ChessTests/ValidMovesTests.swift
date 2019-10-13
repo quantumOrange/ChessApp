@@ -33,7 +33,7 @@ class ValidMoves: XCTestCase {
         
         let pawnMoves = moves.filter{board[$0.from]?.kind == .pawn}
         
-        XCTAssert(moves.count == 16, "There should be 16  valid first pawn moves, found \(pawnMoves.count)")
+        XCTAssert(pawnMoves.count == 16, "There should be 16  valid first pawn moves, found \(pawnMoves.count)")
         
         let knightMoves = moves.filter{board[$0.from]?.kind == .knight}
         
@@ -44,9 +44,8 @@ class ValidMoves: XCTestCase {
     }
     
     func testNumberOfValidOpeningMovesForBlack() {
-        var board = Chessboard.start()
         //white moves a pawn
-        applyMove(board: &board, move: ChessMove(from: ChessboardSquare(rank: ._2, file: .e), to: ChessboardSquare(rank: ._3, file: .e)))
+        var board = apply( move: ChessMove(from: ChessboardSquare(rank: ._2, file: .e), to: ChessboardSquare(rank: ._3, file: .e)), to: Chessboard.start())
         
         let moves = validMoves(chessboard: board)
         
@@ -54,7 +53,7 @@ class ValidMoves: XCTestCase {
         
         let pawnMoves = moves.filter{board[$0.from]?.kind == .pawn}
         
-        XCTAssert(moves.count == 16, "There should be 16  valid first pawn moves, found \(pawnMoves.count)")
+        XCTAssert(pawnMoves.count == 16, "There should be 16  valid first pawn moves, found \(pawnMoves.count)")
         
         let knightMoves = moves.filter{board[$0.from]?.kind == .knight}
         
@@ -64,12 +63,111 @@ class ValidMoves: XCTestCase {
             
     }
     
+    func testValidateSimpleMoves() {
+        
+        //A valid sequence of simple moves for a game
+        let moves:[ChessMove] = [
+                                    ChessMove(code:"e2->e4")!,
+                                    ChessMove(code:"e7->e6")!,
+                                    ChessMove(code:"f1->c4")!,
+                                    ChessMove(code:"h7->h6")!,
+                                    ChessMove(code:"d1->f3")!,
+                                    ChessMove(code:"f8->a3")!,
+                                    ChessMove(code:"b2->b3")!,
+                                    ChessMove(code:"a3->c1")!,
+                                    ChessMove(code:"b1->c3")!,
+                                    ChessMove(code:"c1->d2")!,
+                                    ChessMove(code:"e1->d2")!,
+                                    ChessMove(code:"h8->h7")!,
+                                    ChessMove(code:"a1->d1")!,
+                                    ChessMove(code:"h7->h8")!,
+                                    ChessMove(code:"g1->h3")!,
+                                    ChessMove(code:"e6->e5")!,
+                                    ChessMove(code:"h1->e1")!,
+                                    ChessMove(code:"g7->g6")!
+                                ]
+        
+        var  board = Chessboard.start()
+        for move in moves {
+            XCTAssert(isValid(move:move, on:board ), "move \(move) should be valid")
+            board = apply(move: move, to: board)
+        }
+        
+        
+        XCTAssertFalse( isValid(move:ChessMove(code:"c4->c5")!, on:board ), "bishop cannot move up the file")
+        XCTAssertFalse( isValid(move:ChessMove(code:"c3->d3")!, on:board ), "knight cannot move one sideways")
+        XCTAssertFalse( isValid(move:ChessMove(code:"b3->b2")!, on:board ), "pawn cannot move backwards")
+        
+    }
     
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
+    func testPerformanceValidMoves() {
+        let moves:[ChessMove] = [
+                                    ChessMove(code:"e2->e4")!,
+                                    ChessMove(code:"e7->e6")!,
+                                    ChessMove(code:"f1->c4")!,
+                                    ChessMove(code:"h7->h6")!,
+                                    ChessMove(code:"d1->f3")!,
+                                    ChessMove(code:"f8->a3")!,
+                                    ChessMove(code:"b2->b3")!,
+                                    ChessMove(code:"a3->c1")!,
+                                    ChessMove(code:"b1->c3")!,
+                                    ChessMove(code:"c1->d2")!,
+                                    ChessMove(code:"e1->d2")!,
+                                    ChessMove(code:"h8->h7")!,
+                                    ChessMove(code:"a1->d1")!,
+                                    ChessMove(code:"h7->h8")!,
+                                    ChessMove(code:"g1->h3")!,
+                                    ChessMove(code:"e6->e5")!,
+                                    ChessMove(code:"h1->e1")!,
+                                    ChessMove(code:"g7->g6")!
+                                ]
+        
+        var  board = Chessboard.start()
+        
+        for move in moves {
+            board = apply(move: move, to: board)
+        }
+        
         self.measure {
-            // Put the code you want to measure the time of here.
+            let _ = validMoves(chessboard: board)
+        }
+        
+       
+    }
+    
+    
+func testPerformanceUncheckedValidMoves() {
+        let moves:[ChessMove] = [
+                                    ChessMove(code:"e2->e4")!,
+                                    ChessMove(code:"e7->e6")!,
+                                    ChessMove(code:"f1->c4")!,
+                                    ChessMove(code:"h7->h6")!,
+                                    ChessMove(code:"d1->f3")!,
+                                    ChessMove(code:"f8->a3")!,
+                                    ChessMove(code:"b2->b3")!,
+                                    ChessMove(code:"a3->c1")!,
+                                    ChessMove(code:"b1->c3")!,
+                                    ChessMove(code:"c1->d2")!,
+                                    ChessMove(code:"e1->d2")!,
+                                    ChessMove(code:"h8->h7")!,
+                                    ChessMove(code:"a1->d1")!,
+                                    ChessMove(code:"h7->h8")!,
+                                    ChessMove(code:"g1->h3")!,
+                                    ChessMove(code:"e6->e5")!,
+                                    ChessMove(code:"h1->e1")!,
+                                    ChessMove(code:"g7->g6")!
+                                ]
+        
+        var  board = Chessboard.start()
+        
+        for move in moves {
+            board = apply(move: move, to: board)
+        }
+        
+      
+        
+        self.measure {
+            let _ = uncheckedValidMoves(chessboard: board)
         }
     }
 

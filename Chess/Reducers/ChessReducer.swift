@@ -39,13 +39,13 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
     
     switch action {
     case .move(let move):
-        print("try move...")
+        //print("try move...")
          if let validatedMove = validate(chessboard:board, move:move) {
-            print("     ...move ok")
-            print(move)
+           // print("     ...move ok")
+            print("ChessMove(code:\"\(move)\"),")
             board = apply(move:validatedMove, to: board)
             board.gamePlayState = gamePlayState(chessboard: board)
-            print(board)
+           //print(board)
         }
          else {
             print(" move fail")
@@ -97,5 +97,53 @@ func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
     return board
 }
 
-
+extension Chessboard {
+    mutating func applyTemp(move:ChessMove) {
+        var undoState:[ChessboardSquare:ChessPiece?] = [:]
+        
+        if let pieceToMove = self[move.from] {
+            undoState[move.from] = self[move.from]
+            undoState[move.to] =  self[move.to]
+            self[move.from] = nil;
+            
+            
+            switch move.auxillery {
+                
+            case .none:
+                
+                self[move.to] = pieceToMove
+                
+            case .promote(let kind):
+                
+                 self[move.to] = ChessPiece(player: pieceToMove.player, kind:kind, id: pieceToMove.id)
+                
+            case .double(let secondMove):
+               
+                
+                self[move.to] = pieceToMove
+                
+                if let secondPieceToMove = self[secondMove.from] {
+                    undoState[secondMove.from] = self[secondMove.from]
+                    undoState[secondMove.to] = self[secondMove.to]
+                    self[secondMove.from] = nil;
+                    self[secondMove.to] = secondPieceToMove
+                }
+                
+            
+            }
+            
+        }
+        
+        self.undoStates.append(undoState)
+    }
+    
+    mutating func undoTempMove() {
+        let undoState = undoStates.removeLast()
+        
+        for (square, piece) in undoState {
+            self[square] = piece
+        }
+    }
+    
+}
 

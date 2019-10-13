@@ -27,7 +27,7 @@ func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionA
             state.selectedSquare = nil
         } else {
             if isYourPiece(chessboard:state.chessboard , square: square) {
-                    print("Selecting \(square)")
+                  //  print("Selecting \(square)")
                  state.selectedSquare = square
             }
         }

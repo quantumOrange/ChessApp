@@ -8,10 +8,29 @@
 
 import Foundation
 
-struct ChessboardSquare:Equatable {
+struct ChessboardSquare:Equatable,Hashable {
     let rank:ChessRank
     let file:ChessFile
+    
+    init(rank:ChessRank, file: ChessFile){
+        self.rank = rank
+        self.file = file
+    }
 }
+
+extension ChessboardSquare {
+    // ChessboardSquare(rank: newRank, file: newFile)
+    init?(code:String){
+        let invalidRawValue = -1
+        guard   let rank = ChessRank(code:String(code.suffix(1))),
+                let file = ChessFile(code:String(code.prefix(1)))     else { return nil }
+        
+        self.rank = rank
+        self.file = file
+    }
+}
+
+
 
 extension ChessboardSquare {
     
@@ -76,3 +95,9 @@ extension Chessboard {
     }
 }
 
+
+extension ChessboardSquare:CustomStringConvertible {
+    var description: String {
+        "\(file)\(rank)"
+    }
+}

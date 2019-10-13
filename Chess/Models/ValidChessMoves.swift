@@ -36,6 +36,10 @@ func validate(chessboard:Chessboard, move:ChessMove) -> ChessMove? {
     return validMoves(chessboard: chessboard).first(where: {primaryMoveIsEqual(lhs: $0, rhs: move)})
 }
 
+func isValid(move:ChessMove, on board:Chessboard) -> Bool {
+    validMoves(chessboard:board).contains(move)
+}
+
 func validMoves(chessboard:Chessboard) -> [ChessMove] {
     return uncheckedValidMoves(chessboard: chessboard)
             .filter {

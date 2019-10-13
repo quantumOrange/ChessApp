@@ -22,8 +22,8 @@ struct ChessEngine {
                     .map { $0 * multiplier }
         
         let result = zip(moves, values)
-                                .sorted(by:{ $0.1 > $1.1})
-                                .first
+                                .max(by:{ $0.1 < $1.1})
+                                
         
         if let (bestMove,_) = result {
             return bestMove
@@ -47,8 +47,8 @@ func pickMove(for board:Chessboard) -> ChessMove? {
                 .map { $0 * multiplier }
     
     let result = zip(moves, values)
-                            .sorted(by:{ $0.1 > $1.1})
-                            .first
+                            .max(by:{ $0.1 < $1.1})
+                            
     
     if let (bestMove,_) = result {
         return bestMove

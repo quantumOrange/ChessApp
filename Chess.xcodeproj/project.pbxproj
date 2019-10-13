@@ -36,6 +36,7 @@
 		54E2FEED23003082009F60C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E2FEEC23003082009F60C0 /* User.swift */; };
 		54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E71EA32330243A00491FEE /* ChessEngine.swift */; };
 		54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */; };
+		54EE3F2D2352310600CC80C0 /* ChessEngineMiniMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		54E2FEEC23003082009F60C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		54E71EA32330243A00491FEE /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 		54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverAlertModel.swift; sourceTree = "<group>"; };
+		54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngineMiniMax.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				544C08912309EEBF0075B987 /* ChessMove.swift */,
 				5453E315232D974F007DBDC8 /* ValidChessMoves.swift */,
 				54E71EA32330243A00491FEE /* ChessEngine.swift */,
+				54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */,
 				54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */,
 			);
 			path = Models;
@@ -382,6 +385,7 @@
 				546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */,
 				544C088F2309DD850075B987 /* ChessGameView.swift in Sources */,
 				544F297A23251B13005E79EA /* AppReducer.swift in Sources */,
+				54EE3F2D2352310600CC80C0 /* ChessEngineMiniMax.swift in Sources */,
 				544C08882309C9460075B987 /* ChessboardView.swift in Sources */,
 				5466A5282337F0130026F80D /* ChessPiecesOnBoardView.swift in Sources */,
 				546F41EC22F35EE40033785F /* Chessboard.swift in Sources */,

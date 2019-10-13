@@ -59,16 +59,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     })
             
-            
-            
-            
             func requestMoveIfNeeded(player:PlayerColor,store:Store<AppState,AppAction>) {
                 if(player == .black) {
-                    print( "Player is Black")
+                    //print( "Player is Black")
                     requestMove(store:store)
                 }
                 else {
-                    print( "Player is White")
+                    //print( "Player is White")
                 }
             }
             
@@ -80,8 +77,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             func requestMove(store:Store<AppState,AppAction>) {
                 let board = store.value.chessboard
-                if let move = ChessEngine.pickMove(for:board){
-                    print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
+                if let move = pickMove(for:board){
+                    //print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
                    store.send(.chess(.move(move)))
                 }
             }

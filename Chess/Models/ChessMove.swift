@@ -14,7 +14,11 @@ enum AuxilleryChessMove:Equatable {
     case double(Move) //for castleing
 }
 
-struct ChessMove:Equatable {
+struct ChessMove:Equatable,CustomStringConvertible {
+    
+    var description: String {
+        "\(from)->\(to)"
+    }
     
     let from:ChessboardSquare
     let to:ChessboardSquare
@@ -27,10 +31,21 @@ struct ChessMove:Equatable {
         self.to = to
     }
     
+    init?(code:String) {
+        self.auxillery = .none
+        guard   let from    = ChessboardSquare(code:String(code.prefix(2))),
+                let to      = ChessboardSquare(code:String(code.suffix(2)))
+                                                                    else { return nil }
+        self.from = from
+        self.to = to
+    }
+    
     var promotion:ChessPiece.Kind? {
         guard case .promote(let piece) = auxillery else { return nil }
         return piece
     }
+    
+    
 }
 
 struct Move:Equatable {

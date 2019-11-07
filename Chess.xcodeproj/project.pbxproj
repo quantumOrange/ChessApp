@@ -37,6 +37,7 @@
 		54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E71EA32330243A00491FEE /* ChessEngine.swift */; };
 		54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */; };
 		54EE3F2D2352310600CC80C0 /* ChessEngineMiniMax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */; };
+		54EE3F2F2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F2E2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		54E71EA32330243A00491FEE /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 		54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverAlertModel.swift; sourceTree = "<group>"; };
 		54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngineMiniMax.swift; sourceTree = "<group>"; };
+		54EE3F2E2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxChessEnginteTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 			children = (
 				546F41D022F35DFD0033785F /* ChessTests.swift */,
 				544B2211232E9F5600659FA5 /* ValidMovesTests.swift */,
+				54EE3F2E2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift */,
 				546F41D222F35DFD0033785F /* Info.plist */,
 			);
 			path = ChessTests;
@@ -399,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				546F41D122F35DFD0033785F /* ChessTests.swift in Sources */,
+				54EE3F2F2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift in Sources */,
 				544B2212232E9F5600659FA5 /* ValidMovesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -49,11 +49,10 @@ func miniMaxRoot(for board:Chessboard, depth:Int, isMaximisingPlayer:Bool) -> Ch
 
 func miniMax(for board:inout Chessboard, depth:Int, isMaximisingPlayer:Bool) -> Float {
     
-    let moves = validMoves(chessboard:board)
+    let moves = uncheckedValidMoves(chessboard:board) 
     
     if depth == 0 {
-        return 23.4
-        //return -board.evaluate()
+        return -board.evaluate()
     }
     
      let values = moves.map { move -> Float in

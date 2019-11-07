@@ -88,7 +88,7 @@ extension ChessPiece {
         }
     }
     
-    var value:Float? {
+    var value:Float {
         var absValue:Float = 0.0
         switch kind {
         case .pawn:
@@ -102,7 +102,7 @@ extension ChessPiece {
         case .queen:
             absValue = 9.0
         case .king:
-            return nil
+            return 90.0
         }
         
         switch player {

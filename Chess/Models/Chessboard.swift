@@ -49,6 +49,14 @@ struct Chessboard {
         }
     }
     
+    
+    var squares:[ChessboardSquare] = {
+           return (0...7).flatMap{ i in
+                  (0...7).map { j in
+                   ChessboardSquare(rank: ChessRank(rawValue: i)!, file: ChessFile(rawValue: j)!)
+               }
+           }
+       }()
 }
 
 

@@ -79,13 +79,7 @@ extension ChessboardSquare {
 }
 
 extension Chessboard {
-    var squares:[ChessboardSquare] {
-        return (0...7).flatMap{ i in
-               (0...7).map { j in
-                ChessboardSquare(rank: ChessRank(rawValue: i)!, file: ChessFile(rawValue: j)!)
-            }
-        }
-    }
+   
     
     func squares(with piece:ChessPiece) -> [ChessboardSquare] {
         squares.filter{

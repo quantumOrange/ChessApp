@@ -152,9 +152,6 @@
 				546F41EB22F35EE40033785F /* Chessboard.swift */,
 				544B220F232E493E00659FA5 /* ChessboardSquare.swift */,
 				544C08912309EEBF0075B987 /* ChessMove.swift */,
-				5453E315232D974F007DBDC8 /* ValidChessMoves.swift */,
-				54E71EA32330243A00491FEE /* ChessEngine.swift */,
-				54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */,
 				54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */,
 			);
 			path = State;
@@ -210,6 +207,7 @@
 				546F41B922F35DFB0033785F /* AppDelegate.swift */,
 				546F41BB22F35DFB0033785F /* SceneDelegate.swift */,
 				544F297823251AE9005E79EA /* Reducers */,
+				54B6A6BA2378B16700989646 /* Chess Engine */,
 				544C088B2309DA080075B987 /* State */,
 				544C08902309DED20075B987 /* Views */,
 				546F41BF22F35DFD0033785F /* Assets.xcassets */,
@@ -257,6 +255,16 @@
 				54B6A6B42378386000989646 /* Utilities.swift */,
 			);
 			path = Architecture;
+			sourceTree = "<group>";
+		};
+		54B6A6BA2378B16700989646 /* Chess Engine */ = {
+			isa = PBXGroup;
+			children = (
+				5453E315232D974F007DBDC8 /* ValidChessMoves.swift */,
+				54E71EA32330243A00491FEE /* ChessEngine.swift */,
+				54EE3F2C2352310600CC80C0 /* ChessEngineMiniMax.swift */,
+			);
+			path = "Chess Engine";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

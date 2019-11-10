@@ -29,12 +29,12 @@ enum ChessAction {
     }
 }
 
-func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
+func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<ChessAction>] {
     switch board.gamePlayState {
     case .inPlay:
         break
     default:
-        return
+        return []
     }
     
     switch action {
@@ -56,6 +56,7 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction)  {
     case .resign(let player):
         board.gamePlayState = .won(!player)
     }
+    return []
 }
 
 func apply(move:ChessMove, to board:Chessboard) -> Chessboard {

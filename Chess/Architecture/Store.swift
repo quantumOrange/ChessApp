@@ -12,17 +12,23 @@ import Combine
 import SwiftUI
 
 final class Store<Value, Action>: ObservableObject {
-    let reducer: (inout Value, Action) -> Void
+    //let reducer: (inout Value, Action) -> Void
+    let reducer:Reducer<Value,Action>
     
     @Published private(set) var value: Value
 
-    init(initialValue: Value, reducer: @escaping (inout Value, Action) -> Void) {
+    init(initialValue: Value, reducer:@escaping Reducer<Value,Action>) {
         self.reducer = reducer
         self.value = initialValue
     }
 
     func send(_ action: Action) {
-        self.reducer(&self.value, action)
+        let effects = self.reducer(&self.value, action)
+        
+        effects.forEach { effect in
+          effect.run(self.send)
+        }
+        //self.reducer(&self.value, action)
     }
     
     var cancelable:Cancellable?
@@ -30,8 +36,10 @@ final class Store<Value, Action>: ObservableObject {
     func wormhole<LocalValue,LocalAction>( focus:@escaping (Value)->LocalValue , lift:@escaping (LocalAction)->Action ) -> Store<LocalValue,LocalAction>
 
     {
-        let localStore = Store<LocalValue, LocalAction>(initialValue: focus(value), reducer: { localValue , localAction in            self.send(lift(localAction))
+        let localStore = Store<LocalValue, LocalAction>(initialValue: focus(value), reducer: { localValue , localAction in
+            self.send(lift(localAction))
             localValue = focus(self.value)
+            return []
         })
         
         localStore.cancelable = self.$value.sink{ [weak localStore] newValue in

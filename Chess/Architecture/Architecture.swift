@@ -11,34 +11,44 @@ import Foundation
 import Combine
 import SwiftUI
 
+public typealias Reducer<Value, Action> = (inout Value, Action) -> [Effect<Action>]
+
 func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
-  _ reducer: @escaping (inout LocalValue, LocalAction) -> Void,
+  _ reducer: @escaping Reducer<LocalValue, LocalAction> ,
   value: WritableKeyPath<GlobalValue, LocalValue>,
   action: WritableKeyPath<GlobalAction, LocalAction?>
-) -> (inout GlobalValue, GlobalAction) -> Void {
+) -> Reducer<GlobalValue, GlobalAction> {
   return { globalValue, globalAction in
-    guard let localAction = globalAction[keyPath: action] else { return }
-    reducer(&globalValue[keyPath: value], localAction)
+    guard let localAction = globalAction[keyPath: action] else { return []}
+    let localEffects =  reducer(&globalValue[keyPath: value], localAction)
+    
+    return localEffects.map { localEffect in
+        Effect { callback in
+            localEffect.run { localAction in 
+                var globalAction = globalAction
+                globalAction[keyPath: action] = localAction
+                callback(globalAction)
+            }
+            
+        }
+        
+    }
   }
 }
 
 //infix operator <>
 
 func combineReducers<Value, Action>(
-  _ reducers: (inout Value, Action) -> Void...
-) -> (inout Value, Action) -> Void {
+  _ reducers: Reducer<Value, Action>...
+) -> Reducer<Value, Action> {
   return { value, action in
-    for reducer in reducers {
-      reducer(&value, action)
-    }
+    return reducers.flatMap { $0(&value, action) }
   }
 }
 
-struct Parallel<A> {
-  let run: (@escaping (A) -> Void) -> Void
-}
 
-public typealias Reducer<Value, Action> = (inout Value, Action) -> [Effect<Action>]
+
+
 
 
 

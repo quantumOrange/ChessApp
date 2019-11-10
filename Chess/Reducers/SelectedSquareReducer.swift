@@ -18,7 +18,7 @@ struct SelectedSquareState {
     var selectedSquare:ChessboardSquare?
 }
 
-func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) {
+func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) -> [Effect<SelectionAction>]{
     switch action {
     
     case .select(let square):
@@ -34,5 +34,6 @@ func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionA
     case .clear:
         state.selectedSquare = nil
     }
+    return []
 }
 

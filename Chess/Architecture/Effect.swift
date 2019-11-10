@@ -19,8 +19,11 @@ public struct Effect<A> {
     return Effect<B> { callback in self.run { a in callback(f(a)) } }
   }
 }
-
-
+/*
+struct Parallel<A> {
+  let run: (@escaping (A) -> Void) -> Void
+}
+*/
 extension Effect where A == (Data?, URLResponse?, Error?) {
   public func decode<M: Decodable>(as type: M.Type) -> Effect<M?> {
     return self.map { data, _, _ in

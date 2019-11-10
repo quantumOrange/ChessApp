@@ -50,7 +50,7 @@ extension AppState {
     }
 }
  
-let appReducer:(inout AppState, AppAction) -> Void = combineReducers(
+let appReducer:Reducer<AppState, AppAction> = combineReducers(
         pullback( chessReducer,             value:\.chessboard,             action: \.chess     ),
         pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection )
     )

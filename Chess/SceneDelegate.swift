@@ -83,7 +83,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
             
-            window.rootViewController = UIHostingController(rootView: ChessGameView(store:store,alertModle:alertModle))
+          //  window.rootViewController = UIHostingController(rootView: ChessGameView(store:store,alertModle:alertModle))
+             window.rootViewController = UIHostingController(rootView: HomeView(store:store,alertModle:alertModle))
             self.window = window
             window.makeKeyAndVisible()
         }

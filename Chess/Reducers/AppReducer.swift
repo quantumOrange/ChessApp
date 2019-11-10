@@ -13,7 +13,6 @@ enum AppAction {
     case selection(SelectionAction)
 }
 
-
 extension AppAction {
     var chess:ChessAction? {
         get {

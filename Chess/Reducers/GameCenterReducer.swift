@@ -15,12 +15,15 @@ enum GameCenterAction {
     case sendMove(ChessMove)
     case recieveMove(ChessMove)
     case activate
+    case authenticated
     case match
-    case present(UIViewController)
+    case presentAuthVC(UIViewController)
 }
 
 struct GameCenterState {
+    var isAuthenticated = false
     var authVC:IndentifiableVC?
+    var matchVC:IndentifiableVC?
 }
 
 struct IndentifiableVC:Identifiable {
@@ -55,9 +58,10 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
                 GKLocalPlayer.local.authenticateHandler = { gcAuthVC, error in
                     if GKLocalPlayer.local.isAuthenticated {
                         print("Authenticated to Game Center!")
+                        callback(.authenticated)
                     } else if let vc = gcAuthVC {
                         print("try to send present action")
-                        callback(.present(vc))
+                        callback(.presentAuthVC(vc))
                     }
                     else {
                         print("Error authentication to GameCenter: " +
@@ -66,11 +70,21 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
                 }
             }
         return [effect]
-    case .present(let authVC):
+    case .authenticated:
+        state.isAuthenticated = true
+    case .presentAuthVC(let authVC):
         print("present")
-        state.authVC = IndentifiableVC(id: 0, viewController: authVC)
+        state.authVC = IndentifiableVC(id:0, viewController: authVC)
     case .match:
-        break
+        let request = GKMatchRequest()
+        request.maxPlayers = 2
+        request.minPlayers = 2
+        request.inviteMessage = "Play my fun game"
+        
+        let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
+        
+        state.matchVC = IndentifiableVC(id:0, viewController: vc)
+        
     }
     return []
 }

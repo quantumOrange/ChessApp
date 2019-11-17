@@ -18,13 +18,18 @@ struct HomeView: View {
             VStack {
                 NavigationLink("Play Computer", destination: ChessGameView(store:store,alertModle:alertModle) )
                 Button(action: {self.store.send(.gameCenter(.activate))  }){
-                    Text("Play Online")
+                    Text("Authenticate with Game Center")
                 }
+                Button(action: {self.store.send(.gameCenter(.match))  }){
+                    Text("Match")
+                }
+                //PresentationButton(destination: EmptyView()) { Text("Login") }
             }.sheet(item: .constant(self.store.value.gameCenter.authVC)) { authVC in
                 AnyViewController(viewController: authVC.viewController)
+            }.sheet(item: .constant(self.store.value.gameCenter.matchVC)) { matchVC in
+                //Crash!
+                AnyViewController(viewController: matchVC.viewController)
             }
-            
-            
         }
        
     }

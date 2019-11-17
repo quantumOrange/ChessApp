@@ -37,6 +37,9 @@
 		54B6A6B52378386000989646 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B42378386000989646 /* Utilities.swift */; };
 		54B6A6B7237838B500989646 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B6237838B500989646 /* Store.swift */; };
 		54B6A6B9237839C900989646 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B8237839C900989646 /* Effect.swift */; };
+		54C26C51238178D000F0A6FC /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54C26C50238178D000F0A6FC /* GameKit.framework */; };
+		54C26C5423817A3800F0A6FC /* GameCenterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */; };
+		54C26C562381AF4A00F0A6FC /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C552381AF4A00F0A6FC /* AppAction.swift */; };
 		54E2FEED23003082009F60C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E2FEEC23003082009F60C0 /* User.swift */; };
 		54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E71EA32330243A00491FEE /* ChessEngine.swift */; };
 		54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */; };
@@ -79,7 +82,7 @@
 		5453E315232D974F007DBDC8 /* ValidChessMoves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidChessMoves.swift; sourceTree = "<group>"; };
 		5466A5272337F0130026F80D /* ChessPiecesOnBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiecesOnBoardView.swift; sourceTree = "<group>"; };
 		5466A5292338021D0026F80D /* ChessboardSquaresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessboardSquaresView.swift; sourceTree = "<group>"; };
-		546F41B622F35DFB0033785F /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		546F41B622F35DFB0033785F /* Dark Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dark Chess.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		546F41B922F35DFB0033785F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		546F41BB22F35DFB0033785F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		546F41BF22F35DFD0033785F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -99,6 +102,10 @@
 		54B6A6B42378386000989646 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		54B6A6B6237838B500989646 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		54B6A6B8237839C900989646 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
+		54C26C50238178D000F0A6FC /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		54C26C52238178D600F0A6FC /* Dark Chess.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dark Chess.entitlements"; sourceTree = "<group>"; };
+		54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterReducer.swift; sourceTree = "<group>"; };
+		54C26C552381AF4A00F0A6FC /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		54E2FEEC23003082009F60C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		54E71EA32330243A00491FEE /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 		54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverAlertModel.swift; sourceTree = "<group>"; };
@@ -111,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54C26C51238178D000F0A6FC /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				544F297923251B13005E79EA /* AppReducer.swift */,
+				54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */,
 				544F297B23251BC4005E79EA /* ChessReducer.swift */,
 				543FB8822340EF96002AED8F /* SelectedSquareReducer.swift */,
 			);
@@ -186,13 +195,14 @@
 				546F41CF22F35DFD0033785F /* ChessTests */,
 				546F41DA22F35DFD0033785F /* ChessUITests */,
 				546F41B722F35DFB0033785F /* Products */,
+				54C26C4F238178D000F0A6FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		546F41B722F35DFB0033785F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				546F41B622F35DFB0033785F /* Chess.app */,
+				546F41B622F35DFB0033785F /* Dark Chess.app */,
 				546F41CC22F35DFD0033785F /* ChessTests.xctest */,
 				546F41D722F35DFD0033785F /* ChessUITests.xctest */,
 			);
@@ -202,10 +212,12 @@
 		546F41B822F35DFB0033785F /* Chess */ = {
 			isa = PBXGroup;
 			children = (
+				54C26C52238178D600F0A6FC /* Dark Chess.entitlements */,
 				54B6A6B32378380D00989646 /* Architecture */,
 				544F297D23252D4A005E79EA /* AppStore.swift */,
 				546F41B922F35DFB0033785F /* AppDelegate.swift */,
 				546F41BB22F35DFB0033785F /* SceneDelegate.swift */,
+				54C26C552381AF4A00F0A6FC /* AppAction.swift */,
 				544F297823251AE9005E79EA /* Reducers */,
 				54B6A6BA2378B16700989646 /* Chess Engine */,
 				544C088B2309DA080075B987 /* State */,
@@ -267,6 +279,14 @@
 			path = "Chess Engine";
 			sourceTree = "<group>";
 		};
+		54C26C4F238178D000F0A6FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				54C26C50238178D000F0A6FC /* GameKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -284,7 +304,7 @@
 			);
 			name = Chess;
 			productName = Chess;
-			productReference = 546F41B622F35DFB0033785F /* Chess.app */;
+			productReference = 546F41B622F35DFB0033785F /* Dark Chess.app */;
 			productType = "com.apple.product-type.application";
 		};
 		546F41CB22F35DFD0033785F /* ChessTests */ = {
@@ -402,8 +422,10 @@
 				544F297723251881005E79EA /* Architecture.swift in Sources */,
 				544C08842309C8AC0075B987 /* AppState.swift in Sources */,
 				54B6A6B7237838B500989646 /* Store.swift in Sources */,
+				54C26C5423817A3800F0A6FC /* GameCenterReducer.swift in Sources */,
 				54B6A6B22374CD7100989646 /* HomeView.swift in Sources */,
 				54B6A6B52378386000989646 /* Utilities.swift in Sources */,
+				54C26C562381AF4A00F0A6FC /* AppAction.swift in Sources */,
 				546F41BA22F35DFB0033785F /* AppDelegate.swift in Sources */,
 				5466A52A2338021D0026F80D /* ChessboardSquaresView.swift in Sources */,
 				54B6A6B9237839C900989646 /* Effect.swift in Sources */,
@@ -592,16 +614,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Chess/Dark Chess.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "Chess/Preview\\ Content";
+				DEVELOPMENT_TEAM = 84Y3R5UC5Q;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Chess/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dec.Chess;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.decrooks.Chess;
+				PRODUCT_NAME = "Dark Chess";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -611,16 +635,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Chess/Dark Chess.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "Chess/Preview\\ Content";
+				DEVELOPMENT_TEAM = 84Y3R5UC5Q;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Chess/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dec.Chess;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.decrooks.Chess;
+				PRODUCT_NAME = "Dark Chess";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

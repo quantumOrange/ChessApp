@@ -8,34 +8,7 @@
 
 import Foundation
 
-enum AppAction {
-    case chess(ChessAction)
-    case selection(SelectionAction)
-}
 
-extension AppAction {
-    var chess:ChessAction? {
-        get {
-            guard case let .chess(value) = self else { return nil }
-            return value
-        }
-        set {
-            guard case .chess = self, let newValue = newValue else { return }
-            self = .chess(newValue)
-        }
-    }
-    
-    var selection:SelectionAction? {
-        get {
-            guard case let .selection(value) = self else { return nil }
-            return value
-        }
-        set {
-            guard case .selection = self, let newValue = newValue else { return }
-            self = .selection(newValue)
-        }
-    }
-}
 
 extension AppState {
     
@@ -52,7 +25,8 @@ extension AppState {
  
 let appReducer:Reducer<AppState, AppAction> = combineReducers(
         pullback( chessReducer,             value:\.chessboard,             action: \.chess     ),
-        pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection )
+        pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection ),
+        pullback( gameCenterReducer,        value:\.gameCenter,             action: \.gameCenter )
     )
  
  

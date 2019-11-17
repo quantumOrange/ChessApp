@@ -15,7 +15,16 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            NavigationLink("Start New Game", destination: ChessGameView(store:store,alertModle:alertModle) )
+            VStack {
+                NavigationLink("Play Computer", destination: ChessGameView(store:store,alertModle:alertModle) )
+                Button(action: {self.store.send(.gameCenter(.activate))  }){
+                    Text("Play Online")
+                }
+            }.sheet(item: .constant(self.store.value.gameCenter.authVC)) { authVC in
+                AnyViewController(viewController: authVC.viewController)
+            }
+            
+            
         }
        
     }

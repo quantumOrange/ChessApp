@@ -15,7 +15,7 @@ struct AppState {
     var selectedSquare:ChessboardSquare?
     var players:Players = Players.dummys()
     var playerPointOfView:PlayerColor = .white
-   
+    var gameCenter:GameCenterState = GameCenterState()
 }
 
 extension AppState {

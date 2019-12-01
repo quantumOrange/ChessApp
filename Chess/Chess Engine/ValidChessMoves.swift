@@ -273,10 +273,13 @@ func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
         if ocupiedSquares.count == 0 {
           
             let rookSquare = ChessboardSquare(rank:rank , file: .h)
-            let rookTo = kingSquare.getNeighbour(.right)
-            let kingTo = rookTo!.getNeighbour(.right)!
-            let rookMove = Move(from:rookSquare, to: rookTo!)
-            moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
+            
+            
+            if let rookTo = kingSquare.getNeighbour(.right),
+                let kingTo = rookTo.getNeighbour(.right) {
+                let rookMove = Move(from:rookSquare, to: rookTo)
+                moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
+            }
         }
     
     }
@@ -290,10 +293,14 @@ func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
         if ocupiedSquares.count == 0 {
             
             let rookSquare = ChessboardSquare(rank: rank, file: .a)
-            let rookTo = kingSquare.getNeighbour(.left)
-            let kingTo = rookTo!.getNeighbour(.left)!
-            let rookMove = Move(from:rookSquare, to: rookTo!)
-            moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
+            
+            if let rookTo = kingSquare.getNeighbour(.left),
+                let kingTo = rookTo.getNeighbour(.left)
+                {
+                    let rookMove = Move(from:rookSquare, to: rookTo)
+                    moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
+            }
+            
         }
        
     }

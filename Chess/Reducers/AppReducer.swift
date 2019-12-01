@@ -23,10 +23,10 @@ extension AppState {
     }
 }
  
-let appReducer:Reducer<AppState, AppAction> = combineReducers(
-        pullback( chessReducer,             value:\.chessboard,             action: \.chess     ),
-        pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection ),
-        pullback( gameCenterReducer,        value:\.gameCenter,             action: \.gameCenter )
+let appReducer:Reducer<AppState, AppAction,AppAction> = combineReducers(
+        pullback( chessReducer,             value:\.chessboard,             action: \.chess,        f:pulbackChessEnviromentAction  ),
+        pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection,    f:pullbackSelectionEA           ),
+        pullback( gameCenterReducer,        value:\.gameCenter,             action: \.gameCenter                                    )
     )
  
  

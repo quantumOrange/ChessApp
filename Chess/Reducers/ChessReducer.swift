@@ -29,7 +29,28 @@ enum ChessAction {
     }
 }
 
-func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<ChessAction>] {
+enum ChessEnviromentAction {
+    case clear // move applied
+    case move(ChessMove)
+    
+    var move:ChessAction? {
+        guard case let .move(value) = self else { return nil }
+                   
+        return ChessAction.move(value)
+    }
+}
+
+
+func pulbackChessEnviromentAction(_ enviromentAction:ChessEnviromentAction ) -> AppAction {
+    switch enviromentAction {
+    case .clear:
+        return .selection(.clear)
+    case .move(let move):
+        return .chess(.move(move))
+    }
+}
+
+func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<ChessEnviromentAction>] {
     switch board.gamePlayState {
     case .inPlay:
         break
@@ -45,12 +66,32 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<Ches
             print("ChessMove(code:\"\(move)\"),")
             board = apply(move:validatedMove, to: board)
             board.gamePlayState = gamePlayState(chessboard: board)
-           //print(board)
+            //print(board)
+            //let player = board.whosTurnIsItAnyway
+            if(board.whosTurnIsItAnyway == .black) {
+                let clearEffect = Effect<ChessEnviromentAction> { callback in
+                    
+                    callback(.clear)
+                }
+                let boardCopy = board
+                let moveEffect =  Effect<ChessEnviromentAction> { callback in
+                    
+                    if let move = pickMove(for:boardCopy){
+                        //print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
+                       callback(.move(move))
+                    }
+                    //callback(.move(ChessM))
+                }
+                return [clearEffect,moveEffect]
+                
+            }
+            
+           // return [clearEffect]
         }
          else {
             print(" move fail")
         }
-        
+         
     case .offerDraw(let player):
         board.gamePlayState = .draw
     case .resign(let player):

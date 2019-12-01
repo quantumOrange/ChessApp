@@ -9,17 +9,7 @@
 import SwiftUI
 import Combine
 
-
-enum ChessboardAction {
-    case select(ChessboardSquare)
-    case move(ChessMove)
-}
-
-func absurdAppState(_ never:Never) -> ChessboardAction {
-    switch never {}
-}
-
-func idAction(_ a:ChessboardAction) -> ChessboardAction {
+func idAction(_ a:SelectionAction) -> SelectionAction {
     return a
 }
 
@@ -46,14 +36,14 @@ func ranks(orientatedFor pointOfView:PlayerColor) -> [ChessRank] {
 }
 
 struct ChessboardView : View {
-    @ObservedObject var store: Store<AppState,ChessboardAction>
-
+    @ObservedObject var store: Store<AppState,SelectionAction>
+  
     let width:CGFloat
     var body: some View
         {
               ZStack {
-                ChessboardSquaresView(store: self.store.wormhole(focus:idState, lift:absurdAppState), width: self.width)
-                ChessPiecesOnBoardView(store: self.store.wormhole(focus:idState, lift:absurdAppState), width: self.width)
+                ChessboardSquaresView(store: self.store.wormhole(focus:idState, lift:absurd), width: self.width)
+                ChessPiecesOnBoardView(store: self.store.wormhole(focus:idState, lift:absurd), width: self.width)
                 TappableCheckersView(store: self.store.wormhole(focus: {TappableBoardState(selectedSquare: $0.selectedSquare, playerPointOfView: $0.playerPointOfView)  }, lift: idAction), width: self.width)
             }
                 

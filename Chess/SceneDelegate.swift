@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             let store = chessStore()
-            
+            /*
             cancelable = store.$value
                                 .map{$0.chessboard.whosTurnIsItAnyway}
                                 .receive(on:RunLoop.main)
@@ -39,7 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                 }
                                 .delay(for: 1.0, scheduler: RunLoop.main)
                                 .sink(receiveValue: { requestMoveIfNeeded(player:$0,store:store)})
-            
+            */
             let alertModle = AlertModel<GameOverAlertModel>()
             
             let x = store.$value

@@ -9,30 +9,86 @@
 import Foundation
 
 enum SelectionAction {
-    case select(ChessboardSquare)
+    case tap(ChessboardSquare)
+   
     case clear
 }
+
+enum SelectionEA {
+    case move(ChessMove)
+    
+    var move:ChessMove? {
+        get {
+            guard case let .move(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .move = self, let newValue = newValue else { return }
+            self = .move(newValue)
+        }
+    }
+    
+}
+
 
 struct SelectedSquareState {
     var chessboard:Chessboard
     var selectedSquare:ChessboardSquare?
 }
+/*
+func selectOrMove(to square:ChessboardSquare) {
+    store.send(.tap(square))
+    
+    if let selectedSquare = store.value.selectedSquare, selectedSquare != square {
+        let move =  ChessMove(from: selectedSquare,to:square)
+        store.send(.move(move))
+        
+    }
+}
+*/
 
-func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) -> [Effect<SelectionAction>]{
+
+func pullbackSelectionEA(_ enviromentAction:SelectionEA ) -> AppAction {
+    switch enviromentAction {
+    case .move(let move):
+        return .chess(.move(move))
+    
+    }
+    
+}
+
+
+func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) -> [Effect<SelectionEA>]{
     switch action {
     
-    case .select(let square):
-        if state.selectedSquare == square {
+    case .tap(let square):
+        
+        if state.selectedSquare == square
+        {
             //Tapping the selected square, so toggle off!
             state.selectedSquare = nil
-        } else {
-            if isYourPiece(chessboard:state.chessboard , square: square) {
-                  //  print("Selecting \(square)")
+        }
+        else
+        {
+            if isYourPiece(chessboard:state.chessboard , square: square)
+            {
+                  //selecting a differant peice to move
                  state.selectedSquare = square
+            }
+            else if let selectedSquare = state.selectedSquare
+            {
+                //We have a selected square already
+                let move =  ChessMove(from: selectedSquare,to:square)
+                let effect = Effect<SelectionEA>
+                {   callback in
+                    callback(SelectionEA.move(move))
+                }
+                return [effect]
             }
         }
     case .clear:
         state.selectedSquare = nil
+    
     }
     return []
 }

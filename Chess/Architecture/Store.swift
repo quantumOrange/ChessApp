@@ -13,11 +13,11 @@ import SwiftUI
 
 final class Store<Value, Action>: ObservableObject {
     //let reducer: (inout Value, Action) -> Void
-    let reducer:Reducer<Value,Action>
+    let reducer:Reducer<Value,Action,Action>
     
     @Published private(set) var value: Value
 
-    init(initialValue: Value, reducer:@escaping Reducer<Value,Action>) {
+    init(initialValue: Value, reducer:@escaping Reducer<Value,Action,Action>) {
         self.reducer = reducer
         self.value = initialValue
     }

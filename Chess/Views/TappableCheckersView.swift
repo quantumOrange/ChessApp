@@ -15,7 +15,7 @@ struct TappableBoardState{
 
 struct TappableCheckersView: View {
     
-    @ObservedObject var store: Store<TappableBoardState,ChessboardAction>
+    @ObservedObject var store: Store<TappableBoardState,SelectionAction>
     
     let width:CGFloat
     
@@ -23,16 +23,6 @@ struct TappableCheckersView: View {
         return width/8.0
     }
     
-    func selectOrMove(to square:ChessboardSquare) {
-        store.send(.select(square))
-        
-        if let selectedSquare = store.value.selectedSquare, selectedSquare != square {
-            let move =  ChessMove(from: selectedSquare,to:square)
-            store.send(.move(move))
-            
-        }
-    }
-
     var body: some View {
         HStack(alignment: .center,spacing:0)
                        {
@@ -44,7 +34,8 @@ struct TappableCheckersView: View {
                                 ForEach(ranks(orientatedFor:self.store.value.playerPointOfView)) { rank in
                                        
                                                    Button(action:{
-                                                    self.selectOrMove(to:ChessboardSquare(rank:rank, file:file))
+                                                    self.store.send(.tap(ChessboardSquare(rank:rank, file:file)))
+                                                   // self.selectOrMove(to:ChessboardSquare(rank:rank, file:file))
                                                    } ){
                                                     Spacer().frame(width:self.squareWidth,height: self.squareWidth)
                                                        }

@@ -8,13 +8,13 @@
 
 import SwiftUI
 
-func liftChessboardAction(_ localAction:ChessboardAction ) -> AppAction {
+func liftChessboardAction(_ localAction:SelectionAction ) -> AppAction {
     switch localAction {
     
-    case .select(let square):
-        return .selection(.select(square))
-    case .move(let move):
-        return .chess(.move(move))
+    case .tap(let square):
+        return .selection(.tap(square))
+    case .clear:
+        return .selection(.clear)
     
     }
 }
@@ -23,7 +23,6 @@ struct ChessGameView : View {
     @ObservedObject var store: Store<AppState,AppAction>
     @ObservedObject var alertModle:AlertModel<GameOverAlertModel>
    
-    
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .center, spacing:50 ){

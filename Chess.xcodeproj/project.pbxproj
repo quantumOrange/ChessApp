@@ -40,6 +40,7 @@
 		54C26C51238178D000F0A6FC /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54C26C50238178D000F0A6FC /* GameKit.framework */; };
 		54C26C5423817A3800F0A6FC /* GameCenterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */; };
 		54C26C562381AF4A00F0A6FC /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C552381AF4A00F0A6FC /* AppAction.swift */; };
+		54C26C582394595200F0A6FC /* chessClockReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C572394595200F0A6FC /* chessClockReducer.swift */; };
 		54E2FEED23003082009F60C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E2FEEC23003082009F60C0 /* User.swift */; };
 		54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E71EA32330243A00491FEE /* ChessEngine.swift */; };
 		54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */; };
@@ -106,6 +107,7 @@
 		54C26C52238178D600F0A6FC /* Dark Chess.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dark Chess.entitlements"; sourceTree = "<group>"; };
 		54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterReducer.swift; sourceTree = "<group>"; };
 		54C26C552381AF4A00F0A6FC /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
+		54C26C572394595200F0A6FC /* chessClockReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chessClockReducer.swift; sourceTree = "<group>"; };
 		54E2FEEC23003082009F60C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		54E71EA32330243A00491FEE /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 		54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverAlertModel.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */,
 				544F297B23251BC4005E79EA /* ChessReducer.swift */,
 				543FB8822340EF96002AED8F /* SelectedSquareReducer.swift */,
+				54C26C572394595200F0A6FC /* chessClockReducer.swift */,
 			);
 			path = Reducers;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				544C088A2309D01D0075B987 /* ChessPieceView.swift in Sources */,
 				544F297E23252D4A005E79EA /* AppStore.swift in Sources */,
 				544F297C23251BC4005E79EA /* ChessReducer.swift in Sources */,
+				54C26C582394595200F0A6FC /* chessClockReducer.swift in Sources */,
 				546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */,
 				544C088F2309DD850075B987 /* ChessGameView.swift in Sources */,
 				544F297A23251B13005E79EA /* AppReducer.swift in Sources */,

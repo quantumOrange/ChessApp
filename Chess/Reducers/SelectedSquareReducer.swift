@@ -35,28 +35,6 @@ struct SelectedSquareState {
     var chessboard:Chessboard
     var selectedSquare:ChessboardSquare?
 }
-/*
-func selectOrMove(to square:ChessboardSquare) {
-    store.send(.tap(square))
-    
-    if let selectedSquare = store.value.selectedSquare, selectedSquare != square {
-        let move =  ChessMove(from: selectedSquare,to:square)
-        store.send(.move(move))
-        
-    }
-}
-*/
-
-
-func pullbackSelectionEA(_ enviromentAction:SelectionEA ) -> AppAction {
-    switch enviromentAction {
-    case .move(let move):
-        return .chess(.move(move))
-    
-    }
-    
-}
-
 
 func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) -> [Effect<SelectionEA>]{
     switch action {

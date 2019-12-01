@@ -81,7 +81,7 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         request.maxPlayers = 2
         request.minPlayers = 2
         request.inviteMessage = "Play my fun game"
-        print("Get MAtch")
+        print("Get Match")
         let effect = Effect<GameCenterAction> { callback in
             print("running match effect")
             GKMatchmaker.shared().findMatch(for: request, withCompletionHandler: { match, error in

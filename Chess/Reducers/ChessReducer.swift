@@ -41,14 +41,7 @@ enum ChessEnviromentAction {
 }
 
 
-func pulbackChessEnviromentAction(_ enviromentAction:ChessEnviromentAction ) -> AppAction {
-    switch enviromentAction {
-    case .clear:
-        return .selection(.clear)
-    case .move(let move):
-        return .chess(.move(move))
-    }
-}
+
 
 func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<ChessEnviromentAction>] {
     switch board.gamePlayState {

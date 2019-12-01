@@ -16,7 +16,8 @@ enum GameCenterAction {
     case recieveMove(ChessMove)
     case activate
     case authenticated
-    case match
+    case getMatch
+    case match(GKMatch)
     case presentAuthVC(UIViewController)
 }
 
@@ -75,15 +76,33 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
     case .presentAuthVC(let authVC):
         print("present")
         state.authVC = IndentifiableVC(id:0, viewController: authVC)
-    case .match:
+    case .getMatch:
         let request = GKMatchRequest()
         request.maxPlayers = 2
         request.minPlayers = 2
         request.inviteMessage = "Play my fun game"
+        print("Get MAtch")
+        let effect = Effect<GameCenterAction> { callback in
+            print("running match effect")
+            GKMatchmaker.shared().findMatch(for: request, withCompletionHandler: { match, error in
+                print("match handler")
+                if let match = match {
+                    callback(.match(match))
+                } else {
+                    print(error)
+                }
+            })
+            
+        }
         
-        let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
+        return [effect]
         
-        state.matchVC = IndentifiableVC(id:0, viewController: vc)
+        //let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
+        
+        //state.matchVC = IndentifiableVC(id:0, viewController: vc)
+        
+    case .match(let match):
+        print(match)
         
     }
     return []

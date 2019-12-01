@@ -20,15 +20,12 @@ struct HomeView: View {
                 Button(action: {self.store.send(.gameCenter(.activate))  }){
                     Text("Authenticate with Game Center")
                 }
-                Button(action: {self.store.send(.gameCenter(.match))  }){
+                Button(action: {self.store.send(.gameCenter(.getMatch))  }){
                     Text("Match")
                 }
                 //PresentationButton(destination: EmptyView()) { Text("Login") }
             }.sheet(item: .constant(self.store.value.gameCenter.authVC)) { authVC in
                 AnyViewController(viewController: authVC.viewController)
-            }.sheet(item: .constant(self.store.value.gameCenter.matchVC)) { matchVC in
-                //Crash!
-                AnyViewController(viewController: matchVC.viewController)
             }
         }
        

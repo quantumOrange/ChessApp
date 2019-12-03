@@ -28,18 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             let store = chessStore()
-            /*
-            cancelable = store.$value
-                                .map{$0.chessboard.whosTurnIsItAnyway}
-                                .receive(on:RunLoop.main)
-                                .removeDuplicates()
-                                .map{
-                                    clearSelection(player:$0)
-                                    return $0
-                                }
-                                .delay(for: 1.0, scheduler: RunLoop.main)
-                                .sink(receiveValue: { requestMoveIfNeeded(player:$0,store:store)})
-            */
+            
             let alertModle = AlertModel<GameOverAlertModel>()
             
             let x = store.$value
@@ -59,32 +48,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     })
             
-            func requestMoveIfNeeded(player:PlayerColor,store:Store<AppState,AppAction>) {
-                if(player == .black) {
-                    //print( "Player is Black")
-                    requestMove(store:store)
-                }
-                else {
-                    //print( "Player is White")
-                }
-            }
-            
-            func clearSelection(player:PlayerColor){
-                if(player == .black){
-                    store.send(.selection(.clear))
-                }
-            }
-            
-            func requestMove(store:Store<AppState,AppAction>) {
-                let board = store.value.chessboard
-                if let move = pickMove(for:board){
-                    //print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
-                   store.send(.chess(.move(move)))
-                }
-            }
-            
-          //  window.rootViewController = UIHostingController(rootView: ChessGameView(store:store,alertModle:alertModle))
-             window.rootViewController = UIHostingController(rootView: HomeView(store:store,alertModle:alertModle))
+           //window.rootViewController = UIHostingController(rootView: ChessGameView(store:store,alertModle:alertModle))
+            window.rootViewController = UIHostingController(rootView: HomeView(store:store,alertModle:alertModle))
             self.window = window
             window.makeKeyAndVisible()
         }

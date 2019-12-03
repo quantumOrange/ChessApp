@@ -18,6 +18,7 @@ enum GameCenterAction {
     case authenticated
     case getMatch
     case match(GKMatch)
+    case matchDelegate(MatchDelegate)
     case presentAuthVC(UIViewController)
 }
 
@@ -25,6 +26,37 @@ struct GameCenterState {
     var isAuthenticated = false
     var authVC:IndentifiableVC?
     var matchVC:IndentifiableVC?
+    var match:GKMatch?
+    var matchDelegate:MatchDelegate?
+}
+
+class MatchDelegate:NSObject,GKMatchDelegate {
+   
+    init(send:@escaping (GameCenterAction)->()) {
+        self.send = send
+    }
+    
+    var send:(GameCenterAction)->()
+    
+    func match(_ match: GKMatch, didReceive data: Data, forRecipient recipient: GKPlayer, fromRemotePlayer player: GKPlayer) {
+        send(.match(match))
+    }
+    
+    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer){
+        
+    }
+    
+    func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState){
+        
+    }
+    
+    func match(_ match: GKMatch, didFailWithError error: Error?){
+        
+    }
+
+    func match(_ match: GKMatch, shouldReinviteDisconnectedPlayer player: GKPlayer) -> Bool {
+        return true;
+    }
 }
 
 struct IndentifiableVC:Identifiable {
@@ -85,6 +117,7 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         let effect = Effect<GameCenterAction> { callback in
             print("running match effect")
             GKMatchmaker.shared().findMatch(for: request, withCompletionHandler: { match, error in
+                //this is called o the main thread
                 print("match handler")
                 if let match = match {
                     callback(.match(match))
@@ -102,8 +135,18 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         //state.matchVC = IndentifiableVC(id:0, viewController: vc)
         
     case .match(let match):
-        print(match)
+        state.match = match
         
+        let effect = Effect<GameCenterAction> { callback in
+            let delegate = MatchDelegate(send:callback)
+            callback(.matchDelegate(delegate))
+        }
+        print(match)
+        return [effect]
+       
+    case .matchDelegate(let delegate):
+        state.match?.delegate = delegate
+        state.matchDelegate = delegate
     }
     return []
 }

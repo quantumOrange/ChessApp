@@ -29,27 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             let store = chessStore()
             
-            let alertModle = AlertModel<GameOverAlertModel>()
-            
-            let x = store.$value
-                    .map{$0.chessboard.gamePlayState}
-                    .receive(on:RunLoop.main)
-                    .removeDuplicates()
-                    .sink(receiveValue: {
-                        switch $0 {
-                            
-                        case .won(let player):
-                            alertModle.value = GameOverAlertModel(state: .win(player), reason: .checkmate)
-                            break
-                        case .draw:
-                            alertModle.value = GameOverAlertModel(state: .draw, reason: .agreement)
-                        case .inPlay:
-                            break
-                        }
-                    })
-            
-           //window.rootViewController = UIHostingController(rootView: ChessGameView(store:store,alertModle:alertModle))
-            window.rootViewController = UIHostingController(rootView: HomeView(store:store,alertModle:alertModle))
+            window.rootViewController = UIHostingController(rootView: HomeView(store:store))
             self.window = window
             window.makeKeyAndVisible()
         }

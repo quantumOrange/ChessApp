@@ -21,7 +21,7 @@ struct ChessboardSquare:Equatable,Hashable {
 extension ChessboardSquare {
     // ChessboardSquare(rank: newRank, file: newFile)
     init?(code:String){
-        let invalidRawValue = -1
+        //let invalidRawValue = -1
         guard   let rank = ChessRank(code:String(code.suffix(1))),
                 let file = ChessFile(code:String(code.prefix(1)))     else { return nil }
         

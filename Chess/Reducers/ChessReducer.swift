@@ -29,7 +29,7 @@ enum ChessAction {
     }
 }
 
-enum ChessEnviromentAction {
+enum ChessExoAction {
     case clear // move applied
     case move(ChessMove)
     
@@ -40,10 +40,7 @@ enum ChessEnviromentAction {
     }
 }
 
-
-
-
-func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<ChessEnviromentAction>] {
+func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<ChessExoAction>] {
     switch board.gamePlayState {
     case .inPlay:
         break
@@ -59,27 +56,25 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<Ches
             print("ChessMove(code:\"\(move)\"),")
             board = apply(move:validatedMove, to: board)
             board.gamePlayState = gamePlayState(chessboard: board)
-            //print(board)
-            //let player = board.whosTurnIsItAnyway
+ 
             if(board.whosTurnIsItAnyway == .black) {
-                let clearEffect = Effect<ChessEnviromentAction> { callback in
+                let clearEffect = Effect<ChessExoAction> { callback in
                     
                     callback(.clear)
                 }
                 let boardCopy = board
-                let moveEffect =  Effect<ChessEnviromentAction> { callback in
+                let moveEffect =  Effect<ChessExoAction> { callback in
                     
                     if let move = pickMove(for:boardCopy){
                         //print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
                        callback(.move(move))
                     }
-                    //callback(.move(ChessM))
+                   
                 }
                 return [clearEffect,moveEffect]
                 
             }
-            
-           // return [clearEffect]
+
         }
          else {
             print(" move fail")

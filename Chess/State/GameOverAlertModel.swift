@@ -55,9 +55,9 @@ struct GameOverAlertModel:Identifiable {
         }
     }
 }
-
+/*
 final class AlertModel<Value>: ObservableObject {
     @Published var value: Value? = nil
 }
-
+*/
 

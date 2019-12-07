@@ -8,13 +8,13 @@
 
 import Foundation
 
-enum SelectionAction {
+enum chessboardAction {
     case tap(ChessboardSquare)
    
     case clear
 }
 
-enum SelectionEA {
+enum chessboardExoAction {
     case move(ChessMove)
     
     var move:ChessMove? {
@@ -30,13 +30,13 @@ enum SelectionEA {
     
 }
 
-
-struct SelectedSquareState {
+struct chessboardUIState {
     var chessboard:Chessboard
     var selectedSquare:ChessboardSquare?
+    var gameOverAlertModel:GameOverAlertModel? = nil
 }
 
-func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionAction) -> [Effect<SelectionEA>]{
+func chessboardUIReducer(_ state:inout chessboardUIState,_ action:chessboardAction) -> [Effect<chessboardExoAction>]{
     switch action {
     
     case .tap(let square):
@@ -57,14 +57,26 @@ func selectedSquareReducer(_ state:inout SelectedSquareState,_ action:SelectionA
             {
                 //We have a selected square already
                 let move =  ChessMove(from: selectedSquare,to:square)
-                let effect = Effect<SelectionEA>
+                let effect = Effect<chessboardExoAction>
                 {   callback in
-                    callback(SelectionEA.move(move))
+                    callback(chessboardExoAction.move(move))
                 }
                 return [effect]
             }
         }
     case .clear:
+        
+        switch state.chessboard.gamePlayState {
+                                   
+           case .won(let player):
+               state.gameOverAlertModel = GameOverAlertModel(state: .win(player), reason: .checkmate)
+               break
+           case .draw:
+               state.gameOverAlertModel = GameOverAlertModel(state: .draw, reason: .agreement)
+           case .inPlay:
+               break
+        }
+        
         state.selectedSquare = nil
     
     }

@@ -10,23 +10,24 @@ import Foundation
 
 let appReducer:Reducer<AppState, AppAction,AppAction> = combineReducers(
         pullback( chessReducer,             value:\.chessboard,             action: \.chess,        f:pulbackChessEnviromentAction  ),
-        pullback( selectedSquareReducer,    value:\.selectedSquareState,    action: \.selection,    f:pullbackSelectionEA           ),
+        pullback( chessboardUIReducer,    value:\.selectedSquareState,    action: \.selection,    f:pullbackSelectionEA           ),
         pullback( gameCenterReducer,        value:\.gameCenter,             action: \.gameCenter                                    )
     )
  
 extension AppState {
-    var selectedSquareState:SelectedSquareState {
+    var selectedSquareState:chessboardUIState {
         get {
-            SelectedSquareState(chessboard: chessboard, selectedSquare: selectedSquare)
+            chessboardUIState(chessboard: chessboard, selectedSquare: selectedSquare)
         }
         set {
             selectedSquare = newValue.selectedSquare
             chessboard = newValue.chessboard
+            gameOverAlertModel = newValue.gameOverAlertModel
         }
     }
 }
 
-func pulbackChessEnviromentAction(_ enviromentAction:ChessEnviromentAction ) -> AppAction {
+func pulbackChessEnviromentAction(_ enviromentAction:ChessExoAction ) -> AppAction {
     switch enviromentAction {
     case .clear:
         return .selection(.clear)
@@ -35,7 +36,7 @@ func pulbackChessEnviromentAction(_ enviromentAction:ChessEnviromentAction ) -> 
     }
 }
 
-func pullbackSelectionEA(_ enviromentAction:SelectionEA ) -> AppAction {
+func pullbackSelectionEA(_ enviromentAction:chessboardExoAction ) -> AppAction {
     switch enviromentAction {
     case .move(let move):
         return .chess(.move(move))

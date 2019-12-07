@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-func idAction(_ a:SelectionAction) -> SelectionAction {
+func idAction(_ a:chessboardAction) -> chessboardAction {
     return a
 }
 
@@ -36,7 +36,7 @@ func ranks(orientatedFor pointOfView:PlayerColor) -> [ChessRank] {
 }
 
 struct ChessboardView : View {
-    @ObservedObject var store: Store<AppState,SelectionAction>
+    @ObservedObject var store: Store<AppState,chessboardAction>
   
     let width:CGFloat
     var body: some View

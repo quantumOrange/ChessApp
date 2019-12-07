@@ -15,7 +15,7 @@ struct TappableBoardState{
 
 struct TappableCheckersView: View {
     
-    @ObservedObject var store: Store<TappableBoardState,SelectionAction>
+    @ObservedObject var store: Store<TappableBoardState,chessboardAction>
     
     let width:CGFloat
     

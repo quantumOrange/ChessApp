@@ -10,7 +10,7 @@ import Foundation
 
 enum AppAction {
     case chess(ChessAction)
-    case selection(SelectionAction)
+    case selection(chessboardAction)
     case gameCenter(GameCenterAction)
 }
 
@@ -27,7 +27,7 @@ extension AppAction {
         }
     }
     
-    var selection:SelectionAction? {
+    var selection:chessboardAction? {
         get {
             guard case let .selection(value) = self else { return nil }
             return value

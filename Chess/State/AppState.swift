@@ -16,9 +16,11 @@ struct AppState {
     var players:Players = Players.dummys()
     var playerPointOfView:PlayerColor = .white
     var gameCenter:GameCenterState = GameCenterState()
+    var gameOverAlertModel:GameOverAlertModel? = nil
 }
-
+/*
 extension AppState {
+    
     var gameOverAlertModel:GameOverAlertModel? {
         switch chessboard.gamePlayState {
         case .won(let player):
@@ -29,7 +31,9 @@ extension AppState {
             return nil
         }
     }
+ 
 }
+ */
 
 struct ChessGameState {
     var chessboard:Chessboard =  Chessboard.start()

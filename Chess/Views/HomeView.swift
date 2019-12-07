@@ -11,12 +11,12 @@ import SwiftUI
 struct HomeView: View {
     
     @ObservedObject var store: Store<AppState,AppAction>
-    @ObservedObject var alertModle:AlertModel<GameOverAlertModel>
+   // @ObservedObject var alertModle:AlertModel<GameOverAlertModel>
     
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink("Play Computer", destination: ChessGameView(store:store,alertModle:alertModle) )
+                NavigationLink("Play Computer", destination: ChessGameView(store:store ))
                 Button(action: {self.store.send(.gameCenter(.activate))  }){
                     Text("Authenticate with Game Center")
                 }
@@ -34,6 +34,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(store:chessStore(),alertModle:AlertModel<GameOverAlertModel>())
+        HomeView(store:chessStore())
     }
 }

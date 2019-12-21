@@ -33,6 +33,7 @@
 		546F41DC22F35DFD0033785F /* ChessUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41DB22F35DFD0033785F /* ChessUITests.swift */; };
 		546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41E922F35ED40033785F /* ChessPiece.swift */; };
 		546F41EC22F35EE40033785F /* Chessboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41EB22F35EE40033785F /* Chessboard.swift */; };
+		5491FC1223AE95EA00BE8D6E /* DoubleClockReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5491FC1123AE95E900BE8D6E /* DoubleClockReducer.swift */; };
 		54B6A6B22374CD7100989646 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B12374CD7100989646 /* HomeView.swift */; };
 		54B6A6B52378386000989646 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B42378386000989646 /* Utilities.swift */; };
 		54B6A6B7237838B500989646 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B6237838B500989646 /* Store.swift */; };
@@ -40,7 +41,6 @@
 		54C26C51238178D000F0A6FC /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54C26C50238178D000F0A6FC /* GameKit.framework */; };
 		54C26C5423817A3800F0A6FC /* GameCenterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */; };
 		54C26C562381AF4A00F0A6FC /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C552381AF4A00F0A6FC /* AppAction.swift */; };
-		54C26C582394595200F0A6FC /* ChessClockReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C572394595200F0A6FC /* ChessClockReducer.swift */; };
 		54E2FEED23003082009F60C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E2FEEC23003082009F60C0 /* User.swift */; };
 		54E71EA42330243A00491FEE /* ChessEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E71EA32330243A00491FEE /* ChessEngine.swift */; };
 		54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */; };
@@ -99,6 +99,7 @@
 		546F41E922F35ED40033785F /* ChessPiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessPiece.swift; sourceTree = "<group>"; };
 		546F41EB22F35EE40033785F /* Chessboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chessboard.swift; sourceTree = "<group>"; };
 		546F41ED22F35F220033785F /* chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = chess.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		5491FC1123AE95E900BE8D6E /* DoubleClockReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleClockReducer.swift; sourceTree = "<group>"; };
 		54B6A6B12374CD7100989646 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		54B6A6B42378386000989646 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		54B6A6B6237838B500989646 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -107,7 +108,6 @@
 		54C26C52238178D600F0A6FC /* Dark Chess.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dark Chess.entitlements"; sourceTree = "<group>"; };
 		54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterReducer.swift; sourceTree = "<group>"; };
 		54C26C552381AF4A00F0A6FC /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
-		54C26C572394595200F0A6FC /* ChessClockReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessClockReducer.swift; sourceTree = "<group>"; };
 		54E2FEEC23003082009F60C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		54E71EA32330243A00491FEE /* ChessEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessEngine.swift; sourceTree = "<group>"; };
 		54EE3F0B23448BEC00CC80C0 /* GameOverAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverAlertModel.swift; sourceTree = "<group>"; };
@@ -181,11 +181,11 @@
 		544F297823251AE9005E79EA /* Reducers */ = {
 			isa = PBXGroup;
 			children = (
+				5491FC1123AE95E900BE8D6E /* DoubleClockReducer.swift */,
 				544F297923251B13005E79EA /* AppReducer.swift */,
 				54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */,
 				544F297B23251BC4005E79EA /* ChessReducer.swift */,
 				543FB8822340EF96002AED8F /* ChessboardUIReducer.swift */,
-				54C26C572394595200F0A6FC /* ChessClockReducer.swift */,
 			);
 			path = Reducers;
 			sourceTree = "<group>";
@@ -441,8 +441,8 @@
 				54EE3F0C23448BEC00CC80C0 /* GameOverAlertModel.swift in Sources */,
 				544C088A2309D01D0075B987 /* ChessPieceView.swift in Sources */,
 				544F297E23252D4A005E79EA /* AppStore.swift in Sources */,
+				5491FC1223AE95EA00BE8D6E /* DoubleClockReducer.swift in Sources */,
 				544F297C23251BC4005E79EA /* ChessReducer.swift in Sources */,
-				54C26C582394595200F0A6FC /* ChessClockReducer.swift in Sources */,
 				546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */,
 				544C088F2309DD850075B987 /* ChessGameView.swift in Sources */,
 				544F297A23251B13005E79EA /* AppReducer.swift in Sources */,

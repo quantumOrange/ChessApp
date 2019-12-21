@@ -69,8 +69,10 @@ func chessClockReducer(_ state:inout  ChessClockState,_ action:ChessClockAction)
 }
 
 func update(delay:TimeInterval)-> Effect<ChessClockAction> {
+ 
     return Effect<ChessClockAction>.async { callback in
-        //delay!
+        //add delay heare!
         callback(.update(delay))
     }
+    
 }

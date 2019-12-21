@@ -33,6 +33,8 @@ func pulbackChessEnviromentAction(_ enviromentAction:ChessExoAction ) -> AppActi
         return .selection(.clear)
     case .move(let move):
         return .chess(.move(move))
+    case .noValidMoves:
+        return .chess(.noValidMoves)
     }
 }
 

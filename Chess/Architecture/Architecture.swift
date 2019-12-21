@@ -24,15 +24,15 @@ func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
     let localEffects =  reducer(&globalValue[keyPath: value], localAction)
     
     return localEffects.map { localEffect in
-        Effect { callback in
-            localEffect.run { localAction in
-                var globalAction = globalAction
-                globalAction[keyPath: action] = localAction
-                callback(globalAction)
-            }
-            
-        }
         
+            localEffect.map { localAction -> GlobalAction in
+                
+                var globalAction = globalAction
+               globalAction[keyPath: action] = localAction
+               return globalAction
+            }
+            .eraseToEffect()
+           
     }
   }
 }
@@ -48,14 +48,14 @@ func pullback<LocalValue, GlobalValue, LocalAction,LocalEnviromentAction, Global
     let localEffects =  reducer(&globalValue[keyPath: value], localAction)
     
     return localEffects.map { localEffect in
-        Effect { callback in
-            localEffect.run { localEnviromentAction in
-                let globalAction = f(localEnviromentAction)
-                callback(globalAction)
-            }
-            
-        }
         
+        localEffect.map { localEnviromentAction -> GlobalAction in
+            
+            let globalAction = f(localEnviromentAction)
+          return globalAction
+        }
+        .eraseToEffect()
+      
     }
   }
 }

@@ -12,6 +12,7 @@ enum ChessAction {
     case move(ChessMove)
     case resign(PlayerColor)
     case offerDraw(PlayerColor)
+    case noValidMoves
     
     var move:ChessMove? {
         guard case let .move(mv) = self else { return nil }
@@ -32,6 +33,7 @@ enum ChessAction {
 enum ChessExoAction {
     case clear // move applied
     case move(ChessMove)
+    case noValidMoves
     
     var move:ChessAction? {
         guard case let .move(value) = self else { return nil }
@@ -58,19 +60,19 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<Ches
             board.gamePlayState = gamePlayState(chessboard: board)
  
             if(board.whosTurnIsItAnyway == .black) {
-                let clearEffect = Effect<ChessExoAction> { callback in
-                    
-                    callback(.clear)
-                }
+                let clearEffect = Effect<ChessExoAction>.sync(work: {
+                    return .clear
+                })
+
                 let boardCopy = board
-                let moveEffect =  Effect<ChessExoAction> { callback in
-                    
+                let moveEffect = Effect<ChessExoAction>.sync {
                     if let move = pickMove(for:boardCopy){
                         //print("Sending a move \(move) for  \(board.whosTurnIsItAnyway) for black")
-                       callback(.move(move))
+                        return .move(move)
                     }
-                   
+                    return .noValidMoves
                 }
+  
                 return [clearEffect,moveEffect]
                 
             }
@@ -80,11 +82,14 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<Ches
             print(" move fail")
         }
          
-    case .offerDraw(let player):
+    case .offerDraw(_):
         board.gamePlayState = .draw
     case .resign(let player):
         board.gamePlayState = .won(!player)
+    case .noValidMoves:
+        board.gamePlayState = .draw
     }
+    
     return []
 }
 

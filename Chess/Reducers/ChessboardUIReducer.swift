@@ -57,10 +57,11 @@ func chessboardUIReducer(_ state:inout chessboardUIState,_ action:chessboardActi
             {
                 //We have a selected square already
                 let move =  ChessMove(from: selectedSquare,to:square)
-                let effect = Effect<chessboardExoAction>
-                {   callback in
-                    callback(chessboardExoAction.move(move))
-                }
+                
+                let effect = Effect<chessboardExoAction>.sync(work: {
+                    return .move(move)
+                })
+               
                 return [effect]
             }
         }

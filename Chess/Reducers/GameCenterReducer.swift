@@ -86,6 +86,7 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         break
     case .activate:
         print("activate")
+        /*
         let effect =  Effect<GameCenterAction> { callback in
                 print("run game center effect")
                 GKLocalPlayer.local.authenticateHandler = { gcAuthVC, error in
@@ -103,6 +104,7 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
                 }
             }
         return [effect]
+        */
     case .authenticated:
         state.isAuthenticated = true
     case .presentAuthVC(let authVC):
@@ -114,6 +116,8 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         request.minPlayers = 2
         request.inviteMessage = "Play my fun game"
         print("Get Match")
+        
+        /*
         let effect = Effect<GameCenterAction> { callback in
             print("running match effect")
             GKMatchmaker.shared().findMatch(for: request, withCompletionHandler: { match, error in
@@ -127,8 +131,9 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
             })
             
         }
+         return [effect]
+        */
         
-        return [effect]
         
         //let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
         
@@ -137,12 +142,16 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
     case .match(let match):
         state.match = match
         
+        
+        /*
         let effect = Effect<GameCenterAction> { callback in
             let delegate = MatchDelegate(send:callback)
             callback(.matchDelegate(delegate))
         }
+         
         print(match)
         return [effect]
+        */
        
     case .matchDelegate(let delegate):
         state.match?.delegate = delegate

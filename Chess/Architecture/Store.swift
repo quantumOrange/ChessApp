@@ -15,6 +15,9 @@ final class Store<Value, Action>: ObservableObject {
     //let reducer: (inout Value, Action) -> Void
     let reducer:Reducer<Value,Action,Action>
     
+    var cancelable:Cancellable?
+    private var effectCancellables: Set<AnyCancellable>  = []
+    
     @Published private(set) var value: Value
 
     init(initialValue: Value, reducer:@escaping Reducer<Value,Action,Action>) {
@@ -26,12 +29,24 @@ final class Store<Value, Action>: ObservableObject {
         let effects = self.reducer(&self.value, action)
         
         effects.forEach { effect in
-          effect.run(self.send)
+            var effectCancelable:AnyCancellable?
+            var didComplete = false
+            effectCancelable = effect.sink(receiveCompletion: {[weak self] _ in
+                didComplete = true
+                guard let effectCancelable = effectCancelable else { return }
+                self?.effectCancellables.remove( effectCancelable )
+            },receiveValue: self.send)
+            
+            if !didComplete, let effectCancelable = effectCancelable {
+                effectCancellables.insert( effectCancelable)
+            }
+            
+            
         }
         //self.reducer(&self.value, action)
     }
     
-    var cancelable:Cancellable?
+    
 
     func wormhole<LocalValue,LocalAction>( focus:@escaping (Value)->LocalValue , lift:@escaping (LocalAction)->Action ) -> Store<LocalValue,LocalAction>
 

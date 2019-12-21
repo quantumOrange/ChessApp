@@ -10,6 +10,8 @@ import Foundation
 import GameKit
 import SwiftUI
 import UIKit
+import Combine
+import Contacts
 
 enum GameCenterAction {
     case sendMove(ChessMove)
@@ -86,25 +88,27 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         break
     case .activate:
         print("activate")
-        /*
-        let effect =  Effect<GameCenterAction> { callback in
-                print("run game center effect")
-                GKLocalPlayer.local.authenticateHandler = { gcAuthVC, error in
-                    if GKLocalPlayer.local.isAuthenticated {
-                        print("Authenticated to Game Center!")
-                        callback(.authenticated)
-                    } else if let vc = gcAuthVC {
-                        print("try to send present action")
-                        callback(.presentAuthVC(vc))
-                    }
-                    else {
-                        print("Error authentication to GameCenter: " +
-                                "\(error?.localizedDescription ?? "none")")
-                    }
+        
+        let effect = Effect<GameCenterAction>.async { callback in
+            print("run game center effect")
+            GKLocalPlayer.local.authenticateHandler = { gcAuthVC, error in
+                if GKLocalPlayer.local.isAuthenticated {
+                    print("Authenticated to Game Center!")
+                    callback(.authenticated)
+                } else if let vc = gcAuthVC {
+                    print("try to send present action")
+                    callback(.presentAuthVC(vc))
+                }
+                else {
+                    print("Error authentication to GameCenter: " +
+                            "\(error?.localizedDescription ?? "none")")
                 }
             }
+            
+        }
+        
         return [effect]
-        */
+       
     case .authenticated:
         state.isAuthenticated = true
     case .presentAuthVC(let authVC):
@@ -117,8 +121,8 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         request.inviteMessage = "Play my fun game"
         print("Get Match")
         
-        /*
-        let effect = Effect<GameCenterAction> { callback in
+        
+        let effect = Effect<GameCenterAction>.async { callback in
             print("running match effect")
             GKMatchmaker.shared().findMatch(for: request, withCompletionHandler: { match, error in
                 //this is called o the main thread
@@ -132,7 +136,7 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
             
         }
          return [effect]
-        */
+        
         
         
         //let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
@@ -143,15 +147,15 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         state.match = match
         
         
-        /*
-        let effect = Effect<GameCenterAction> { callback in
+        
+        let effect = Effect<GameCenterAction>.async { callback in
             let delegate = MatchDelegate(send:callback)
             callback(.matchDelegate(delegate))
         }
          
         print(match)
         return [effect]
-        */
+        
        
     case .matchDelegate(let delegate):
         state.match?.delegate = delegate

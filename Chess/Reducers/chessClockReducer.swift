@@ -32,13 +32,13 @@ struct ClockState {
         return ClockState(total:total,remaining: newTime)
     }
 }
-/*
+
 func feedback<A>(_ action:A) -> Effect<A> {
-    return  Effect<A> { callback in
+    return  Effect<A>.async { callback in
         callback(action)
     }
 }
-*/
+
 func chessClockReducer(_ state:inout  ChessClockState,_ action:ChessClockAction) -> [Effect<ChessClockAction>]{
     switch action {
 
@@ -69,16 +69,8 @@ func chessClockReducer(_ state:inout  ChessClockState,_ action:ChessClockAction)
 }
 
 func update(delay:TimeInterval)-> Effect<ChessClockAction> {
-    //this needs to be async!
-    return Effect<ChessClockAction>.sync(work: {
+    return Effect<ChessClockAction>.async { callback in
         //delay!
-        return .update(delay)
-    })
-    
-    /*
-    return Effect<ChessClockAction> { callback in
-        //add delay heare!
         callback(.update(delay))
     }
-    */
 }

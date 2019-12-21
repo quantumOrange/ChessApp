@@ -121,9 +121,7 @@ func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
                 board[secondMove.to] = secondPieceToMove
             }
             
-        
         }
-        
     }
     
     board.moves.append(move)

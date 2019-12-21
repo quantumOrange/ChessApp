@@ -39,11 +39,25 @@ extension Effect {
 
 extension Effect
 {
+    
   public static func sync(work: @escaping () -> Output) -> Effect
   {
     return Deferred
         {
-            Just(work())
+           return  Just(work())
+        }
+        .eraseToEffect()
+  }
+
+  public static func async(work: @escaping (@escaping  (Output) ->()) -> ()) -> Effect
+  {
+    return Deferred
+        {
+            Future<Output,Never> { promise in
+                work { output in
+                    promise(.success(output))
+                }
+            }
         }
         .eraseToEffect()
   }

@@ -8,6 +8,14 @@
 
 import SwiftUI
 
+func focusClockState(appState:AppState) -> ChessClockState {
+    return appState.clocks
+}
+
+func liftClockAction(clockAction:ChessClockAction) -> AppAction {
+    return .clock(clockAction)
+}
+ 
 struct HomeView: View {
     
     @ObservedObject var store: Store<AppState,AppAction>
@@ -15,8 +23,10 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing:50) {
                 NavigationLink("Play Computer", destination: ChessGameView(store:store ))
+                NavigationLink("Show clock", destination: ChessClockView(store:self.store.wormhole(focus:{ $0.clocks }, lift: { .clock($0)})) )
+                                
                 Button(action: {self.store.send(.gameCenter(.activate))  }){
                     Text("Authenticate with Game Center")
                 }

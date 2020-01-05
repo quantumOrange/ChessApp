@@ -16,19 +16,34 @@ enum ChessClockAction {
     case start
 }
 
+enum ChessClockExoAction {
+    case update(TimeInterval)
+    case outOfTime(PlayerColor)
+}
+
 struct ChessClockState {
-    var isTiming:Bool
+    init(time:TimeInterval) {
+        self.black = ClockState(total:time,remaining:time)
+        self.white = ClockState(total:time,remaining:time)
+    }
+    
+    var isTiming:Bool = false
     var black:ClockState
     var white:ClockState
     var activePlayer:PlayerColor = .white
 }
 
 struct ClockState {
+    
     let total:TimeInterval
     let remaining:TimeInterval
     
+    var outOfTime:Bool {
+        remaining <= 0
+    }
+    
     func less(time:TimeInterval) -> ClockState {
-        let newTime = remaining - time
+        let newTime = Double.maximum(remaining - time,0.0)
         return ClockState(total:total,remaining: newTime)
     }
 }
@@ -39,7 +54,9 @@ func feedback<A>(_ action:A) -> Effect<A> {
     }
 }
 
-func chessClockReducer(_ state:inout  ChessClockState,_ action:ChessClockAction) -> [Effect<ChessClockAction>]{
+func chessClockReducer(_ state:inout  ChessClockState,_ action:ChessClockAction) -> [Effect<ChessClockExoAction>]{
+    let defaultDelay = 0.1
+    
     switch action {
 
     case .update(let deltaTime):
@@ -47,32 +64,49 @@ func chessClockReducer(_ state:inout  ChessClockState,_ action:ChessClockAction)
             switch state.activePlayer {
             case .white:
                 state.white = state.white.less(time: deltaTime)
+                if state.white.outOfTime {
+                    state.isTiming = false
+                    return [Effect.send(.outOfTime(.white))]
+                }
             case .black:
                 state.black = state.black.less(time: deltaTime)
+                if state.black.outOfTime {
+                    state.isTiming = false
+                    return [Effect.send(.outOfTime(.black))] //stop the game here!
+                }
             }
-            return [update(delay:0.1)]
+            return [update(delay:defaultDelay)]
         }
+        print("---update---")
+        print(state)
     case .reset(let time):
+        print("---reset---")
         state.black = ClockState(total:time,remaining:time)
         state.white = ClockState(total:time,remaining:time)
         state.activePlayer = .white
     case .switchPlayer:
+        print("---switch---")
         state.activePlayer = !state.activePlayer
         //let effect = feedback(.update)
     case .stop:
+        print("---stop---")
         state.isTiming = false
     case .start:
+        print("---start--")
         state.isTiming = true
-        return [update(delay:0.1)]
+        return [update(delay:defaultDelay)]
     }
     return []
 }
 
-func update(delay:TimeInterval)-> Effect<ChessClockAction> {
+func update(delay:TimeInterval)-> Effect<ChessClockExoAction> {
  
-    return Effect<ChessClockAction>.async { callback in
-        //add delay heare!
-        callback(.update(delay))
+    return Effect<ChessClockExoAction>.async { callback in
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+            callback(.update(delay))
+        })
+        
     }
     
 }

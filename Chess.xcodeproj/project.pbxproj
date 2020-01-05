@@ -34,6 +34,7 @@
 		546F41EA22F35ED40033785F /* ChessPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41E922F35ED40033785F /* ChessPiece.swift */; };
 		546F41EC22F35EE40033785F /* Chessboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546F41EB22F35EE40033785F /* Chessboard.swift */; };
 		5491FC1223AE95EA00BE8D6E /* DoubleClockReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5491FC1123AE95E900BE8D6E /* DoubleClockReducer.swift */; };
+		5491FC1423AF892D00BE8D6E /* ChessClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5491FC1323AF892D00BE8D6E /* ChessClockView.swift */; };
 		54B6A6B22374CD7100989646 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B12374CD7100989646 /* HomeView.swift */; };
 		54B6A6B52378386000989646 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B42378386000989646 /* Utilities.swift */; };
 		54B6A6B7237838B500989646 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B6237838B500989646 /* Store.swift */; };
@@ -100,6 +101,7 @@
 		546F41EB22F35EE40033785F /* Chessboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chessboard.swift; sourceTree = "<group>"; };
 		546F41ED22F35F220033785F /* chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = chess.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5491FC1123AE95E900BE8D6E /* DoubleClockReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleClockReducer.swift; sourceTree = "<group>"; };
+		5491FC1323AF892D00BE8D6E /* ChessClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessClockView.swift; sourceTree = "<group>"; };
 		54B6A6B12374CD7100989646 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		54B6A6B42378386000989646 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		54B6A6B6237838B500989646 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			children = (
 				543FB880233FCC2D002AED8F /* Chessboard */,
 				544C088E2309DD850075B987 /* ChessGameView.swift */,
+				5491FC1323AF892D00BE8D6E /* ChessClockView.swift */,
 				54B6A6B12374CD7100989646 /* HomeView.swift */,
 				544C08852309C8EE0075B987 /* PlayerView.swift */,
 			);
@@ -433,6 +436,7 @@
 				5466A52A2338021D0026F80D /* ChessboardSquaresView.swift in Sources */,
 				54B6A6B9237839C900989646 /* Effect.swift in Sources */,
 				546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */,
+				5491FC1423AF892D00BE8D6E /* ChessClockView.swift in Sources */,
 				544B2210232E493E00659FA5 /* ChessboardSquare.swift in Sources */,
 				544C08922309EEBF0075B987 /* ChessMove.swift in Sources */,
 				5453E316232D974F007DBDC8 /* ValidChessMoves.swift in Sources */,

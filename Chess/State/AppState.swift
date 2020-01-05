@@ -17,6 +17,7 @@ struct AppState {
     var playerPointOfView:PlayerColor = .white
     var gameCenter:GameCenterState = GameCenterState()
     var gameOverAlertModel:GameOverAlertModel? = nil
+    var clocks: ChessClockState =  ChessClockState(time:60)
 }
 /*
 extension AppState {

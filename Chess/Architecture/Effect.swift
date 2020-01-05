@@ -39,6 +39,13 @@ extension Effect {
 
 extension Effect
 {
+    public static func send(_ action:Output) -> Effect {
+        return sync(work: { action })
+    }
+}
+
+extension Effect
+{
     
   public static func sync(work: @escaping () -> Output) -> Effect
   {
@@ -62,5 +69,7 @@ extension Effect
         .eraseToEffect()
   }
 }
+
+
 
 

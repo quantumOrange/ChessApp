@@ -11,7 +11,8 @@ import Foundation
 let appReducer:Reducer<AppState, AppAction,AppAction> = combineReducers(
         pullback( chessReducer,             value:\.chessboard,             action: \.chess,        f:pulbackChessEnviromentAction  ),
         pullback( chessboardUIReducer,    value:\.selectedSquareState,    action: \.selection,    f:pullbackSelectionEA           ),
-        pullback( gameCenterReducer,        value:\.gameCenter,             action: \.gameCenter                                    )
+        pullback( gameCenterReducer,        value:\.gameCenter,             action: \.gameCenter ),
+        pullback( chessClockReducer,        value:\.clocks,                   action: \.clock, f:pullbackClockExoAction)
     )
  
 extension AppState {
@@ -46,6 +47,14 @@ func pullbackSelectionEA(_ enviromentAction:chessboardExoAction ) -> AppAction {
     }
 }
 
+func pullbackClockExoAction(_ exo:ChessClockExoAction) -> AppAction {
+    switch exo {
+    case .update(let time):
+        return .clock(.update(time))
+    case .outOfTime(let player):
+        return .chess(.timeout(player))
+    }
+}
  
  
  

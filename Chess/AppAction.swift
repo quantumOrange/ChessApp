@@ -12,6 +12,7 @@ enum AppAction {
     case chess(ChessAction)
     case selection(chessboardAction)
     case gameCenter(GameCenterAction)
+    case clock(ChessClockAction)
 }
 
 
@@ -46,6 +47,17 @@ extension AppAction {
         set {
             guard case .gameCenter = self, let newValue = newValue else { return }
             self = .gameCenter(newValue)
+        }
+    }
+    
+    var clock:ChessClockAction? {
+        get {
+            guard case let .clock(value) = self else { return nil }
+            return value
+        }
+        set {
+            guard case .clock = self, let newValue = newValue else { return }
+            self = .clock(newValue)
         }
     }
 }

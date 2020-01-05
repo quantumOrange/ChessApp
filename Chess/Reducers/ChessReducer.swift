@@ -11,6 +11,7 @@ import Foundation
 enum ChessAction {
     case move(ChessMove)
     case resign(PlayerColor)
+    case timeout(PlayerColor)
     case offerDraw(PlayerColor)
     case noValidMoves
     
@@ -88,6 +89,8 @@ func chessReducer(_ board:inout Chessboard,_ action:ChessAction) -> [Effect<Ches
         board.gamePlayState = .won(!player)
     case .noValidMoves:
         board.gamePlayState = .draw
+    case .timeout(let player):
+        board.gamePlayState = .won(!player)
     }
     
     return []

@@ -137,8 +137,6 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         }
          return [effect]
         
-        
-        
         //let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
         
         //state.matchVC = IndentifiableVC(id:0, viewController: vc)

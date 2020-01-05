@@ -12,9 +12,7 @@ func id<A>(_ a:A)->A {
     a
 }
 
-func absurd<A>(_ never:Never) -> A {
-    switch never {}
-}
+func absurd<A>(_ never:Never) -> A {}
 
 public func with<A, B>(_ a: A, _ f: (A) throws -> B) rethrows -> B {
   return try f(a)

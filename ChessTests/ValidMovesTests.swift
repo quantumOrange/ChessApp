@@ -73,7 +73,7 @@ class ValidMoves: XCTestCase {
     
     func testNumberOfValidOpeningMovesForBlack() {
         //white moves a pawn
-        var board = apply( move: ChessMove(from: ChessboardSquare(rank: ._2, file: .e), to: ChessboardSquare(rank: ._3, file: .e)), to: Chessboard.start())
+        let board = apply( move: ChessMove(from: ChessboardSquare(rank: ._2, file: .e), to: ChessboardSquare(rank: ._3, file: .e)), to: Chessboard.start())
         
         let moves = validMoves(chessboard: board)
         

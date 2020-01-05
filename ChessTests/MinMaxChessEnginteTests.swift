@@ -51,7 +51,7 @@ class MinMaxChessEnginteTests: XCTestCase {
         
         //black to move
         self.measure {
-            miniMaxRoot(for: board, depth: 2, isMaximisingPlayer: true)
+            let _ = miniMaxRoot(for: board, depth: 2, isMaximisingPlayer: true)
             
         }
     }

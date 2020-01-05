@@ -82,9 +82,9 @@ struct AnyViewController:UIViewControllerRepresentable {
 func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) -> [Effect<GameCenterAction>]{
     switch action {
 
-    case .sendMove(let move):
+    case .sendMove(_):
         break
-    case .recieveMove(let move):
+    case .recieveMove(_):
         break
     case .activate:
         print("activate")
@@ -130,7 +130,7 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
                 if let match = match {
                     callback(.match(match))
                 } else {
-                    print(error)
+                     print(error as Any)
                 }
             })
             

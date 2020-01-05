@@ -33,6 +33,9 @@ struct HomeView: View {
                 Button(action: {self.store.send(.gameCenter(.getMatch))  }){
                     Text("Match")
                 }
+                Button(action: {self.store.send(.gameCenter(.getMatchWithMatchmakerVC))  }){
+                    Text("Match with VC")
+                }
                 //PresentationButton(destination: EmptyView()) { Text("Login") }
             }.sheet(item: .constant(self.store.value.gameCenter.authVC)) { authVC in
                 AnyViewController(viewController: authVC.viewController)

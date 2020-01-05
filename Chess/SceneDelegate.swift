@@ -30,6 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let store = chessStore()
             
             window.rootViewController = UIHostingController(rootView: HomeView(store:store))
+            
+            store.rootViewController = window.rootViewController
+            
             self.window = window
             window.makeKeyAndVisible()
         }

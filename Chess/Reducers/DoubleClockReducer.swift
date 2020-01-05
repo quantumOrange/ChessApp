@@ -46,6 +46,7 @@ struct ClockState {
         let newTime = Double.maximum(remaining - time,0.0)
         return ClockState(total:total,remaining: newTime)
     }
+    
 }
 
 func feedback<A>(_ action:A) -> Effect<A> {

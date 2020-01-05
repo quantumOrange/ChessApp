@@ -19,47 +19,29 @@ enum GameCenterAction {
     case activate
     case authenticated
     case getMatch
+    case getMatchWithMatchmakerVC
     case match(GKMatch)
+    case recievedEvent(GKPlayer,GKTurnBasedMatch,Bool)
     case matchDelegate(MatchDelegate)
+    case matchVCDelegate(GKTurnBasedMatchmakerViewControllerDelegate)
     case presentAuthVC(UIViewController)
+    case setPlayerListener(GKLocalPlayerListener)
+    case quit(GKPlayer,GKTurnBasedMatch)
 }
 
 struct GameCenterState {
     var isAuthenticated = false
     var authVC:IndentifiableVC?
-    var matchVC:IndentifiableVC?
+    var matchVC:GKTurnBasedMatchmakerViewController?
+    var turnBasedMatchmakerDelegate:GKTurnBasedMatchmakerViewControllerDelegate?
     var match:GKMatch?
     var matchDelegate:MatchDelegate?
+    var playerListener:GKLocalPlayerListener?
 }
 
-class MatchDelegate:NSObject,GKMatchDelegate {
-   
-    init(send:@escaping (GameCenterAction)->()) {
-        self.send = send
-    }
-    
-    var send:(GameCenterAction)->()
-    
-    func match(_ match: GKMatch, didReceive data: Data, forRecipient recipient: GKPlayer, fromRemotePlayer player: GKPlayer) {
-        send(.match(match))
-    }
-    
-    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer){
-        
-    }
-    
-    func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState){
-        
-    }
-    
-    func match(_ match: GKMatch, didFailWithError error: Error?){
-        
-    }
 
-    func match(_ match: GKMatch, shouldReinviteDisconnectedPlayer player: GKPlayer) -> Bool {
-        return true;
-    }
-}
+
+
 
 struct IndentifiableVC:Identifiable {
     var id: Int
@@ -104,13 +86,23 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
                             "\(error?.localizedDescription ?? "none")")
                 }
             }
-            
         }
         
         return [effect]
        
     case .authenticated:
         state.isAuthenticated = true
+        let effect = Effect<GameCenterAction>.async { callback in
+            callback(.setPlayerListener(PlayerListener(send: callback)))
+        }
+        return [effect]
+        
+    case .setPlayerListener(let playerListener):
+        state.playerListener = playerListener
+        let effect = Effect<GameCenterAction>.fireAndForget {
+            GKLocalPlayer.local.register(playerListener)
+        }
+        return [effect]
     case .presentAuthVC(let authVC):
         print("present")
         state.authVC = IndentifiableVC(id:0, viewController: authVC)
@@ -120,7 +112,6 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         request.minPlayers = 2
         request.inviteMessage = "Play my fun game"
         print("Get Match")
-        
         
         let effect = Effect<GameCenterAction>.async { callback in
             print("running match effect")
@@ -137,14 +128,29 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         }
          return [effect]
         
-        //let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
+     case .getMatchWithMatchmakerVC:
+        let request = GKMatchRequest()
+        request.maxPlayers = 2
+        request.minPlayers = 2
+        request.inviteMessage = "Play my fun game"
+        print("Get Match WIth VC")
+        
+        let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
+        state.matchVC  = vc
+        //vc.turnBasedMatchmakerDelegate =
+        var effect = Effect<GameCenterAction>.async { callback in
+            let delegate = TurnBasedMatchmakerDelegate(send:callback)
+            callback(.matchVCDelegate(delegate))
+        }
+        
+        effect.vcToPresent = vc
+        
+        return [effect]
         
         //state.matchVC = IndentifiableVC(id:0, viewController: vc)
         
     case .match(let match):
         state.match = match
-        
-        
         
         let effect = Effect<GameCenterAction>.async { callback in
             let delegate = MatchDelegate(send:callback)
@@ -154,10 +160,41 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         print(match)
         return [effect]
         
-       
+    case .matchVCDelegate(let delegate):
+        //state.match?.delegate = delegate
+        state.matchVC?.turnBasedMatchmakerDelegate = delegate
+        state.turnBasedMatchmakerDelegate = delegate
+        //state.matchDelegate = delegate
+    
     case .matchDelegate(let delegate):
         state.match?.delegate = delegate
         state.matchDelegate = delegate
+    case .recievedEvent(let player, let match, let didBecomeActive):
+        if didBecomeActive {
+            if let vc = state.matchVC {
+                state.matchVC = nil
+                vc.dismiss(animated: true)
+            }
+        }
+    case .quit(let player,let match):
+    // 1
+        let activeOthers = match.participants.filter { other in
+           other.status == .active
+        }
+        
+        // 2
+          //player.
+        match.currentParticipant?.matchOutcome = .lost
+          
+        activeOthers.forEach { participant in
+          participant.matchOutcome = .won
+        }
+        
+        // 3
+        match.endMatchInTurn(
+          withMatch: match.matchData ?? Data()
+        )
     }
+    
     return []
 }

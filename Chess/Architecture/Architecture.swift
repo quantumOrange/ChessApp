@@ -25,7 +25,7 @@ func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
     
     return localEffects.map { localEffect in
         
-            localEffect.map { localAction -> GlobalAction in
+            var globalEffect = localEffect.map { localAction -> GlobalAction in
                 
                 var globalAction = globalAction
                globalAction[keyPath: action] = localAction
@@ -33,6 +33,9 @@ func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
             }
             .eraseToEffect()
            
+        globalEffect.vcToPresent = localEffect.vcToPresent
+        
+        return globalEffect
     }
   }
 }
@@ -49,13 +52,16 @@ func pullback<LocalValue, GlobalValue, LocalAction,LocalEnviromentAction, Global
     
     return localEffects.map { localEffect in
         
-        localEffect.map { localEnviromentAction -> GlobalAction in
+        var globalEffect =  localEffect.map { localEnviromentAction -> GlobalAction in
             
             let globalAction = f(localEnviromentAction)
           return globalAction
         }
         .eraseToEffect()
       
+        globalEffect.vcToPresent = localEffect.vcToPresent
+        
+        return globalEffect
     }
   }
 }
@@ -72,5 +78,13 @@ func combineReducers<Value, Action, EnvironmentAction>(
 
 
 
+class ActionSender:NSObject {
 
+    init(send:@escaping (GameCenterAction)->()) {
+        self.send = send
+    }
+
+    var send:(GameCenterAction)->()
+    
+}
 

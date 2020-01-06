@@ -9,7 +9,7 @@
 import Foundation
 import GameKit
 //I don't think we need this if we are just going to use the GKTurnBasedMatchmakerViewController
-class MatchDelegate:ActionSender, GKMatchDelegate {
+class MatchDelegate:ActionSender<GameCenterAction>, GKMatchDelegate {
 
     func match(_ match: GKMatch, didReceive data: Data, forRecipient recipient: GKPlayer, fromRemotePlayer player: GKPlayer) {
         send(.match(match))
@@ -32,7 +32,7 @@ class MatchDelegate:ActionSender, GKMatchDelegate {
     }
 }
 
-class TurnBasedMatchmakerDelegate:ActionSender,GKTurnBasedMatchmakerViewControllerDelegate {
+class TurnBasedMatchmakerDelegate:ActionSender<GameCenterAction>,GKTurnBasedMatchmakerViewControllerDelegate {
   func turnBasedMatchmakerViewControllerWasCancelled(
     _ viewController: GKTurnBasedMatchmakerViewController) {
       viewController.dismiss(animated: true)
@@ -45,20 +45,23 @@ class TurnBasedMatchmakerDelegate:ActionSender,GKTurnBasedMatchmakerViewControll
   }
 }
 
-class PlayerListener:ActionSender, GKLocalPlayerListener {
+class PlayerListener:ActionSender<GameCenterAction> {
+   
+}
+
+extension PlayerListener:GKLocalPlayerListener {
     func player(_ player: GKPlayer, wantsToQuitMatch match: GKTurnBasedMatch) {
-      send(.quit(player,match))
-      
-    }
-    
-    func player(
-              _ player: GKPlayer,
-              receivedTurnEventFor match: GKTurnBasedMatch,
-              didBecomeActive: Bool
-            )
-    {
-        send(.recievedEvent(player, match, didBecomeActive))
-        //NotificationCenter.default.post(name: .presentGame, object: match)
-    }
-    
+         send(.quit(player,match))
+         
+       }
+       
+       func player(
+                 _ player: GKPlayer,
+                 receivedTurnEventFor match: GKTurnBasedMatch,
+                 didBecomeActive: Bool
+               )
+       {
+           send(.recievedEvent(player, match, didBecomeActive))
+           //NotificationCenter.default.post(name: .presentGame, object: match)
+       }
 }

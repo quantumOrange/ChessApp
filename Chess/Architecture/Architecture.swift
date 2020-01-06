@@ -78,13 +78,13 @@ func combineReducers<Value, Action, EnvironmentAction>(
 
 
 
-class ActionSender:NSObject {
+class ActionSender<Action>:NSObject {
 
-    init(send:@escaping (GameCenterAction)->()) {
+    init(send:@escaping (Action)->()) {
         self.send = send
     }
 
-    var send:(GameCenterAction)->()
+    var send:(Action)->()
     
 }
 

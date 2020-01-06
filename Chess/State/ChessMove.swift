@@ -14,7 +14,49 @@ enum AuxilleryChessMove:Equatable {
     case double(Move) //for castleing
 }
 
-struct ChessMove:Equatable,CustomStringConvertible {
+extension AuxilleryChessMove:Codable {
+    private enum CodingKeys: String, CodingKey {
+        case none
+        case promote
+        case double
+    }
+
+    enum PostTypeCodingError: Error {
+        case decoding(String)
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        if let value = try? values.decode(ChessPiece.Kind.self, forKey: .promote) {
+            self = .promote(value)
+            return
+        }
+        
+        if let value = try? values.decode(Move.self, forKey: .double) {
+            self = .double(value)
+            return
+        }
+        
+        self = .none
+
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .none:
+            try container.encodeNil(forKey: .none)
+        case .promote(let kind):
+            try container.encode(kind, forKey: .promote)
+        case .double(let move):
+            try container.encode(move, forKey: .double)
+        
+        }
+    }
+}
+
+struct ChessMove:Equatable,CustomStringConvertible,Codable {
     
     var description: String {
         "\(from)->\(to)"
@@ -44,11 +86,9 @@ struct ChessMove:Equatable,CustomStringConvertible {
         guard case .promote(let piece) = auxillery else { return nil }
         return piece
     }
-    
-    
 }
 
-struct Move:Equatable {
+struct Move:Equatable,Codable {
     let from:ChessboardSquare
     let to:ChessboardSquare
     

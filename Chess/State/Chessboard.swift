@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Chessboard {
-    enum GamePlayState:Equatable  {
+struct Chessboard:Codable {
+    enum GamePlayState:Equatable ,Codable {
         case won(PlayerColor)
         case draw
         // case noStarted
@@ -17,12 +17,14 @@ struct Chessboard {
         case inPlay
     }
     
-    var gamePlayState = GamePlayState.inPlay
-    
-    struct CastelState {
+    struct CastelState:Codable {
         var canCastleQueenside:Bool = true;
         var canCastleKingside:Bool = true;
     }
+    
+    var gamePlayState = GamePlayState.inPlay
+    
+    
     
     private var storage:[ChessPiece?]
     
@@ -31,9 +33,7 @@ struct Chessboard {
     var blackCastelState:CastelState = CastelState()
     var whiteCastelState:CastelState = CastelState()
     
-    var whosTurnIsItAnyway:PlayerColor {
-        return moves.count.isMultiple(of: 2) ? .white : .black
-    }
+   
     
     var moves:[ChessMove] = []
     
@@ -43,22 +43,77 @@ struct Chessboard {
         storage = Array(repeating: nil, count: 64)
     }
     
-    mutating func randomise() {
-        (0...8).forEach{ _ in
-            storage[Int.random(in: 0..<64)] = ChessPiece.random()
-        }
-    }
-    
-    
-    var squares:[ChessboardSquare] = {
-           return (0...7).flatMap{ i in
-                  (0...7).map { j in
-                   ChessboardSquare(rank: ChessRank(rawValue: i)!, file: ChessFile(rawValue: j)!)
-               }
+   var squares:[ChessboardSquare] = {
+       return (0...7).flatMap{ i in
+              (0...7).map { j in
+               ChessboardSquare(rank: ChessRank(rawValue: i)!, file: ChessFile(rawValue: j)!)
            }
-       }()
+       }
+   }()
 }
 
+extension Chessboard {
+    mutating func randomise() {
+           (0...8).forEach{ _ in
+               storage[Int.random(in: 0..<64)] = ChessPiece.random()
+           }
+       }
+       
+    var whosTurnIsItAnyway:PlayerColor {
+           return moves.count.isMultiple(of: 2) ? .white : .black
+       }
+}
+
+extension  Chessboard.GamePlayState {
+    
+    private enum CodingKeys: String, CodingKey {
+        case won
+        case draw
+        // case noStarted
+        // case abandoned
+        case inPlay
+    }
+
+    enum PostTypeCodingError: Error {
+        case decoding(String)
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        if let value = try? values.decode(PlayerColor.self, forKey: .won) {
+            self = .won(value)
+            return
+        }
+        
+        if let _ = try? values.decode(String.self, forKey: .draw) {
+            self = .draw
+            return
+        }
+        
+        if let _ = try? values.decode(String.self, forKey: .inPlay) {
+            self = .inPlay
+            return
+        }
+        
+        throw PostTypeCodingError.decoding("Whoops! \(dump(values))")
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        switch self {
+            
+        case .won(let playerColor):
+            try container.encode(playerColor, forKey: .won)
+        case .draw:
+            try container.encode("draw", forKey: .draw)
+        case .inPlay:
+            try container.encode("inPlay", forKey: .inPlay)
+       
+        }
+    }
+}
 
 //Setup a board
 extension Chessboard {
@@ -140,7 +195,7 @@ extension Chessboard {
 }
 
 
-enum ChessFile:Int,CaseIterable,Equatable {
+enum ChessFile:Int,CaseIterable,Equatable,Codable{
     
     init?(code:String) {
         switch code {
@@ -191,7 +246,7 @@ extension ChessFile:CustomStringConvertible {
     }
 }
 
-enum ChessRank:Int,CaseIterable,Equatable{
+enum ChessRank:Int,CaseIterable,Equatable,Codable {
     case _1 = 0 ,_2,_3,_4,_5,_6,_7,_8
     
     init?(code:String) {

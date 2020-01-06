@@ -8,24 +8,11 @@
 
 import Foundation
 
-enum PlayerColor:Equatable {
-    case white
-    case black
-}
 
-prefix func !(v:PlayerColor)-> PlayerColor {
-    switch v {
-    case .white:
-        return .black
-    case .black:
-        return .white
-    }
-}
-
-struct ChessPiece:Equatable,Identifiable {
+struct ChessPiece:Equatable,Identifiable,Codable {
    
     
-    enum Kind:Equatable,CaseIterable {
+    enum Kind:String,Equatable,CaseIterable,Codable {
         case pawn
         case knight
         case bishop

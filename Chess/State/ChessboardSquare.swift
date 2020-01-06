@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ChessboardSquare:Equatable,Hashable {
+struct ChessboardSquare:Equatable,Hashable,Codable {
     let rank:ChessRank
     let file:ChessFile
     

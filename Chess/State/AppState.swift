@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct ChessGameState {
+    var chessboard:Chessboard =  Chessboard.start()
+    var players:Players = Players.dummys()
+    var playerPointOfView:PlayerColor = .white
+}
+
 struct AppState {
     var chessboard:Chessboard =  Chessboard.start()
     var user = User.david()
@@ -18,29 +24,6 @@ struct AppState {
     var gameCenter:GameCenterState = GameCenterState()
     var gameOverAlertModel:GameOverAlertModel? = nil
     var clocks: ChessClockState =  ChessClockState(time:60)
-}
-/*
-extension AppState {
-    
-    var gameOverAlertModel:GameOverAlertModel? {
-        switch chessboard.gamePlayState {
-        case .won(let player):
-            return GameOverAlertModel(state: .win(player), reason: .checkmate)
-        case .draw:
-            return GameOverAlertModel(state: .draw, reason: .agreement)
-        case .inPlay:
-            return nil
-        }
-    }
- 
-}
- */
-
-struct ChessGameState {
-    var chessboard:Chessboard =  Chessboard.start()
-    var selectedSquare:ChessboardSquare?
-    var players:Players = Players.dummys()
-    var playerPointOfView:PlayerColor = .white
 }
 
 func gamePlayState(chessboard:Chessboard) -> Chessboard.GamePlayState {
@@ -57,6 +40,7 @@ func gamePlayState(chessboard:Chessboard) -> Chessboard.GamePlayState {
     if !checked && !currentPlayerCanMove {
         return .draw
     }
+    
     return .inPlay
 }
 

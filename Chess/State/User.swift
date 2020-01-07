@@ -9,28 +9,29 @@
 import Foundation
 
 
-struct User {
+struct User:Codable {
     let id:Int
     let name:String
     let rating:Float
+    let type:PlayerType
 }
 
 extension User {
     static func david() -> User {
-        User(id: 1, name: "David", rating: 1200)
+        User(id: 1, name: "David", rating: 1200, type:.appUser)
     }
     static func chewbacka() -> User {
-         User(id: 2, name: "Chewbacka", rating: 1390)
+         User(id: 2, name: "Chewbacka", rating: 1390, type:.remote)
     }
 }
 
-enum PlayerType {
+enum PlayerType:String,Codable {
     case appUser
-    case remote(User)
+    case remote
     case computer
 }
 
-struct Players {
+struct Players:Codable {
     let white:User
     let black:User
     
@@ -53,12 +54,12 @@ extension Players {
 func getUsers(callback:([User]) -> ()) {
     
     let users = [
-        User(id: 321, name: "Jimbob", rating: 1200),
-        User(id: 32, name: "Han Solo", rating: 1345),
-        User(id: 78, name: "R2D2", rating: 1456),
-        User(id: 2, name: "Chewbacka", rating: 890),
-        User(id: 46, name: "Helmut", rating: 678),
-        User(id: 103, name: "Tracy", rating: 1109)
+        User(id: 321, name: "Jimbob", rating: 1200,type:.remote),
+        User(id: 32, name: "Han Solo", rating: 1345,type:.remote),
+        User(id: 78, name: "R2D2", rating: 1456,type:.remote),
+        User(id: 2, name: "Chewbacka", rating: 890,type:.remote),
+        User(id: 46, name: "Helmut", rating: 678,type:.remote),
+        User(id: 103, name: "Tracy", rating: 1109,type:.remote)
     ]
     
     callback(users)

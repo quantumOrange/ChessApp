@@ -41,6 +41,7 @@
 		54B6A6B9237839C900989646 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B6A6B8237839C900989646 /* Effect.swift */; };
 		54B9D69223C2AC0100253254 /* GameCenterActionSenders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69123C2AC0100253254 /* GameCenterActionSenders.swift */; };
 		54B9D69423C3605700253254 /* PlayerColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69323C3605700253254 /* PlayerColor.swift */; };
+		54B9D69623C382A700253254 /* PlayerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69523C382A700253254 /* PlayerListener.swift */; };
 		54C26C51238178D000F0A6FC /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54C26C50238178D000F0A6FC /* GameKit.framework */; };
 		54C26C5423817A3800F0A6FC /* GameCenterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */; };
 		54C26C562381AF4A00F0A6FC /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C552381AF4A00F0A6FC /* AppAction.swift */; };
@@ -110,6 +111,7 @@
 		54B6A6B8237839C900989646 /* Effect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effect.swift; sourceTree = "<group>"; };
 		54B9D69123C2AC0100253254 /* GameCenterActionSenders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterActionSenders.swift; sourceTree = "<group>"; };
 		54B9D69323C3605700253254 /* PlayerColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerColor.swift; sourceTree = "<group>"; };
+		54B9D69523C382A700253254 /* PlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListener.swift; sourceTree = "<group>"; };
 		54C26C50238178D000F0A6FC /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		54C26C52238178D600F0A6FC /* Dark Chess.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dark Chess.entitlements"; sourceTree = "<group>"; };
 		54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterReducer.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */,
+				54B9D69523C382A700253254 /* PlayerListener.swift */,
 				54B9D69123C2AC0100253254 /* GameCenterActionSenders.swift */,
 			);
 			path = "Game Center";
@@ -454,6 +457,7 @@
 				546F41BC22F35DFB0033785F /* SceneDelegate.swift in Sources */,
 				5491FC1423AF892D00BE8D6E /* ChessClockView.swift in Sources */,
 				544B2210232E493E00659FA5 /* ChessboardSquare.swift in Sources */,
+				54B9D69623C382A700253254 /* PlayerListener.swift in Sources */,
 				544C08922309EEBF0075B987 /* ChessMove.swift in Sources */,
 				5453E316232D974F007DBDC8 /* ValidChessMoves.swift in Sources */,
 				544C08862309C8EE0075B987 /* PlayerView.swift in Sources */,

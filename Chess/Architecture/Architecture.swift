@@ -32,8 +32,6 @@ func pullback<LocalValue, GlobalValue, LocalAction, GlobalAction>(
                return globalAction
             }
             .eraseToEffect()
-           
-        globalEffect.vcToPresent = localEffect.vcToPresent
         
         return globalEffect
     }
@@ -58,8 +56,6 @@ func pullback<LocalValue, GlobalValue, LocalAction,LocalEnviromentAction, Global
           return globalAction
         }
         .eraseToEffect()
-      
-        globalEffect.vcToPresent = localEffect.vcToPresent
         
         return globalEffect
     }

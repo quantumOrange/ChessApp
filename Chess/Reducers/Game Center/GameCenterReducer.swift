@@ -20,11 +20,11 @@ enum GameCenterAction
     case activate
     case authenticated
    
-    case getMatchWithMatchmakerVC
+    case getMatch
 
     //case match(MatchAction)
     
-    case matchVCDelegate(GKTurnBasedMatchmakerViewControllerDelegate)
+    case presentMatchmakerViewController(GKTurnBasedMatchmakerViewControllerDelegate)
     case presentAuthVC(UIViewController)
     
     case setPlayerListener(GKLocalPlayerListener)
@@ -166,36 +166,44 @@ func gameCenterReducer(_ state:inout GameCenterState,_ action:GameCenterAction) 
         {
             GKLocalPlayer.local.register(playerListener)
         }
+        
         return [effect]
+        
     case .presentAuthVC(let authVC):
         print("present")
         state.authVC = IndentifiableVC(id:0, viewController: authVC)
         
-     case .getMatchWithMatchmakerVC:
+     case .getMatch:
+        
+        print("Get Match WIth VC")
+        
+        //vc.turnBasedMatchmakerDelegate =
+        let matchMakerDelegateEffect = Effect<GameCenterAction>.async
+        {   callback in
+            let delegate = TurnBasedMatchmakerDelegate(send:callback)
+            callback(.presentMatchmakerViewController(delegate))
+        }
+        
+        //effect.vcToPresent = vc
+        
+        return [matchMakerDelegateEffect]
+        
+    case .presentMatchmakerViewController(let delegate):
         let request = GKMatchRequest()
         request.maxPlayers = 2
         request.minPlayers = 2
         request.inviteMessage = "Play my fun game"
-        print("Get Match WIth VC")
         
-        let vc = GKTurnBasedMatchmakerViewController(matchRequest: request)
-        state.matchVC  = vc
-        //vc.turnBasedMatchmakerDelegate =
-        var effect = Effect<GameCenterAction>.async
-        {   callback in
-            let delegate = TurnBasedMatchmakerDelegate(send:callback)
-            callback(.matchVCDelegate(delegate))
-        }
+        let matchmakerViewController = GKTurnBasedMatchmakerViewController(matchRequest: request)
+        matchmakerViewController.turnBasedMatchmakerDelegate = delegate
+        state.matchVC  = matchmakerViewController
+        //state.match?.delegate = delegate
         
-        effect.vcToPresent = vc
+        state.turnBasedMatchmakerDelegate = delegate
+        
+        let effect = Effect<GameCenterAction>.present(matchmakerViewController)
         
         return [effect]
-        
-    case .matchVCDelegate(let delegate):
-        //state.match?.delegate = delegate
-        state.matchVC?.turnBasedMatchmakerDelegate = delegate
-        state.turnBasedMatchmakerDelegate = delegate
-        //state.matchDelegate = delegate
     
     case .playerListener(let action):
         return playerListenerReducer(state: &state, action: action)

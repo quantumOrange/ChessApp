@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             window.rootViewController = UIHostingController(rootView: HomeView(store:store))
             
-            store.rootViewController = window.rootViewController
+            //store.rootViewController = window.rootViewController
             
             self.window = window
             window.makeKeyAndVisible()

@@ -31,7 +31,7 @@ struct HomeView: View {
                     Text("Authenticate with Game Center")
                 }
                 
-                Button(action: {self.store.send(.gameCenter(.getMatchWithMatchmakerVC))  }){
+                Button(action: {self.store.send(.gameCenter(.getMatch))  }){
                     Text("Get Match")
                 }
                 

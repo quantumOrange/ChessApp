@@ -16,8 +16,6 @@ final class Store<Value, Action>: ObservableObject {
     //let reducer: (inout Value, Action) -> Void
     let reducer:Reducer<Value,Action,Action>
     
-    var rootViewController:UIViewController? = nil
-    
     var cancelable:Cancellable?
     private var effectCancellables: Set<AnyCancellable>  = []
     
@@ -47,17 +45,7 @@ final class Store<Value, Action>: ObservableObject {
                 effectCancellables.insert( effectCancelable)
             }
             
-            
-               if let root = rootViewController {
-                   print("Got a root vc")
-                   if let toPresent = effect.vcToPresent {
-                       print("Got a vc to present")
-                        root.present(toPresent, animated: true)
-                   }
-               }
-            
         }
-        //self.reducer(&self.value, action)
     }
     
     

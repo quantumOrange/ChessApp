@@ -23,7 +23,6 @@ public struct Effect<Output>: Publisher {
     self.publisher.receive(subscriber: subscriber)
   }
 
-var vcToPresent:UIViewController? = nil
 }
 
 extension Publisher where Failure == Never {
@@ -43,8 +42,8 @@ extension Effect {
 }
 
 extension Effect {
-    public static func present(viewController vc:UIViewController) -> Effect {
-        var effect = Deferred { () -> Empty<Output, Never> in
+    public static func present(_ viewController:UIViewController) -> Effect {
+       /* var effect = Deferred { () -> Empty<Output, Never> in
           
           return Empty(completeImmediately: true)
         }
@@ -52,6 +51,24 @@ extension Effect {
         
         effect.vcToPresent = vc
         return effect
+       */
+        
+        return Effect.fireAndForget {
+            Swift.print("trying to present from effect")
+            let scene = UIApplication.shared.connectedScenes.first
+            guard let sceneDelegate : SceneDelegate = (scene?.delegate as? SceneDelegate) else {
+                Swift.print("oops !!!")
+                return }
+            
+            if let root = sceneDelegate.window?.rootViewController {
+                Swift.print("gut root vc, presenting")
+                     root.present(viewController, animated: true)
+                
+            }
+            else {
+                Swift.print("coulden;t get root vc")
+            }
+        }
   }
 }
 

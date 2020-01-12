@@ -329,7 +329,7 @@ extension Chessboard
         guard piecesAndSpaces.count == 64 else { return nil  }
         
         // Now we have the right pieces, but the board is flipped.
-        // We  need to transpose:
+        // So we  need to transpose:
         for i in 0...7
         {
             for j in 0...7

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Chess
+@testable import Dark_Chess
 
 class ValidMoves: XCTestCase {
     let simpleMoves = [

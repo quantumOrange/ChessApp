@@ -9,6 +9,9 @@
 import Foundation
 
 struct Chessboard:Codable {
+    
+    
+    
     enum GamePlayState:Equatable ,Codable {
         case won(PlayerColor)
         case draw
@@ -22,9 +25,11 @@ struct Chessboard:Codable {
         var canCastleKingside:Bool = true;
     }
     
+    init() {
+        storage = Array(repeating: nil, count: 64)
+    }
+    
     var gamePlayState = GamePlayState.inPlay
-    
-    
     
     private var storage:[ChessPiece?]
     
@@ -39,9 +44,7 @@ struct Chessboard:Codable {
     
     var undoStates:[[ChessboardSquare:ChessPiece?]] = []
     
-    init() {
-        storage = Array(repeating: nil, count: 64)
-    }
+    
     
    var squares:[ChessboardSquare] = {
        return (0...7).flatMap{ i in
@@ -289,21 +292,79 @@ struct ChessGame {
 
 extension Chessboard: CustomStringConvertible {
     var description: String {
-        var boardDescription = "------------------------\n"
+        //var boardDescription = "------------------------\n"
+        var boardDescription = ""
         for i in 0...7 {
             let rank = 7 - i
             var rankDescription = ""
             for file in 0...7 {
                 let piece = self[file,rank]
-                let pieceStr = piece?.symbol ?? " "
+                //let emptySquare = (file+rank).isMultiple(of: 2) ? "◻︎" :"◼︎"
+                let emptySquare = "."
+                let pieceStr = piece?.symbol ?? emptySquare
                 
                 rankDescription += " \(pieceStr) "
             }
             rankDescription += "\n"
             boardDescription += rankDescription
         }
-        boardDescription +=  "------------------------\n"
+        //boardDescription +=  "------------------------\n"
         return boardDescription
     }
 }
 
+extension Chessboard
+{
+    init?(string:String)
+    {
+        storage = Array(repeating: nil, count: 64)
+        
+        let piecesAndSpaces = string
+                                .trimmingCharacters(in: .whitespacesAndNewlines)
+                                .components(separatedBy: CharacterSet.whitespacesAndNewlines)
+                                .filter{!$0.isEmpty}
+                                .enumerated()
+                                .map(ChessPiece.init)
+        
+        guard piecesAndSpaces.count == 64 else { return nil  }
+        
+        // Now we have the right pieces, but the board is flipped.
+        // We  need to transpose:
+        for i in 0...7
+        {
+            for j in 0...7
+            {
+                let k = i*8 + 7 - j
+                let t = j*8 + i
+                storage[k] = piecesAndSpaces[t]
+            }
+        }
+    }
+}
+
+extension Chessboard {
+    //same, but may not be identically equal. We don't care about id.
+    func same(as other:Chessboard) -> Bool
+    {
+        func samePieces(_ pieces:(ChessPiece?,ChessPiece?))-> Bool
+        {
+            guard   let left  = pieces.0,
+                    let right = pieces.1
+            else
+            {
+               return (pieces.0 == nil && pieces.0 == nil)
+            }
+            return left.same(as: right)
+        }
+        
+        return zip(self.storage,other.storage).allSatisfy(samePieces)
+    }
+}
+
+extension Chessboard {
+
+    func logStorage()
+    {
+        print(storage.map{$0?.symbol})
+    }
+}

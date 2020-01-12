@@ -42,6 +42,9 @@
 		54B9D69223C2AC0100253254 /* GameCenterActionSenders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69123C2AC0100253254 /* GameCenterActionSenders.swift */; };
 		54B9D69423C3605700253254 /* PlayerColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69323C3605700253254 /* PlayerColor.swift */; };
 		54B9D69623C382A700253254 /* PlayerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69523C382A700253254 /* PlayerListener.swift */; };
+		54B9D69823C50AF800253254 /* DecodeChessboardString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69723C50AF800253254 /* DecodeChessboardString.swift */; };
+		54B9D69A23CA0E0900253254 /* CastlingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69923CA0E0900253254 /* CastlingTests.swift */; };
+		54B9D69C23CA0E3A00253254 /* EnPassantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B9D69B23CA0E3A00253254 /* EnPassantTests.swift */; };
 		54C26C51238178D000F0A6FC /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54C26C50238178D000F0A6FC /* GameKit.framework */; };
 		54C26C5423817A3800F0A6FC /* GameCenterReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */; };
 		54C26C562381AF4A00F0A6FC /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C26C552381AF4A00F0A6FC /* AppAction.swift */; };
@@ -112,6 +115,9 @@
 		54B9D69123C2AC0100253254 /* GameCenterActionSenders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterActionSenders.swift; sourceTree = "<group>"; };
 		54B9D69323C3605700253254 /* PlayerColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerColor.swift; sourceTree = "<group>"; };
 		54B9D69523C382A700253254 /* PlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListener.swift; sourceTree = "<group>"; };
+		54B9D69723C50AF800253254 /* DecodeChessboardString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeChessboardString.swift; sourceTree = "<group>"; };
+		54B9D69923CA0E0900253254 /* CastlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastlingTests.swift; sourceTree = "<group>"; };
+		54B9D69B23CA0E3A00253254 /* EnPassantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnPassantTests.swift; sourceTree = "<group>"; };
 		54C26C50238178D000F0A6FC /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		54C26C52238178D600F0A6FC /* Dark Chess.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dark Chess.entitlements"; sourceTree = "<group>"; };
 		54C26C5323817A3800F0A6FC /* GameCenterReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterReducer.swift; sourceTree = "<group>"; };
@@ -255,8 +261,8 @@
 			isa = PBXGroup;
 			children = (
 				546F41D022F35DFD0033785F /* ChessTests.swift */,
-				544B2211232E9F5600659FA5 /* ValidMovesTests.swift */,
-				54EE3F2E2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift */,
+				54B9D69723C50AF800253254 /* DecodeChessboardString.swift */,
+				54B9D69D23CA101B00253254 /* Chess Engine Tests */,
 				546F41D222F35DFD0033785F /* Info.plist */,
 			);
 			path = ChessTests;
@@ -300,6 +306,17 @@
 				54B9D69123C2AC0100253254 /* GameCenterActionSenders.swift */,
 			);
 			path = "Game Center";
+			sourceTree = "<group>";
+		};
+		54B9D69D23CA101B00253254 /* Chess Engine Tests */ = {
+			isa = PBXGroup;
+			children = (
+				544B2211232E9F5600659FA5 /* ValidMovesTests.swift */,
+				54B9D69923CA0E0900253254 /* CastlingTests.swift */,
+				54B9D69B23CA0E3A00253254 /* EnPassantTests.swift */,
+				54EE3F2E2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift */,
+			);
+			path = "Chess Engine Tests";
 			sourceTree = "<group>";
 		};
 		54C26C4F238178D000F0A6FC /* Frameworks */ = {
@@ -483,7 +500,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54B9D69823C50AF800253254 /* DecodeChessboardString.swift in Sources */,
+				54B9D69C23CA0E3A00253254 /* EnPassantTests.swift in Sources */,
 				546F41D122F35DFD0033785F /* ChessTests.swift in Sources */,
+				54B9D69A23CA0E0900253254 /* CastlingTests.swift in Sources */,
 				54EE3F2F2353BF9300CC80C0 /* MinMaxChessEnginteTests.swift in Sources */,
 				544B2212232E9F5600659FA5 /* ValidMovesTests.swift in Sources */,
 			);
@@ -696,7 +716,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chess.app/Chess";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dark Chess.app/Dark Chess";
 			};
 			name = Debug;
 		};
@@ -716,7 +736,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chess.app/Chess";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dark Chess.app/Dark Chess";
 			};
 			name = Release;
 		};

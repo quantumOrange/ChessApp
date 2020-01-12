@@ -30,8 +30,6 @@ extension ChessboardSquare {
     }
 }
 
-
-
 extension ChessboardSquare {
     
     // Directions viewed from whites perspective

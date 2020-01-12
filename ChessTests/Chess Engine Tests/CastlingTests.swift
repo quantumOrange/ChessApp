@@ -1,15 +1,14 @@
 //
-//  ChessTests.swift
+//  CastlingTests.swift
 //  ChessTests
 //
-//  Created by david crooks on 01/08/2019.
-//  Copyright © 2019 david crooks. All rights reserved.
+//  Created by David Crooks on 11/01/2020.
+//  Copyright © 2020 david crooks. All rights reserved.
 //
 
 import XCTest
-@testable import Dark_Chess
 
-class ChessTests: XCTestCase {
+class CastlingTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -19,7 +18,17 @@ class ChessTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
+    func testCanCastleWhenValid() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testCannotCastleIfOppenentControlsSpace() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testCannotCastleIfAlreadyMoved() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

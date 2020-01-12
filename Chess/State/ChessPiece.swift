@@ -27,7 +27,53 @@ struct ChessPiece:Equatable,Identifiable,Codable {
     
     let id:Int
     
-   
+    init(player: PlayerColor, kind:Kind, id: Int){
+        self.player = player
+        self.kind = kind
+        self.id = id
+    }
+    
+    init?(id:Int, symbol:String){
+        func kind(symbol:String)->Kind? {
+            switch symbol {
+            case "♙","♟":
+                return .pawn
+            case "♘","♞":
+                return .knight
+            case "♗","♝":
+                return .bishop
+            case "♖","♜":
+                return .rook
+            case "♕","♛":
+                return  .queen
+            case "♔","♚":
+                return .king
+            default:
+                return nil
+            }
+        }
+        
+        func color(symbol:String)->PlayerColor? {
+            switch symbol {
+            case "♙","♘","♗","♖","♕","♔":
+                return .white
+            case "♟","♞","♝","♜","♛","♚":
+                return .black
+            default:
+                return nil
+            }
+        }
+        
+        guard let color = color(symbol: symbol),
+             let kind = kind(symbol: symbol) else { return nil }
+        
+        self.kind = kind
+        self.player = color
+        self.id = id
+
+    }
+    
+    
 }
 
 extension ChessPiece:CustomStringConvertible {
@@ -108,4 +154,11 @@ extension ChessPiece {
                           kind: Kind.allCases.randomElement()!, id:Int.random(in: 0...63))
     }
     
+}
+
+extension ChessPiece {
+    //same, but may not be identically equal. We don't care about id.
+    func same(as other:ChessPiece) -> Bool {
+        return (self.kind == other.kind && self.player == other.player)
+    }
 }

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Chess
+@testable import Dark_Chess
 
 class MinMaxChessEnginteTests: XCTestCase {
 

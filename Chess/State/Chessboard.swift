@@ -320,6 +320,7 @@ extension Chessboard
         storage = Array(repeating: nil, count: 64)
         
         let piecesAndSpaces = string
+                                .trimmingCharacters(in: .alphanumerics)
                                 .trimmingCharacters(in: .whitespacesAndNewlines)
                                 .components(separatedBy: CharacterSet.whitespacesAndNewlines)
                                 .filter{!$0.isEmpty}

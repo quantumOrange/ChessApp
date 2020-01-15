@@ -12,6 +12,18 @@ import XCTest
 class EnPassantTests: XCTestCase {
 
     override func setUp() {
+        let chessString = """
+
+        ♜  ♞  ♝  ♛  ♚  ♝  ♞  ♜
+        ♟  ♟  ♟  ♟  ♟  ♟  ♟  ♟
+        .  .  .  .  .  .  .  .
+        .  .  .  .  .  .  .  .
+        .  .  .  .  .  .  .  .
+        .  .  .  .  .  .  .  .
+        ♙  ♙  ♙  ♙  ♙  ♙  ♙  ♙
+        ♖  ♘  ♗  ♕  ♔  ♗  ♘  ♖
+
+        """
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
@@ -39,7 +51,7 @@ class EnPassantTests: XCTestCase {
             return
         }
         
-        let blackMovesPawnTwoSpaces =       ChessMove(code:"d7->d")!
+        let blackMovesPawnTwoSpaces =       ChessMove(code:"d7->d5")!
         let whiteTakesEnPassant     =       ChessMove(code:"c5->d6")!
         
         var chessboard = startboard
@@ -110,10 +122,59 @@ class EnPassantTests: XCTestCase {
     }
     
     func testCannotTakeEnPassantWhenInvalid() {
+        let chessString = """
+
+                        ♜  ♞  ♝  ♛  ♚  ♝  ♞  ♜
+                        ♟  ♟  ♟  .  ♟  ♟  .  ♟
+                        .  .  .  .  .  .  .  .
+                        .  .  .  ♟  .  .  ♟  .
+                        .  .  ♙  .  .  .  .  .
+                        .  ♙  .  .  .  .  .  .
+                        ♙  .  .  ♙  ♙  ♙  ♙  ♙
+                        ♖  ♘  ♗  ♕  ♔  ♗  ♘  ♖
+
+                        """
+        // black to move
+        var chessboard = Chessboard(string:chessString)!
+        
+        let blackPawnMovesPastWhite = ChessMove(code: "d5->d4")!
+        let whiteTriesToTakeInvalidEnPassant = ChessMove(code: "c4->d5")!
+        
+        chessboard = apply(move: blackPawnMovesPastWhite, to: chessboard)
+        
+        XCTAssertFalse(isValid(move:whiteTriesToTakeInvalidEnPassant, on:chessboard), "White Pawn should be able to take en passant here")
         
     }
     
-    func testCannotMoveEnPassantWhenInvalid() {
+    func testCannotMoveDiagonallyWhenNotTaking() {
+        let chessString = """
+
+                        ♜  ♞  ♝  ♛  ♚  ♝  ♞  ♜
+                        ♟  ♟  ♟  ♟  ♟  ♟  .  ♟
+                        .  .  .  .  .  .  .  .
+                        .  .  .  .  .  .  ♟  .
+                        .  .  ♙  .  .  .  .  .
+                        .  .  .  .  .  .  .  .
+                        ♙  ♙  .  ♙  ♙  ♙  ♙  ♙
+                        ♖  ♘  ♗  ♕  ♔  ♗  ♘  ♖
+
+                        """
+        
+        var chessboard = Chessboard(string:chessString)!
+        
+        let whiteMovesDiagonal = ChessMove(code: "c4->d5")!
+        let blackMovesDiagonal = ChessMove(code: "g5->f4")!
+        
+        
+        XCTAssertFalse(isValid(move:whiteMovesDiagonal, on:chessboard), "White Pawn should not be able to move diagonally except when taking en passant")
+        
+        //
+        let whiteMovesForward = ChessMove(code: "c4->c5")!
+        chessboard = apply(move: whiteMovesForward, to: chessboard)
+        
+        XCTAssertFalse(isValid(move:blackMovesDiagonal, on:chessboard), "Black Pawn should not be able to move diagonally except when taking en passant")
+        
+        
         
     }
     

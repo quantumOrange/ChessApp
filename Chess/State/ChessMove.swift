@@ -117,4 +117,72 @@ extension ChessMove {
     }
 }
 
+enum CastleSide {
+    case kingside
+    case queenside
+}
 
+extension ChessMove {
+    init(player:PlayerColor,castleingSide:CastleSide) {
+        //self.init(code:"")!
+       /*
+            Handy referance:
+         
+             8   ♜  .  .  .  ♚  .  .  ♜
+             7   ♟  ♟  ♟  .  .  ♟  ♟  ♟
+             6   .  .  .  .  .  .  .  .
+             5   .  .  .  .  .  .  .  .
+             4   .  .  .  .  .  .  .  .
+             3   .  .  .  .  .  .  .  .
+             2   ♙  ♙  ♙  .  .  ♙  ♙  ♙
+             1   ♖  .  .  .  ♔  .  .  ♖
+         
+                 a  b  c  d  e  f  g  h
+         
+         */
+     
+        switch player {
+        
+        case .white:
+            let kingSquare =  ChessboardSquare(code: "e1")!
+            switch castleingSide {
+                
+            case .kingside:
+                let rookSquare = ChessboardSquare(code: "h1")!
+                let rookDestination = ChessboardSquare(code: "f1")!
+                let kingDestination =  ChessboardSquare(code: "g1")!
+                
+                let rookMove = Move(from:rookSquare, to: rookDestination)
+                self.init(from:kingSquare,to:kingDestination,aux: .double(rookMove ))
+            case .queenside:
+                let rookSquare = ChessboardSquare(code: "a1")!
+                let rookDestination = ChessboardSquare(code: "d1")!
+                let kingDestination =  ChessboardSquare(code: "c1")!
+                
+                let rookMove = Move(from:rookSquare, to: rookDestination)
+                self.init(from:kingSquare,to:kingDestination,aux: .double(rookMove ))
+            }
+        case .black:
+            let kingSquare =  ChessboardSquare(code: "e8")!
+            switch castleingSide {
+                
+            case .kingside:
+                let rookSquare = ChessboardSquare(code: "h8")!
+                let rookDestination = ChessboardSquare(code: "f8")!
+                let kingDestination =  ChessboardSquare(code: "g8")!
+                
+                let rookMove = Move(from:rookSquare, to: rookDestination)
+                self.init(from:kingSquare,to:kingDestination,aux: .double(rookMove ))
+            case .queenside:
+                let rookSquare = ChessboardSquare(code: "a8")!
+                let rookDestination = ChessboardSquare(code: "d8")!
+                let kingDestination =  ChessboardSquare(code: "c8")!
+                
+                let rookMove = Move(from:rookSquare, to: rookDestination)
+                self.init(from:kingSquare,to:kingDestination,aux: .double(rookMove ))
+            }
+        
+        }
+        
+    }
+}

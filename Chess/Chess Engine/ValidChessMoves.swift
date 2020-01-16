@@ -41,10 +41,14 @@ func isValid(move:ChessMove, on board:Chessboard) -> Bool {
 }
 
 func validMoves(chessboard:Chessboard) -> [ChessMove] {
-    return uncheckedValidMoves(chessboard: chessboard)
+    var moves =  uncheckedValidMoves(chessboard: chessboard)
             .filter {
                 !isInCheck(chessboard:apply(move: $0, to:chessboard ), player: chessboard.whosTurnIsItAnyway)
                     }
+    
+    moves.append(contentsOf: validCastles(board: chessboard))
+    
+    return moves
 }
 
 /*
@@ -78,6 +82,26 @@ func isInCheck(chessboard:Chessboard, player:PlayerColor) -> Bool {
     let movesThatAttackTheKing = enemyMoves.filter { $0.to == kingSquare }
         
     return !movesThatAttackTheKing.isEmpty
+    
+}
+
+func isControlled(square:ChessboardSquare, by player:PlayerColor, on chessboard:Chessboard) -> Bool {
+    
+    var board = chessboard
+
+    //guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king,id:-1)).first else { fatalError() }
+    
+    if player != board.whosTurnIsItAnyway  {
+        //If we are looking to see if the current players square is in check, we need the other players moves
+        //So we flip player with a null move
+        board = apply(move:ChessMove.nullMove, to: board)
+    }
+     
+    let playerMoves = uncheckedValidMoves(chessboard:board)
+    
+    let movesThatAttackTheSquare = playerMoves.filter { $0.to == square }
+        
+    return !movesThatAttackTheSquare.isEmpty
     
 }
 
@@ -250,7 +274,10 @@ extension Chessboard {
 }
 
 func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
-    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: board.whosTurnIsItAnyway, kind:.king,id:-1)).first else { fatalError() }
+    let player = board.whosTurnIsItAnyway
+    
+    
+    guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king,id:-1)).first else { fatalError() }
     
     
     let directions = ChessboardSquare.Direction.allCases
@@ -260,60 +287,78 @@ func validKingMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
                     .compactMap{ makeMove(board: board, from: square, to: $0) }
     
     
-    let castleState = board.currentPlayersCastelState
-    
-    //TODO : rules of casteling - cannot castle if square are controled by enemy!
-    let rank = kingSquare.rank
-    if castleState.canCastleKingside {
-       
-        let ocupiedSquares = [ChessboardSquare(rank:rank , file: .g),
-                              ChessboardSquare(rank:rank , file: .f)]
-                                                        .compactMap{board[$0]}
-        
-        if ocupiedSquares.count == 0 {
-          
-            let rookSquare = ChessboardSquare(rank:rank , file: .h)
-            
-            
-            if let rookTo = kingSquare.getNeighbour(.right),
-                let kingTo = rookTo.getNeighbour(.right) {
-                let rookMove = Move(from:rookSquare, to: rookTo)
-                moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
-            }
-        }
-    
-    }
-    
-    if castleState.canCastleQueenside {
-       
-        let ocupiedSquares = [ChessboardSquare(rank:rank , file: .b),
-                              ChessboardSquare(rank:rank , file: .c),
-                              ChessboardSquare(rank:rank , file: .d)]
-                                                            .compactMap{board[$0]}
-        if ocupiedSquares.count == 0 {
-            
-            let rookSquare = ChessboardSquare(rank: rank, file: .a)
-            
-            if let rookTo = kingSquare.getNeighbour(.left),
-                let kingTo = rookTo.getNeighbour(.left)
-                {
-                    let rookMove = Move(from:rookSquare, to: rookTo)
-                    moves.append(ChessMove(from:kingSquare,to:kingTo,aux: .double(rookMove )))
-            }
-            
-        }
-       
-    }
+   
    
     return moves
 }
 
+func validCastles(board:Chessboard) -> [ChessMove] {
+    
+    let castleState = board.currentPlayersCastelState
+    let player = board.whosTurnIsItAnyway
+    let opponent = !player
+    
+    if isInCheck(chessboard: board, player:player ) {
+        return []
+    }
+       //TODO : rules of casteling - cannot castle if square are controled by enemy!
+        guard let kingSquare:ChessboardSquare = board.squares(with: ChessPiece(player: player, kind:.king,id:-1)).first else { fatalError() }
+       let rank = kingSquare.rank
+    
+       var moves:[ChessMove]  = []
+    
+       if castleState.canCastleKingside {
+          
+           let castleSquares = [ChessboardSquare(rank:rank , file: .g),
+                                   ChessboardSquare(rank:rank , file: .f)
+                                   ,ChessboardSquare(rank:rank , file: .h)]
+           
+           let piecesIntheMiddle = castleSquares
+                                           .dropLast()
+                                           .compactMap{board[$0]}
+           
+           
+           let notControlled  = castleSquares.allSatisfy{!isControlled(square: $0, by: opponent, on: board)}
+           
+           let canCastle = piecesIntheMiddle.count == 0 && notControlled
+           
+           if canCastle  {
+             moves.append(ChessMove(player: player, castleingSide: .kingside))
+           }
+       
+       }
+       
+       if castleState.canCastleQueenside {
+          
+           let castleSquares = [ChessboardSquare(rank:rank , file: .a),
+                                ChessboardSquare(rank:rank , file: .b),
+                                 ChessboardSquare(rank:rank , file: .c),
+                                 ChessboardSquare(rank:rank , file: .d)]
+               
+               
+               
+           let piecesIntheMiddle = castleSquares
+                                           .dropFirst()
+                                           .compactMap{board[$0]}
+           
+           let notControlled  = castleSquares.allSatisfy{!isControlled(square: $0, by: opponent, on: board)}
+           
+           let canCastle = piecesIntheMiddle.count == 0 && notControlled
+           
+           if canCastle  {
+               moves.append(ChessMove(player: player, castleingSide: .queenside))
+           }
+          
+       }
+    return moves
+}
 
 func validBishopMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
     let directions:[ChessboardSquare.Direction] = [.topLeft,.topRight,.bottomLeft,.bottomRight]
        
     return directions.flatMap{ getAllMoves(on: board, from: square, in: $0)}
 }
+
 
 func validRookMoves(board:Chessboard, square:ChessboardSquare) -> [ChessMove] {
     let directions:[ChessboardSquare.Direction] = [.bottom,.top,.left,.right]

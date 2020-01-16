@@ -105,10 +105,10 @@ class CastlingTests: XCTestCase {
 
     func testCanCastleKingsideWhenValid() {
         
-        let whiteCanCastleString = """
+        let canCastleString = """
 
-                                ♜  .  ♝  ♛  ♚  ♝  .  ♜
-                                ♟  ♟  ♟  ♟  .  ♟  ♟  ♟
+                                ♜  .  ♝  ♛  ♚  .  .  ♜
+                                ♟  ♟  ♟  ♟  ♝  ♟  ♟  ♟
                                 .  .  ♞  .  .  ♞  .  .
                                 .  ♗  .  .  ♟  .  .  .
                                 .  .  .  .  ♙  .  .  .
@@ -117,11 +117,17 @@ class CastlingTests: XCTestCase {
                                 ♖  ♘  ♗  ♕  ♔  .  .  ♖
 
                                 """
-        let board =  Chessboard(string: whiteCanCastleString)!
+        var board =  Chessboard(string: canCastleString)!
         
-        let move = ChessMove(player: .white,castleingSide: .kingside)
+        let whitemove = ChessMove(player: .white,castleingSide: .kingside)
+        let blackmove = ChessMove(player: .black,castleingSide: .kingside)
         
-        XCTAssert(isValid(move: move, on: board))
+        XCTAssert(isValid(move: whitemove, on: board))
+        
+        board = apply(move: whitemove, to: board)
+        
+        XCTAssert(isValid(move: blackmove, on: board))
+        
         
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -152,6 +158,45 @@ class CastlingTests: XCTestCase {
     }
     
     func testCannotCastleIfAlreadyMoved() {
+        let canCastleString = """
+
+                                ♜  .  ♝  ♛  ♚  .  .  ♜
+                                ♟  ♟  ♟  ♟  ♝  ♟  ♟  ♟
+                                .  .  ♞  .  .  ♞  .  .
+                                .  ♗  .  .  ♟  .  .  .
+                                .  .  .  .  ♙  .  .  .
+                                .  .  .  .  .  ♘  .  .
+                                ♙  ♙  ♙  ♙  .  ♙  ♙  ♙
+                                ♖  ♘  ♗  ♕  ♔  .  .  ♖
+
+                                """
+        let initialBoard =                 Chessboard(string: canCastleString)!
+        var board =                 Chessboard(string: canCastleString)!
+        
+        let whiteMovesKing =        ChessMove(code: "e1->e2")!
+        let blackMovesRook =        ChessMove(code: "h8-g8")!
+        let whiteMovesKingBack =    ChessMove(code: "e2->e1")!
+        let blackMovesRookBack =    ChessMove(code: "g8->h8")!
+        
+        
+        board = apply(move: whiteMovesKing, to: board)
+        board = apply(move: blackMovesRook, to: board)
+        board = apply(move: whiteMovesKingBack, to: board)
+        board = apply(move: blackMovesRookBack, to: board)
+        
+        XCTAssert(board.same(as: initialBoard),"All the pieces should be back where they where")
+        
+        let whitecastles = ChessMove(player: .white,castleingSide: .kingside)
+        let blackcastles = ChessMove(player: .black,castleingSide: .kingside)
+        
+        //the board looks the same but niether side can castle now:
+        
+        XCTAssertFalse(isValid(move: whitecastles, on: board),"Cannot castle after moveing king")
+        
+        board = apply(move:whiteMovesKing, to: board)
+        
+        XCTAssertFalse(isValid(move:blackcastles, on: board),"Cannot castle after moveing rook")
+        
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

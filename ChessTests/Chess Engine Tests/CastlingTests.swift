@@ -128,10 +128,35 @@ class CastlingTests: XCTestCase {
         
         XCTAssert(isValid(move: blackmove, on: board))
         
-        
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    func testCanCastleQueensideWhenValid() {
+        
+        let canCastleString = """
+
+                                ♜  .  .  .  ♚  ♝  .  ♜
+                                ♟  ♟  ♟  ♝  ♛  ♟  ♟  ♟
+                                .  .  ♞  .  .  ♞  .  .
+                                .  ♗  .  .  ♟  .  .  .
+                                .  .  .  .  ♙  .  .  .
+                                .  ♙  ♘  .  .  ♘  .  .
+                                ♙  ♗  ♙  ♙  ♕  ♙  ♙  ♙
+                                ♖  .  .  .  ♔  .  .  ♖
+
+                                """
+        var board =  Chessboard(string: canCastleString)!
+        
+        let whitemove = ChessMove(player: .white,castleingSide: .queenside)
+        let blackmove = ChessMove(player: .black,castleingSide: .queenside)
+        
+        XCTAssert(isValid(move: whitemove, on: board))
+        
+        board = apply(move: whitemove, to: board)
+        
+        XCTAssert(isValid(move: blackmove, on: board))
+        
+    }
+    
     
     func testCannotCastleIfOppenentControlsSpace() {
         let bishopControls = """
@@ -153,8 +178,6 @@ class CastlingTests: XCTestCase {
         let move = ChessMove(player: .white, castleingSide: .kingside)
         
         XCTAssertFalse(isValid(move: move, on: board),"Cannont castle when an oppent controls the space between the king and rook")
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
     func testCannotCastleIfAlreadyMoved() {

@@ -369,3 +369,30 @@ extension Chessboard {
         print(storage.map{$0?.symbol})
     }
 }
+
+
+extension Chessboard
+{
+    mutating func setCannotCastle(player:PlayerColor, side:CastleSide)
+    {
+        switch player
+        {
+        case .white:
+            switch side
+            {
+            case .kingside:
+                 whiteCastelState.canCastleKingside = false
+            case .queenside:
+                 whiteCastelState.canCastleQueenside = false
+            }
+        case .black:
+            switch side
+            {
+            case .kingside:
+                 blackCastelState.canCastleKingside = false
+            case .queenside:
+                 blackCastelState.canCastleQueenside = false
+            }
+        }
+    }
+}

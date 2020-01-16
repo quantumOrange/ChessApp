@@ -102,12 +102,34 @@ func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
     if let pieceToMove = board[move.from] {
         board[move.from] = nil;
         
+        //You cannot castle if either of the pieces has already moved, even if they move back aagin. We keep track mof that here
+        switch pieceToMove.kind
+        {
+        case .king:
+            board.setCannotCastle(player: pieceToMove.player, side: .kingside)
+            board.setCannotCastle(player: pieceToMove.player, side: .queenside)
+        case .rook:
+            switch move.from.file
+            {
+            case .a:
+                board.setCannotCastle(player: pieceToMove.player, side: .queenside)
+            case .h:
+                board.setCannotCastle(player: pieceToMove.player, side: .kingside)
+            default:
+                break
+            }
+        default:
+            break
+        }
         
         switch move.auxillery {
             
         case .none:
            
             board[move.to] = pieceToMove
+            
+            
+            
             
         case .promote(let kind):
             
@@ -122,6 +144,10 @@ func apply(move:ChessMove, to board:Chessboard) -> Chessboard {
               
                 board[secondMove.from] = nil;
                 board[secondMove.to] = secondPieceToMove
+                
+                board.setCannotCastle(player: pieceToMove.player, side: .kingside)
+                board.setCannotCastle(player: pieceToMove.player, side: .queenside)
+                
             }
             
         }
